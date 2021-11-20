@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zln.competition.mapper.TeamMapper" >
+    <resultMap id="BaseResultMap" type="com.zln.competition.bean.Team" >
+            <id column="Team_id" property="teamId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <result column="Com_id" property="comId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <result column="User_id" property="userId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <result column="Team_name" property="teamName" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <result column="Team_information" property="teamInformation" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <result column="Competition_name" property="competitionName" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <result column="Team_qq" property="teamQq" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        Team_id, Com_id, User_id, Team_name, Team_qq,Team_information,Competition_name
+    </sql>
+
+<!--    Team selectTeamByTeamId(Integer teamId);-->
+    <select id="selectTeamByTeamId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from team
+        where Team_id = #{teamId,jdbcType=INTEGER}
+    </select>
+
+
+<!--    List<Team> selectTeamByTeamName(String teamName);-->
+    <select id="selectTeamByTeamName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from team
+        where Team_name = #{teamName,jdbcType=INTEGER}
+    </select>
+
+
+    <!--    int deleteByTeamId(Integer teamId);-->
+    <delete id="deleteByTeamId" parameterType="java.lang.Integer">
+        delete from team
+        where Team_id = #{teamId,jdbcType=INTEGER}
+    </delete>
+
+    <!--    public List<Team> selectTeamByComId(Integer comId);-->
+    <select id="selectTeamByComId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from team
+        where Com_id = #{comId,jdbcType=INTEGER}
+    </select>
+
+    <!--    public List<Team> selectAllTeam();-->
+    <select id="selectAllTeam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from team
+    </select>
+<!--    List<Team> selectTeamDim(Team DimTeam);-->
+    <select id="selectTeamDim" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from team
+        where Competition_name like #{competitionName,jdbcType=VARCHAR}
+           or Team_name like #{teamName,jdbcType=VARCHAR}
+    </select>
+
+<!--    public List<Team> selectByUserId(Integer userId);-->
+    <select id="selectByUserId" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from team
+        where User_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+<!--    public int insertTeamInfo(Team team);-->
+    <insert id="insertTeamInfo" parameterType="com.zln.competition.bean.Team">
+        insert into team
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teamId != null">
+                Team_id,
+            </if>
+            <if test="teamName != null">
+                Team_name,
+            </if>
+            <if test="teamQq != null">
+                Team_qq,
+            </if>
+            <if test="comId != null">
+                Com_id,
+            </if>
+            <if test="userId != null">
+                User_id,
+            </if>
+            <if test="teamInformation != null">
+                Team_information,
+            </if>
+            <if test="competitionName != null">
+                Competition_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teamId != null">
+                #{teamId,jdbcType=INTEGER},
+            </if>
+            <if test="teamName != null">
+                #{teamName,jdbcType=VARCHAR},
+            </if>
+            <if test="teamQq != null">
+                #{teamQq,jdbcType=VARCHAR},
+            </if>
+            <if test="comId != null">
+                #{comId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="teamInformation != null">
+                #{teamInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="competitionName != null">
+                #{competitionName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+<!--    int updateTeamByTeamId(Team record);-->
+    <update id="updateTeamByTeamId" parameterType="com.zln.competition.bean.Team">
+        update team
+        <set>
+            <if test="teamName != null">
+                Team_name = #{teamName,jdbcType=VARCHAR},
+            </if>
+            <if test="teamQq != null">
+                Team_qq = #{teamQq,jdbcType=VARCHAR},
+            </if>
+            <if test="comId != null">
+                Com_id = #{comId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                User_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="teamInformation != null">
+                Team_information = #{teamInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="competitionName != null">
+                Competition_name = #{competitionName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where Team_id = #{teamId,jdbcType=INTEGER}
+    </update>
+</mapper>

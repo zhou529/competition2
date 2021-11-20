@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zln.competition.mapper.DynamicMapper" >
+    <resultMap id="BaseResultMap" type="com.zln.competition.bean.Dynamic" >
+        <id column="Dyn_id" property="dynId"></id>
+        <result column="Dyn_title" property="dynTitle"></result>
+        <result column="Dyn_information" property="dynInformation"></result>
+        <result column="Dyn_img1" property="dynImg1"></result>
+        <result column="Dyn_img2" property="dynImg2"></result>
+        <result column="Com_id" property="comId"></result>
+        <result column="Dyn_is" property="dynIs"></result>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        Dyn_id, Dyn_title, Dyn_information, Dyn_img1, Dyn_img2, Com_id, Dyn_is
+    </sql>
+<!--    Dynamic selectDynamicByDynId(Integer dynId);-->
+    <select id="selectDynamicByDynId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from dynamic
+        where Dyn_id = #{dynId,jdbcType=INTEGER}
+    </select>
+
+
+<!--    public List<Dynamic> selectAllDynamic();-->
+    <select id="selectAllDynamic" resultType="com.zln.competition.bean.Dynamic">
+        select Dyn_id as dynId,
+               Dyn_title       as dynTitle,
+               Dyn_information  as dynInformation,
+               Dyn_img1    as dynImg1,
+               Dyn_img2       as dynImg2,
+               Com_id      as comId,
+               Dyn_is     as dynIs
+        from dynamic
+        order by Dyn_id desc
+    </select>
+<!--    public int addDynamic(Dynamic dynamic);-->
+    <insert id="addDynamic" parameterType="com.zln.competition.bean.Dynamic" >
+        insert into dynamic
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="dynId != null" >
+                Dyn_id,
+            </if>
+            <if test="dynTitle != null" >
+                Dyn_title,
+            </if>
+            <if test="dynInformation != null" >
+                Dyn_information,
+            </if>
+            <if test="dynImg1 != null" >
+                Dyn_img1,
+            </if>
+            <if test="dynImg2 != null" >
+                Dyn_img2,
+            </if>
+            <if test="comId != null" >
+                Com_id,
+            </if>
+            <if test="dynIs != null" >
+                Dyn_is,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="dynId != null" >
+                #{dynId,jdbcType=INTEGER},
+            </if>
+            <if test="dynTitle != null" >
+                #{dynTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="dynInformation != null" >
+                #{dynInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="dynImg1 != null" >
+                #{dynImg1,jdbcType=VARCHAR},
+            </if>
+            <if test="dynImg2 != null" >
+                #{dynImg2,jdbcType=VARCHAR},
+            </if>
+            <if test="comId != null" >
+                #{comId,jdbcType=INTEGER},
+            </if>
+            <if test="dynIs != null" >
+                #{dynIs,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+</mapper>

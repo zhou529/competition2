@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-L-admin1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        function validate_edit_form() {
+            // 验证队名
+            var teamName = $("#teamName").val();
+            var reg_name = /(^[a-zA-Z0-9_-]{6,19}$)|(^[\u2E80-\u9FFF]{2,5})/;
+            if (!reg_name.test(teamName)) {
+                alert("队名必须是2-5位中文或6-19位英文和数字的组合!");
+                return false;
+            }
+
+            //验证比赛名称
+            var competitionName = $("#competitionName").val();
+            var reg_name1 = /(^[a-zA-Z0-9_-]{6,19}$)|(^[\u2E80-\u9FFF]{2,30})/;
+
+            if (!reg_name1.test(competitionName)) {
+                alert("比赛名称必须是2-30位中文或6-19位英文和数字的组合!");
+                return false;
+            }
+
+            // 验证QQ
+            var teamQq = $('#teamQq').val();
+            if (teamQq != '') {
+                if (!/^[1-9][0-9]{4,14}$/.test(teamQq)) {
+                    layer.open({
+                        content: '请输入正确的QQ号码',
+                        skin: 'msg',
+                        time: 1
+                    });
+                }
+            }
+
+            return true;
+        }
+
+        $(function () {
+            alert("team-edit页面加载成功");
+            $.ajaxSettings.async = false;
+            //编辑操作入口  Community
+            $.post("../getTeam",function (data){
+                alert("获取UserInfo的ajax执行了")
+                alert("getUserInfo的data = " + data);
+                alert("teamName = " + data.teamName)
+                alert("teamQq = " + data.teamQq)
+                alert("teamInformation = " + data.teamInformation)
+                alert("competitionName = " + data.competitionName)
+
+                $("#teamName").val(data.teamName);
+                $("#teamQq").val(data.teamQq);
+                $("#competitionName").val(data.competitionName);
+                $("#teamInformation").val(data.teamInformation);
+            })
+            $("#submitButton").click(function () {
+                alert("编辑的点击事件出发了")
+                let b = validate_edit_form();
+                if(b == true){
+                    var teamName = $("#teamName").val();;
+                    var teamQq = $("#teamQq").val();
+                    var competitionName = $("#competitionName").val();
+                    var teamInformation = $("#teamInformation").val();
+
+                    alert("teamName : " + teamName)
+                    alert("teamQq : " + teamQq)
+                    alert("competitionName : " + competitionName)
+                    alert("teamInformation : " + teamInformation)
+                    $.post("../updateTeamByTeamId",
+                        {
+                            "teamName": teamName,
+                            "teamQq": teamQq,
+                            "competitionName": competitionName,
+                            "teamInformation": teamInformation
+                        },
+                        function (data) {
+                            alert("updateTeamByTeamId的ajax执行了")
+                            alert("../updateTeamByTeamId ： " + data)
+                            // $(this).parents('tr').remove();
+                            // setTimeout(window.location.reload(), 100);
+                            if (data === 1) {
+                                alert("修改成功！")
+                            } else {
+                                alert("修改失败！");
+                            }
+                        })
+                }
+
+            })
+
+
+
+        })
+    </script>
+</head>
+
+<body>
+<div class="x-body">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label for="teamName" class="layui-form-label">
+                <span class="x-red">*</span>队伍名
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="teamName" name="teamName" required lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="competitionName" class="layui-form-label">
+                <span class="x-red">*</span>比赛名称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="competitionName" name="competitionName" required lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="teamQq" class="layui-form-label">
+                <span class="x-red">*</span>联系QQ
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="teamQq" name="pass" required lay-verify="pass"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label for="teamInformation" class="layui-form-label">
+                详细信息
+            </label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" id="teamInformation" name="teamInformation"
+                          class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            </label>
+            <button id="submitButton" class="layui-btn" lay-filter="add" lay-submit="">
+                增加
+            </button>
+        </div>
+    </form>
+</div>
+<!--<script>
+  layui.use(['form','layer'], function(){
+      $ = layui.jquery;
+    var form = layui.form
+    ,layer = layui.layer;
+
+    //自定义验证规则
+    form.verify({
+      nikename: function(value){
+        if(value.length < 5){
+          return '昵称至少得5个字符啊';
+        }
+      }
+      ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+      ,repass: function(value){
+          if($('#L_pass').val()!=$('#L_repass').val()){
+              return '两次密码不一致';
+          }
+      }
+    });
+
+    //监听提交
+    form.on('submit(add)', function(data){
+      console.log(data);
+      //发异步，把数据提交给php
+      layer.alert("增加成功", {icon: 6},function () {
+          // 获得frame索引
+          var index = parent.layer.getFrameIndex(window.name);
+          //关闭当前frame
+          parent.layer.close(index);
+      });
+      return false;
+    });
+
+
+  });
+</script>-->
+</body>
+
+</html>
