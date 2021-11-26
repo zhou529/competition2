@@ -2,6 +2,7 @@ package com.zln.competition.controller;
 
 import com.zln.competition.bean.Answer;
 import com.zln.competition.bean.Users;
+import com.zln.competition.sensitive_word_filter.SensitivewordFilter;
 import com.zln.competition.service.AnswerService;
 import com.zln.competition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class AnswerController {
@@ -34,6 +36,19 @@ public class AnswerController {
             System.out.println("输入的积分只能是数字");
             return -1;
         }
+        //查找是否包含敏感词
+        SensitivewordFilter sensitivewordFilter = new SensitivewordFilter();
+        SensitivewordFilter filter = new SensitivewordFilter();
+        System.out.println("敏感词的数量：" + sensitivewordFilter.sensitiveWordMap.size());
+        System.out.println("待检测语句字数：" + helpInfo.length());
+        long beginTime = System.currentTimeMillis();
+        Set<String> set = filter.getSensitiveWord(helpInfo, 1);
+        long endTime = System.currentTimeMillis();
+        System.out.println("语句中包含敏感词的个数为：" + set.size() + "。包含：" + set);
+        System.out.println("总共消耗时间为：" + (endTime - beginTime));
+        //把敏感词汇替换成*
+        String replaceHelpInfo = sensitivewordFilter.replaceSensitiveWord(helpInfo, 1, "*");
+        System.out.println("替换之后的语句：" + replaceHelpInfo);
         ServletContext servletContext = request.getServletContext();
 //        String  openid = (String) servletContext.getAttribute("openid");
         Users user = (Users)  servletContext.getAttribute("user");
@@ -42,7 +57,7 @@ public class AnswerController {
         Answer answer = new Answer();
         answer.setUserId(userId);
         answer.setAnsPay(pay);
-        answer.setAnsInformation(helpInfo);
+        answer.setAnsInformation(replaceHelpInfo);
         int i = answerService.insertAnswer(answer);
         return i;
     }

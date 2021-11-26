@@ -30,7 +30,6 @@
 
             // 验证日期格式
             var recBegintime = $("#recBegintime").val();
-            alert("recBegintime : " + recBegintime);
             if (recBegintime.trim() == "") return true;
             //年月日正则表达式
             var r = recBegintime.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
@@ -40,7 +39,6 @@
             }
 
             var recEndtime = $("#recEndtime").val();
-            alert("recEndtime : " + recEndtime);
             if (recEndtime.trim() == "") return true;
             //年月日正则表达式
             var r = recEndtime.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
@@ -51,7 +49,6 @@
 
             //验证举办方不能为空
             var recOrganizer = $("#recOrganizer").val();
-            alert("recOrganizer : " + recOrganizer);
             if (recOrganizer == "" || recOrganizer == null) {
                 alert("请输入举办方！");
                 return false;
@@ -61,12 +58,9 @@
 
 
         $(function () {
-            alert("admin-add页面加载成功了！");
             //添加管理员功能
             $("#submit").click(function () {
-                alert("recommend-add页面的点击事件触发了 ！");
                 var comId = JSON.parse(sessionStorage.getItem("comId"));
-                alert("sessionStorgecomId值 = " + comId);
                 let b = validate_add_form();
                 if (b == true) {
                     var recName = $("#recName").val();
@@ -78,7 +72,6 @@
                     $.ajaxSettings.async = false;
                     //判断用户名是否存在
                     $.post("../selectRecommendByRecName", {"recName": recName}, function (data) {
-                        alert("判断recName是否存在的ajax执行了 data = " + data);
                         if(data.length==0){
                             //竞赛名不存在，可以直接插入
                             $.post("../insertRecommend",
@@ -90,8 +83,6 @@
                                     "recInformation": recInformation
                                     ,                                },
                                 function (data) {
-                                    alert("recommend-add页面的ajax success执行了 ！");
-                                    alert("data : " + data);
                                     if (data === 1) {
                                         alert("添加成功！")
                                         // window.location.href = 'recommend-list.html';
@@ -115,8 +106,6 @@
                                             "recInformation": recInformation
                                             ,                                },
                                         function (data) {
-                                            alert("recommend-add页面的ajax success执行了 ！");
-                                            alert("data : " + data);
                                             if (data === 1) {
                                                 alert("添加成功！")
                                                 // window.location.href = 'recommend-list.html';

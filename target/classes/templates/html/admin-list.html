@@ -20,10 +20,8 @@
     <![endif]-->
     <script>
         $(function () {
-            alert("admin-list页面加载成功");
             $.post("../selectAll", function (data) {
-                alert("admin-list页面的ajax执行啦");
-                alert("admin-list页面data : " + data);
+
                 for (let i = 0; i < data.length; i++) {
                     var comDel = data[i].comDel.toString();
                     //每一行要有一个初始化
@@ -42,8 +40,6 @@
                     //社团名
                     comAdmin += '<td>' + data[i].comName + '</td>';
                     //帐号状态
-                    alert("账号状态： comDel = " + data.comDel);
-                    alert("账号状态： JSON转化后的 ： comDel = " + comDel);
                     // comAdmin+='<td>' + comDel + '</td>';
                     if (comDel == 0) {
                         comAdmin += "<td class=\"td-status\">\n" +
@@ -76,13 +72,10 @@
                 if (confirm("确认要删除么？")) {
                     //获取对应的行
                     var trIndex = $('.delComadmin', '#show_tbody').index($(this));
-                    alert("PrimaryKey : " + trIndex)
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第二列的值
                     comUsername = tar.children('td').eq(tar.find('td').length - 4).html();
-                    alert("comUsername : " + comUsername)
                     $.post("../deleteByPrimaryKey.do",{"comUsername":comUsername},function(data){
-                        alert("../deleteByPrimaryKey.do的data ： " + data)
                         if(data == 1){
                             $(this).parents('tr').remove();
                             setTimeout(window.location.reload(),100);
@@ -96,14 +89,11 @@
 
                     //获取对应的行
                     var trIndex = $('.editComAdmin', '#show_tbody').index($(this));
-                    alert("PrimaryKey : " + trIndex)
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第二列的值
                     var comUsername = tar.children('td').eq(tar.find('td').length - 4).html();
-                    alert("comUsername : " + comUsername);
 
                     $.post("../getAdminPutSession",{"comUsername":comUsername},function(data){
-                        alert("../getAdminPutSession的data ： " + data)
                         // $(this).parents('tr').remove();
                         // setTimeout(window.location.reload(),100);
                         x_admin_show('编辑','admin-edit.html')

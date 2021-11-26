@@ -128,13 +128,16 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/deleteByComId", method = RequestMethod.POST)
-    public int deleteByComId(@RequestParam("comId") Integer comId) {
-        int i1 = 0;
+    public boolean deleteByComId(@RequestParam("comId") Integer comId) {
+        boolean flag = false;
         System.out.println("CommunityController的deleteByComId方法执行啦");
         System.out.println("前台传过来的comUsername ： " + comId);
         int i = communityService.deleteByComId(comId);
         System.out.println("ComAdminController的deleteByComId方法的返回值i = " + i);
-        return i;
+        if(i != 0){
+            flag = true;
+        }
+        return flag;
     }
 
 

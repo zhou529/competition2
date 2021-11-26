@@ -40,10 +40,8 @@
             }
             //设置ajax是同步
             $.ajaxSettings.async = false;
-            alert("regist页面加载成功了！");
             //添加管理员功能
             $("#create").click(function () {
-                alert("regist页面的点击事件触发了 ！");
                 let b = validate_add_form();
                 if (b === true) {
                     var comUsername = $("#comUsername").val();
@@ -52,14 +50,11 @@
                     var L_repass = $("#L_repass").val();
                     //判断用户名是否存在
                     $.post("isExistComAdmin", {"comUsername": comUsername}, function (data) {
-                        alert("判断comUsername是否存在的ajax执行了 data = " + data);
                         if (data == false) {
                             alert("用户名已存在!")
                         } else if (data == true) {
                             alert("用户名可以用")
                             $.post("selectByComName",{"comName": comName},function (return_data) {
-                                    alert("selectByComName running")
-                                    alert("comName = " + comName)
                                     // alert("selectByComName 的data = " + data)
                                     if (return_data == false) {
                                         $.post("insertComAdminAndCommunity.do",
@@ -69,8 +64,6 @@
                                                 "comUserpwd": comUserpwd
                                             },
                                             function (data) {
-                                                alert("admin-add页面的ajax success执行了 ！");
-                                                alert("data : " + data);
                                                 if (data === 1) {
                                                     alert("添加成功！")
                                                     window.location.href = 'index.html';

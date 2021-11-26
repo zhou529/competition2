@@ -21,6 +21,13 @@
     <![endif]-->
       <script>
           function validate_edit_form() {
+              //验证手机号
+              var user_phone = $('#user_phone').val();
+              var reg_name = /^[1][3,4,5,7,8][0-9]{9}$/;
+              if (!reg_name.test(user_phone)) {
+                  alert("请填写正确的手机号码!");
+                  return false;
+              }
               // 验证学校
               var user_school = $("#user_school").val();
               var reg_name = /(^[\u2E80-\u9FFF]{2,10})/;
@@ -36,42 +43,32 @@
                   alert("请填写正确的专业名称!");
                   return false;
               }
-
-              //验证手机号
-              var user_phone = $('#user_phone').val();
-              var reg_name = /^[1][3,4,5,7,8][0-9]{9}$/;
-              if (!reg_name.test(user_phone)) {
-                  alert("请填写正确的手机号码!");
-                  return false;
-              }
               return true;
           }
 
           $(function () {
-              alert("community-edit页面加载成功");
               $.ajaxSettings.async = false;
               //编辑操作入口  Community
               $.post("../getUserInfo",function (data){
-                  alert("获取UserInfo的ajax执行了")
-                  alert("getUserInfo的data = " + data);
-                  alert("userPhone = " + data.userPhone)
-                  alert("userSchool = " + data.userSchool)
-                  alert("userMajor = " + data.userMajor)
-
+                  if(data.userPhone == "null"){
+                      data.userPhone = ""
+                  }
+                  if(data.userSchool == "null"){
+                      data.userSchool = ""
+                  }
+                  if(data.userMajor == "null"){
+                      data.userMajor = ""
+                  }
                   $("#user_phone").val(data.userPhone);
                   $("#user_school").val(data.userSchool);
                   $("#user_major").val(data.userMajor);
               })
               $("#submitButton").click(function () {
-                  alert("编辑的点击事件出发了")
                   let b = validate_edit_form();
                   if(b == true){
-                      var user_phone = $("#user_phone").val();;
+                      var user_phone = $("#user_phone").val();
                       var user_major = $("#user_major").val();
                       var user_school = $("#user_school").val();
-                      alert("user_phone : " + user_phone)
-                      alert("user_major : " + user_major)
-                      alert("user_school : " + user_school)
                       $.post("../updateUserInfoByUserId",
                           {
                               "user_phone": user_phone,
@@ -79,8 +76,6 @@
                               "user_school": user_school
                           },
                           function (data) {
-                              alert("updateUserInfoByUserId的ajax执行了")
-                              alert("../updateUserInfoByUserId ： " + data)
                               // $(this).parents('tr').remove();
                               // setTimeout(window.location.reload(), 100);
                               if (data === 1) {

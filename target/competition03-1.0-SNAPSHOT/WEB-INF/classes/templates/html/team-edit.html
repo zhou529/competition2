@@ -54,35 +54,23 @@
         }
 
         $(function () {
-            alert("team-edit页面加载成功");
             $.ajaxSettings.async = false;
             //编辑操作入口  Community
-            $.post("../getTeam",function (data){
-                alert("获取UserInfo的ajax执行了")
-                alert("getUserInfo的data = " + data);
-                alert("teamName = " + data.teamName)
-                alert("teamQq = " + data.teamQq)
-                alert("teamInformation = " + data.teamInformation)
-                alert("competitionName = " + data.competitionName)
-
+            $.post("../getTeam", function (data) {
                 $("#teamName").val(data.teamName);
-                $("#teamQq").val(data.teamQq);
+                $("#teamQq").val(data.teamInformation);
+                $("#teamInformation").val(data.teamQq);
+                // $("#teamQq").val(data.teamQq);
                 $("#competitionName").val(data.competitionName);
-                $("#teamInformation").val(data.teamInformation);
+                // $("#teamInformation").val(data.teamInformation);
             })
+
             $("#submitButton").click(function () {
-                alert("编辑的点击事件出发了")
                 let b = validate_edit_form();
-                if(b == true){
-                    var teamName = $("#teamName").val();;
+                if (b == true) {
+                    var teamName = $("#teamName").val();
                     var teamQq = $("#teamQq").val();
                     var competitionName = $("#competitionName").val();
-                    var teamInformation = $("#teamInformation").val();
-
-                    alert("teamName : " + teamName)
-                    alert("teamQq : " + teamQq)
-                    alert("competitionName : " + competitionName)
-                    alert("teamInformation : " + teamInformation)
                     $.post("../updateTeamByTeamId",
                         {
                             "teamName": teamName,
@@ -91,10 +79,7 @@
                             "teamInformation": teamInformation
                         },
                         function (data) {
-                            alert("updateTeamByTeamId的ajax执行了")
-                            alert("../updateTeamByTeamId ： " + data)
-                            // $(this).parents('tr').remove();
-                            // setTimeout(window.location.reload(), 100);
+                            alert("laaaaaaalalalalalalalal")
                             if (data === 1) {
                                 alert("修改成功！")
                             } else {
@@ -104,8 +89,6 @@
                 }
 
             })
-
-
 
         })
     </script>
@@ -153,7 +136,7 @@
         <div class="layui-form-item">
             </label>
             <button id="submitButton" class="layui-btn" lay-filter="add" lay-submit="">
-                增加
+                修改
             </button>
         </div>
     </form>

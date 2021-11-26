@@ -21,14 +21,10 @@
             setInterval(function () {
                 fnDate();
             }, 1000);
-            alert("welcome页面加载成功")
             //welcome欢迎管理员
             $.post("../loginOp.do", function (data) {
-                alert("loginOp的ajax执行了");
                 // var datas=$.parseJSON(data);
-                alert("welcome页面的data : " + data);
-                // alert("welcome页面的data s: "  + datas);
-                alert("welcome页面的data 的 comName: " + data.comName);
+
                 $("#com_name").html(data.comName);
             });
             //js 获取当前时间

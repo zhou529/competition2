@@ -55,13 +55,10 @@
 
 
         $(function () {
-            alert("team-add页面加载成功了！");
             //添加管理员功能
             $("#submit").click(function () {
-                alert("team-add页面的点击事件触发了 ！");
                 //获取com_id
                 var comId = JSON.parse(sessionStorage.getItem("comId"));
-                alert("sessionStorgecomId值 = " + comId);
                 let b = validate_add_form();
                 if (b == true) {
                     var teamName = $("#teamName").val();
@@ -72,7 +69,6 @@
                     $.ajaxSettings.async = false;
                     //判断用户名是否存在
                     $.post("../selectTeamByTeamName",{"teamName": teamName},function (data) {
-                        alert("判断comUsername是否存在的ajax执行了 data = " + data);
                         if (data.length===0) {
                             //数组为空，可以直接擦插入
                             $.post("../insertTeamInfo",

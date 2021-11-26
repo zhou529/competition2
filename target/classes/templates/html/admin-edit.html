@@ -23,7 +23,6 @@
         function validate_edit_form() {
             // 验证密码
             var password = $("#comUserpwd").val();
-            alert("password : " + password);
             var reg_password = /(^[a-zA-Z0-9_-]{6,19}$)/;
             if (!reg_password.test(password)) {
                 alert("密码必须是6-19位英文和数字的组合!");
@@ -32,7 +31,6 @@
 
             //两次验证密码
             var repass = $("#L_repass").val();
-            alert("repass : " + repass);
             if (password != repass) {
                 alert("两次密码不一致!")
                 return false;
@@ -40,7 +38,6 @@
             return true;
         }
         $(function () {
-            alert("admin-edit页面加载成功");
             $.ajaxSettings.async = false;
             //编辑操作入口
          /*   $("#submitButton").click(function () {
@@ -59,15 +56,11 @@
             })
 
             $("#submitButton").click(function (){
-                alert("编辑的点击事件出发了")
                 let b = validate_edit_form();
                 if(b == true){
                     var comDel = $("#comDel").val();
                     var comUserpwd = $("#comUserpwd").val();
                     var L_repass = $("#L_repass").val();
-                    alert("comDel : " + comDel)
-                    alert("comUserpwd : " + comUserpwd)
-                    alert("L_repass : " + L_repass)
                 }
                 $.post("../updateByComUsername",
                     {
@@ -76,7 +69,6 @@
                         "L_repass":L_repass,
                     },
                     function (data){
-                        alert("ajax执行了")
                         if(data == 1){
                         alert("修改成功！")
                             layer.alert("修改成功", {icon: 6},function () {

@@ -20,10 +20,7 @@
     <![endif]-->
     <script>
       $(function () {
-        alert("member-list页面加载成功");
         $.post("../selectAllUserInfo",function (data){
-          alert("member-list页面的ajax执行啦");
-          alert("member-list页面data : " + data);
           for (let i = 0; i < data.length; i++) {
             var userInfo = "";
             //第一列的多选框
@@ -57,17 +54,13 @@
         });
         //删除操作入口
         $('#show_tbody').on('click', '.delUser', function () {
-          alert("删除的点击事件开始了")
           if (confirm("确认要删除么？")) {
             //获取对应的行
             var trIndex = $('.delUser', '#show_tbody').index($(this));
-            alert("PrimaryKey : " + trIndex)
             var tar = $('#show_tbody tr').eq(trIndex);
             //获取对应的第二列的值
             userId = tar.children('td').eq(tar.find('td').length - 6).html();
-            alert("userId : " + userId)
             $.post("../deleteByUserIdFromUserAndInfo",{"userId":userId},function(data){
-              alert("../deleteByUserIdFromUserAndInfo ： " + data)
               if(data == 1){
                 $(this).parents('tr').remove();
                 setTimeout(window.location.reload(),100);
@@ -82,7 +75,6 @@
 
           //获取对应的行
           var trIndex = $('.editUserInfo', '#show_tbody').index($(this));
-          alert("PrimaryKey : " + trIndex)
           var tar = $('#show_tbody tr').eq(trIndex);
 
           //获取对应的第二列的值
@@ -90,11 +82,6 @@
           user_phone = tar.children('td').eq(tar.find('td').length - 2).html();
           user_school = tar.children('td').eq(tar.find('td').length - 4).html();
           user_major = tar.children('td').eq(tar.find('td').length - 3).html();
-          alert("user_id : " + user_id)
-          alert("user_phone : " + user_phone)
-          alert("user_school : " + user_school)
-          alert("user_major : " + user_major)
-
           $.post("../putUserInfo",
                   {
                     "user_id":user_id,
@@ -103,7 +90,6 @@
                     "user_major": user_major
                   },
                   function () {
-            alert("putUserInfo的Ajax执行了")
                     // alert("../getCommunityBySession ： " + data)
                     x_admin_show('编辑', 'member-edit.html')
                   })

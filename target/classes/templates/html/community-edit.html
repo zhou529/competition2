@@ -44,17 +44,9 @@
             return true;
         }
         $(function () {
-            alert("community-edit页面加载成功");
             $.ajaxSettings.async = false;
             //编辑操作入口  Community
             $.post("../getCommunityBySession",function (data){
-                alert("获取community的ajav执行了")
-                alert("getCommunityBySession的data = " + data);
-                alert("comName = " + data.comName)
-                alert("comQq = " + data.comQq)
-                alert("comInformation = " + data.comInformation)
-                alert("comWin = " + data.comWin)
-
                 $("#comName").val(data.comName);
                 $("#comQq").val(data.comQq);
                 $("#comInformation").val(data.comInformation);
@@ -66,17 +58,12 @@
                    var comQq = JSON.parse(sessionStorage.getItem("comQq"));
                    var comInformation = JSON.parse(sessionStorage.getItem("comInformation"));
                    var comWin = JSON.parse(sessionStorage.getItem("comWin"));*/
-                   alert("编辑的点击事件出发了")
                    let b = validate_edit_form();
                    if(b == true){
                        var comName = $("#comName").val();;
                        var comQq = $("#comQq").val();
                        var comInformation = $("#comInformation").val();
                        var comWin = $("#comWin").val();
-                       alert("comName : " + comName)
-                       alert("comQq : " + comQq)
-                       alert("comInformation : " + comInformation)
-                       alert("comWin : " + comWin)
                        $.post("../updateByCommunity",
                            {
                                "comName": comName,
@@ -85,8 +72,6 @@
                                "comWin": comWin,
                            },
                            function (data) {
-                               alert("ajax执行了")
-                               alert("../updateByCommunity ： " + data)
                                // $(this).parents('tr').remove();
                                setTimeout(window.location.reload(), 100);
                                if (data === 1) {

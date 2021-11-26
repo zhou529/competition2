@@ -46,20 +46,14 @@
 
 
         $(function () {
-            alert("community-add页面加载成功了！");
             //添加管理员功能
             $("#submit").click(function () {
-                alert("community-add页面的点击事件触发了 ！");
                 let b = validate_add_form();
                 if (b === true) {
                     var comName = $("#comName").val();;
                     var comQq = $("#comQq").val();
                     var comInformation = $("#comInformation").val();
                     var comWin = $("#comWin").val();
-                    alert("comName = " + comName)
-                    alert("comQq = " + comQq)
-                    alert("comInformation = " + comInformation)
-                    alert("comWin = " + comWin)
                     //设置ajax是同步
                     $.ajaxSettings.async = false;
                     //判断社团名是否存在
@@ -74,8 +68,6 @@
                                     "comWin": comWin,
                                 },
                                 function (data) {
-                                    alert("community-add页面的ajax success执行了 ！");
-                                    alert("data : " + data);
                                     if (data === 1) {
                                         alert("添加成功！")
                                     } else {

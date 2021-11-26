@@ -89,7 +89,6 @@ public class TeamController {
         team.setTeamInformation(teamInformation);
         team.setCompetitionName(competitionName);
         team.setTeamQq(teamQq);
-
         //获取application对象
         HttpSession session = request.getSession();
         session.setAttribute("team", team);

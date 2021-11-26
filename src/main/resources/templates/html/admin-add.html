@@ -31,7 +31,6 @@
 
             // 验证密码
             var password = $("#comUserpwd").val();
-            alert("password : " + password);
             var reg_password = /(^[a-zA-Z0-9_-]{6,19}$)/;
             if (!reg_password.test(password)) {
                 alert("密码必须是6-19位英文和数字的组合!");
@@ -40,7 +39,6 @@
 
             //两次验证密码
             var repass = $("#L_repass").val();
-            alert("repass : " + repass);
             if (password != repass) {
                 alert("两次密码不一致!")
                 return false;
@@ -50,10 +48,8 @@
 
 
         $(function () {
-            alert("admin-add页面加载成功了！");
             //添加管理员功能
             $("#submit").click(function () {
-                alert("admin-add页面的点击事件触发了 ！");
                 let b = validate_add_form();
                 if (b == true) {
                     var comUsername = $("#comUsername").val();
@@ -64,12 +60,11 @@
                     $.ajaxSettings.async = false;
                     //判断用户名是否存在
                     $.post("../isExistComAdmin",{"comUsername": comUsername},function (data) {
-                            alert("判断comUsername是否存在的ajax执行了 data = " + data);
                             if (data === 1) {
                                 alert("用户名已存在!")
                             } else {
                                 $.post("../selectByComName",{"comName":comName},function(data){
-                                    if(data === 0){
+                                    if(data == false){
                                         $.post("../insertComAdminAndCommunity.do",
                                             {
                                                 "comUsername": comUsername,
@@ -77,8 +72,6 @@
                                                 "comUserpwd": comUserpwd
                                             },
                                             function (data) {
-                                                alert("admin-add页面的ajax success执行了 ！");
-                                                alert("data : " + data);
                                                 if (data === 1) {
                                                     alert("添加成功！")
                                                     window.location.href = 'admin-list.html';

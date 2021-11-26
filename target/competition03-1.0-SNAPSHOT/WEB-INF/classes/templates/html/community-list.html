@@ -20,7 +20,6 @@
     <![endif]-->
     <script>
         $(function () {
-            alert("community-list页面加载成功");
             //设置ajax是同步
             // $.ajaxSettings.async = false;
             //查找
@@ -57,8 +56,6 @@
             });*/
             //页面显示社团信息
             $.post("../selectCommunityByComName", function (data) {
-                alert("community-list页面的ajax执行啦");
-                alert("community-list页面data : " + data);
                 for (let i = 0; i < data.length; i++) {
                     //初始化
                     var community = "";
@@ -102,19 +99,14 @@
             });
             //删除操作入口
             $('#show_tbody').on('click', '.delCommunity', function () {
-                alert("删除操作开始了")
                 if (confirm("确认要删除么？")) {
                     //获取对应的行
                     var trIndex = $('.delCommunity', '#show_tbody').index($(this));
-                    alert("PrimaryKey : " + trIndex)
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第一列的值
-                    comId = tar.children('td').eq(tar.find('td').length - 5).html();
-                    alert("comId : " + comId)
+                    comId = tar.children('td').eq(tar.find('td').length - 6).html();
                     $.post("../deleteByComId", {"comId": comId}, function (data) {
-                        alert("../deleteByComId的ajax执行啦 ")
-                        alert("../deleteByComId的data ： " + data)
-                        if (data == 1) {
+                        if (data == true) {
                             $(this).parents('tr').remove();
                             setTimeout(window.location.reload(), 100);
                         }
@@ -127,7 +119,6 @@
 
                 //获取对应的行
                 var trIndex = $('.editCommunity', '#show_tbody').index($(this));
-                alert("PrimaryKey : " + trIndex)
                 var tar = $('#show_tbody tr').eq(trIndex);
 
                 //获取对应的第二列的值

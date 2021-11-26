@@ -21,10 +21,7 @@
     <![endif]-->
     <script>
         $(function () {
-            alert("team-list页面加载成功");
             $.post("../selectAllRecommendByAdmin",function (data){
-                alert("team-list的ajax执行了")
-                alert("data" + data);
                 for (let i = 0; i < data.length; i++) {
                     var recommend = "";
                     //第一列的多选框
@@ -62,9 +59,7 @@
             });
             //删除全部操作入口
             $("#allDeleteRecommend").click(function () {
-                alert("allDeleteRecommend的点击事件发生了")
                 $.post("../allDeleteRecommend",function(data){
-                    alert("../allDeleteRecommend的data ： " + data)
                     // if(data == 1){
                     //     $(this).parents('tr').remove();
                     //     setTimeout(window.location.reload(),100);
@@ -77,13 +72,10 @@
                 if (confirm("确认要删除么？")) {
                     //获取对应的行
                     var trIndex = $('.delRecommend', '#show_tbody').index($(this));
-                    alert("PrimaryKey : " + trIndex)
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第二列的值
                     recId = tar.children('td').eq(tar.find('td').length - 7).html();
-                    alert("recId : " + recId)
                     $.post("../deleteByRecId",{"recId":recId},function(data){
-                        alert("../deleteByRecId的data ： " + data)
                         if(data == 1){
                             $(this).parents('tr').remove();
                             setTimeout(window.location.reload(),100);
@@ -97,7 +89,6 @@
 
                 //获取对应的行
                 var trIndex = $('.editRecommend', '#show_tbody').index($(this));
-                alert("PrimaryKey : " + trIndex)
                 var tar = $('#show_tbody tr').eq(trIndex);
                 //获取对应的第二列的值
                 var recId = tar.children('td').eq(tar.find('td').length - 7).html();
@@ -116,7 +107,6 @@
                         "recOrganizer":recOrganizer,
                         "recInformation":recInformation
                     },function(data){
-                    alert("../getAdminPutSession的data ： " + data)
                     // $(this).parents('tr').remove();
                     // setTimeout(window.location.reload(),100);
                     x_admin_show('编辑','recommend-edit.html')

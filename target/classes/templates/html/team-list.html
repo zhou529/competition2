@@ -21,10 +21,7 @@
     <![endif]-->
     <script>
         $(function () {
-            alert("team-list页面加载成功");
             $.post("../selectTeamByComId",function (data){
-                alert("team-list的ajax执行了")
-                alert("data" + data);
                 for (let i = 0; i < data.length; i++) {
                     var team = "";
                     //第一列的多选框
@@ -59,17 +56,13 @@
             });
             //删除操作入口
             $('#show_tbody').on('click', '.delTeam', function () {
-                alert("删除的点击事件开始了")
                 if (confirm("确认要删除么？")) {
                     //获取对应的行
                     var trIndex = $('.delTeam', '#show_tbody').index($(this));
-                    alert("PrimaryKey : " + trIndex)
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第二列的值
                     teamId = tar.children('td').eq(tar.find('td').length - 6).html();
-                    alert("teamId : " + teamId)
                     $.post("../deleteByTeamId",{"teamId":teamId},function(data){
-                        alert("../deleteByRecId的data ： " + data)
                         if(data == 1){
                             $(this).parents('tr').remove();
                             setTimeout(window.location.reload(),100);
@@ -83,7 +76,6 @@
 
                 //获取对应的行
                 var trIndex = $('.editCommunity', '#show_tbody').index($(this));
-                alert("PrimaryKey : " + trIndex)
                 var tar = $('#show_tbody tr').eq(trIndex);
 
                 //获取对应的第二列的值
