@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zln.competition.mapper.SignTableMapper">
+    <resultMap id="BaseResultMap" type="com.zln.competition.bean.SignTable">
+        <id column="sign_id" property="signId" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="User_openid" property="userOpenid" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="year" property="year" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="month" property="month" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="day" property="day" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        sign_id
+        , User_openid, year, month, day
+    </sql>
+
+    <!--    public List<SignTable> queryAll(SignTable SignTable);-->
+    <select id="queryAll" resultMap="BaseResultMap" parameterType="com.zln.competition.bean.SignTable">
+        SELECT * FROM sign_table
+        <trim prefix="WHERE " prefixOverrides="AND |OR ">
+            <if test="openid != null">
+                AND User_openid = #{userOpenid, jdbcType=VARCHAR}
+            </if>
+            <if test="year != null">
+                AND year = #{year, jdbcType=INTEGER}
+            </if>
+            <if test="month != null">
+                AND month = #{month, jdbcType=INTEGER}
+            </if>
+            <if test="day != null">
+                AND day = #{day, jdbcType=INTEGER}
+            </if>
+        </trim>
+        ORDER BY ID ASC
+    </select>
+
+
+    <!--    SignTable selectBySignTable(SignTable signTable);-->
+    <select id="selectBySignTable" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sign_table
+        where User_openid = #{userOpenid, jdbcType=VARCHAR}
+        and year = #{year, jdbcType=INTEGER}
+        and month = #{month, jdbcType=INTEGER}
+        and day = #{day, jdbcType=INTEGER}
+    </select>
+
+
+    <!--public void insertSignTable(SignTable signTable);-->
+    <insert id="insertSignTable" parameterType="com.zln.competition.bean.SignTable">
+        insert into sign_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="signId != null">
+                sign_id,
+            </if>
+            <if test="userOpenid != null">
+                User_openid,
+            </if>
+            <if test="year != null">
+                year,
+            </if>
+            <if test="month != null">
+                month,
+            </if>
+            <if test="day != null">
+                day,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="signId != null">
+                #{signId,jdbcType=INTEGER},
+            </if>
+            <if test="userOpenid != null">
+                #{userOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="year != null">
+                #{year,jdbcType=INTEGER},
+            </if>
+            <if test="month != null">
+                #{month,jdbcType=INTEGER},
+            </if>
+            <if test="day != null">
+                #{day,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+</mapper>

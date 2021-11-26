@@ -1,7 +1,7 @@
 package com.zln.competition.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.zln.competition.bean.User;
+import com.zln.competition.bean.Users;
 import com.zln.competition.bean.UserInfo;
 import com.zln.competition.service.UserInfoService;
 import com.zln.competition.service.UserService;
@@ -27,9 +27,35 @@ public class UserController {
     @Autowired
     UserInfoService userInfoService;
 
+    @RequestMapping(value = "/individual_rank", method = RequestMethod.POST)
+    public Integer individual_rank(HttpServletRequest request) {
+        System.out.println("UserController的individual_rank执行了");
+        ServletContext servletContext = request.getServletContext();
+        Users user = (Users) servletContext.getAttribute("user");
+        System.out.println("user : " + user);
+        int userId = user.getUserId();
+        System.out.println("userId =" + userId);
+//        这里面的userPay是排名，为了图方便
+        Users userRank = userService.individualRank(userId);
+
+        System.out.println(" userRank.getUserPay() = " + userRank.getUserPay());
+        return userRank.getUserPay();
+    }
+
+    @RequestMapping(value = "/querySignPay", method = RequestMethod.POST)
+    public Integer getUserInfo(HttpServletRequest request) {
+        System.out.println("UserController的querySignPay执行了");
+        ServletContext servletContext = request.getServletContext();
+        Users user = (Users) servletContext.getAttribute("user");
+        System.out.println("user : " + user);
+        int signPay = user.getUserPay();
+        System.out.println("signPay =" + signPay);
+        return signPay;
+    }
+
     @RequestMapping("/insertUserByOpenId")
     public String getUserInfo(@RequestParam(name = "code") String code, HttpServletRequest request) throws Exception {
-        User user = new User();
+//        User user = new User();
 //        ServletContext
         ServletContext servletContext = request.getServletContext();
         System.out.println("code :" + code);
@@ -69,24 +95,29 @@ public class UserController {
         JSONObject jo = JSON.parseObject(res);
 //        JSONObject jo = JSONObject.numberToString()
         String openid = jo.getString("openid");
-        user.setUserOpenid(openid);
+        Users user = new Users(null, openid, null);
+//        user.setUserOpenid(openid);
+        System.out.println("user : " + user);
         System.out.println("openid : " + openid);
         //查询数据库中是否有这个openid
-        User user2 = userService.selectAllUserByOpenid(openid);
+        Users isExistUser = userService.selectAllUserByOpenid(openid);
+        System.out.println("isExistUser = " + isExistUser);
         UserInfo userInfo = new UserInfo();
         userInfo.setUserOpenid(openid);
-        if (user2 == null) {
+        if (isExistUser == null) {
             int userInsert = userService.insertUser(user);
             int userInfoInsert = userInfoService.insertUSerInfo(userInfo);
             if(userInsert != 0 && userInfoInsert!=0){
                 System.out.println("UserController的insertUser方法的返回值userInsert : " + userInsert);
                 System.out.println("UserController的insertUser方法的返回值userInfoInsert : " + userInfoInsert);
+                System.out.println("servletContext.setAttribute( user = " + user);
                 servletContext.setAttribute("user",user);
                 servletContext.setAttribute("openid",openid);
             }
         } else {
-            openid = user2.getUserOpenid();
-            servletContext.setAttribute("user",user2);
+            openid = isExistUser.getUserOpenid();
+            System.out.println("isExistUser + " + isExistUser);
+            servletContext.setAttribute("user",isExistUser);
         }
 
         return openid;

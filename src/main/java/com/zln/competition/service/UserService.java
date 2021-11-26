@@ -1,19 +1,18 @@
 package com.zln.competition.service;
 
-import com.zln.competition.bean.Answer;
-import com.zln.competition.bean.User;
-
-import java.util.List;
+import com.zln.competition.bean.Users;
 
 public interface UserService {
 
-    public int insertUser(User user);
+    public int insertUser(Users user);
 
-    public User selectAllUserByOpenid(String userOpenid);
+    public Users selectAllUserByOpenid(String userOpenid);
 
-    public User selectByOpenId(String OpenId);
+    public Users selectByOpenId(String OpenId);
 
     public int deleteByUserIdFromUser(Integer userId);
-    public int updateByOpenid(User record);
 
+    public int updateByOpenid(Users record);
+
+    Users individualRank(Integer userId);
 }

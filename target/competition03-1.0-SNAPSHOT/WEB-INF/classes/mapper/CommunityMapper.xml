@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zln.competition.mapper.CommunityMapper" >
+    <resultMap id="BaseResultMap" type="com.zln.competition.bean.Community" >
+        <id column="Com_id"  property="comId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <id column="Com_name" property="comName" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="Com_information"  property="comInformation" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="Com_win" property="comWin" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="Com_winImg" property="comWinimg" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="Com_img" property="comImg" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="Com_qq" property="comQq" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        Com_id, Com_information, Com_win, Com_winImg, Com_img, Com_qq, Com_name
+    </sql>
+
+    <!--    public List<Community> selectAllByComName(String comName);-->
+    <select id="selectAllByComName"  resultMap="BaseResultMap">
+        select
+        *
+        from community
+        where Com_name = #{comName,jdbcType=VARCHAR}
+    </select>
+
+    <!--    public List<Community> selectAllCommunity();-->
+    <select id="selectAllCommunity" resultType="com.zln.competition.bean.Community">
+        select Com_id as comId,
+               Com_information as comInformation,
+               Com_win  as comWin,
+               Com_winImg    as comWinimg,
+               Com_img       as comImg,
+               Com_qq      as comQq,
+               Com_name     as comName
+        from community
+        where Com_id != 0
+        order by Com_id
+    </select>
+
+    <!--    public Community selectCommunityByComName(String comName);-->
+    <select id="selectCommunityByComName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from community
+        where Com_name = #{comName,jdbcType=VARCHAR}
+    </select>
+
+<!--    List<Community> selectCommunityDim(Community communityDim);-->
+    <select id="selectCommunityDim" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from community
+        where Com_name like #{comName,jdbcType=VARCHAR}
+            and Com_name != "admin"
+    </select>
+
+    <!--    public Community selectCommunityByComId(Integer comId);-->
+    <select id="selectCommunityByComId" resultMap="BaseResultMap" >
+        select
+        *
+        from community
+        where Com_id = #{comId,jdbcType=INTEGER}
+    </select>
+
+    <!--    int deleteByComId(Integer comId);-->
+    <delete id="deleteByComId" parameterType="java.lang.Integer" >
+        delete from community
+        where Com_id = #{comId,jdbcType=INTEGER}
+    </delete>
+
+<!--    public int insertCommunity(Community community);-->
+    <insert id="insertCommunity" parameterType="com.zln.competition.bean.Community" useGeneratedKeys="true" keyProperty="comId">
+        insert into community
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="comId != null" >
+                Com_id,
+            </if>
+            <if test="comInformation != null" >
+                Com_information,
+            </if>
+            <if test="comWin != null" >
+                Com_win,
+            </if>
+            <if test="comWinimg != null" >
+                Com_winImg,
+            </if>
+            <if test="comImg != null" >
+                Com_img,
+            </if>
+            <if test="comQq != null" >
+                Com_qq,
+            </if>
+            <if test="comName != null" >
+                Com_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="comId != null" >
+                #{comId,jdbcType=INTEGER},
+            </if>
+            <if test="comInformation != null" >
+                #{comInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="comWin != null" >
+                #{comWin,jdbcType=VARCHAR},
+            </if>
+            <if test="comWinimg != null" >
+                #{comWinimg,jdbcType=VARCHAR},
+            </if>
+            <if test="comImg != null" >
+                #{comImg,jdbcType=VARCHAR},
+            </if>
+            <if test="comQq != null" >
+                #{comQq,jdbcType=VARCHAR},
+            </if>
+            <if test="comName != null" >
+                #{comName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+<!--    int updateByCommunity(Community community);-->
+    <update id="updateByCommunity" parameterType="com.zln.competition.bean.Community">
+        update community
+        <set>
+            <if test="comName != null">
+                Com_name = #{comName,jdbcType=VARCHAR},
+            </if>
+            <if test="comInformation != null">
+                Com_information = #{comInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="comWin != null">
+                Com_win = #{comWin,jdbcType=VARCHAR},
+            </if>
+            <if test="comWinimg != null">
+                Com_winImg = #{comWinimg,jdbcType=VARCHAR},
+            </if>
+            <if test="comImg != null">
+                Com_img = #{comImg,jdbcType=VARCHAR},
+            </if>
+            <if test="comQq != null">
+                Com_qq = #{comQq,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where Com_id = #{comId,jdbcType=INTEGER}
+    </update>
+</mapper>

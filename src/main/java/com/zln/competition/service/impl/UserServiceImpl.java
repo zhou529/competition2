@@ -1,13 +1,11 @@
 package com.zln.competition.service.impl;
 
-import com.zln.competition.bean.Answer;
-import com.zln.competition.bean.User;
+import com.zln.competition.bean.Users;
 import com.zln.competition.mapper.UserMapper;
 import com.zln.competition.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -15,8 +13,13 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public int updateByOpenid(User record){
+    public int updateByOpenid(Users record){
         return userMapper.updateByOpenid(record);
+    }
+
+    @Override
+    public Users individualRank(Integer userId) {
+        return userMapper.individualRank(userId);
     }
 
     @Override
@@ -25,15 +28,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User selectAllUserByOpenid(String userOpenid){
-        User user = userMapper.selectAllUserByOpenid(userOpenid);
+    public Users selectAllUserByOpenid(String userOpenid){
+        Users user = userMapper.selectAllUserByOpenid(userOpenid);
         System.out.println("UserServiceImpl的selectAllUserByOpenid的方法的返回值users ： " + user);
         return user;
     }
 
 
     @Override
-    public int insertUser(User user) {
+    public int insertUser(Users user) {
         System.out.println("UserServiceImpl的insertUser方法执行了");
         System.out.println("userMapper : " + userMapper);
         int i = userMapper.insertUser(user);
@@ -42,8 +45,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User selectByOpenId(String openId){
-        User user = userMapper.selectByOpenId(openId);
+    public Users selectByOpenId(String openId){
+        Users user = userMapper.selectByOpenId(openId);
         return user;
     }
 }

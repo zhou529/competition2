@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zln.competition.mapper.LoginLogMapper" >
+    <resultMap id="BaseResultMap" type="com.zln.competition.bean.LoginLog" >
+        <id column="log_id" property="logId"></id>
+        <result column="username" property="username"></result>
+        <result column="login_time" property="loginTime"></result>
+        <result column="login_ip" property="loginIp"></result>
+    </resultMap>
+
+<!--    List<LoginLog> selectAllLoginLog();-->
+<select id="selectAllLoginLog" resultType="com.zln.competition.bean.LoginLog">
+    select log_id as logId,username username,login_time loginTime,login_ip loginIp
+from login_log
+</select>
+
+    <!--    LoginLog insertLoginLog(LoginLog loginLog);-->
+    <insert id="insertLoginLog" parameterType="com.zln.competition.bean.LoginLog" >
+        insert into login_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="logId != null" >
+                log_id,
+            </if>
+            <if test="username != null" >
+                username,
+            </if>
+            <if test="loginTime != null" >
+                login_time,
+            </if>
+            <if test="loginIp != null" >
+                login_ip,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="logId != null" >
+                #{logId,jdbcType=INTEGER},
+            </if>
+            <if test="username != null" >
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null" >
+                #{loginTime,jdbcType=VARCHAR},
+            </if>
+            <if test="loginIp != null" >
+                #{loginIp,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-L-admin1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        function validate_add_form() {
+            // 验证竞赛名
+            var name = $("#recName").val();
+            if (name == null) {
+                alert("请输入竞赛名！");
+                return false;
+            }
+
+            // 验证日期格式
+            var recBegintime = $("#recBegintime").val();
+            alert("recBegintime : " + recBegintime);
+            if (recBegintime.trim() == "") return true;
+            //年月日正则表达式
+            var r = recBegintime.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+            if (r == null) {
+                alert("请输入格式正确的日期\n\r日期格式：yyyy-mm-dd\n\r例    如：2008-08-08\n\r");
+                return false;
+            }
+
+            var recEndtime = $("#recEndtime").val();
+            alert("recEndtime : " + recEndtime);
+            if (recEndtime.trim() == "") return true;
+            //年月日正则表达式
+            var r = recEndtime.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+            if (r == null) {
+                alert("请输入格式正确的日期\n\r日期格式：yyyy-mm-dd\n\r例    如：2008-08-08\n\r");
+                return false;
+            }
+
+            //验证举办方不能为空
+            var recOrganizer = $("#recOrganizer").val();
+            alert("recOrganizer : " + recOrganizer);
+            if (recOrganizer == "" || recOrganizer == null) {
+                alert("请输入举办方！");
+                return false;
+            }
+            return true;
+        }
+
+
+        $(function () {
+            alert("admin-add页面加载成功了！");
+            //添加管理员功能
+            $("#submit").click(function () {
+                alert("recommend-add页面的点击事件触发了 ！");
+                var comId = JSON.parse(sessionStorage.getItem("comId"));
+                alert("sessionStorgecomId值 = " + comId);
+                let b = validate_add_form();
+                if (b == true) {
+                    var recName = $("#recName").val();
+                    var recBegintime = $("#recBegintime").val();
+                    var recEndtime = $("#recEndtime").val();
+                    var recOrganizer = $("#recOrganizer").val();
+                    var recInformation = $("#recInformation").val();
+                    //设置ajax是同步
+                    $.ajaxSettings.async = false;
+                    //判断用户名是否存在
+                    $.post("../selectRecommendByRecName", {"recName": recName}, function (data) {
+                        alert("判断recName是否存在的ajax执行了 data = " + data);
+                        if(data.length==0){
+                            //竞赛名不存在，可以直接插入
+                            $.post("../insertRecommend",
+                                {
+                                    "recName": recName,
+                                    "recBegintime": recBegintime,
+                                    "recEndtime": recEndtime,
+                                    "recOrganizer": recOrganizer,
+                                    "recInformation": recInformation
+                                    ,                                },
+                                function (data) {
+                                    alert("recommend-add页面的ajax success执行了 ！");
+                                    alert("data : " + data);
+                                    if (data === 1) {
+                                        alert("添加成功！")
+                                        // window.location.href = 'recommend-list.html';
+                                    } else {
+                                        alert("添加失败！");
+                                        // window.location.href = 'recommend-add.html'
+                                    }
+                                })
+                        }else {
+                            //遍历，判断是否这个社团发布过
+                            for (let i = 0; i < data.length; i++) {
+                                if(data[i].comId == comId){
+                                    alert("该社团已经发不过这个竞赛消息啦，不能重复添加")
+                                }else {
+                                    $.post("../insertRecommend",
+                                        {
+                                            "recName": recName,
+                                            "recBegintime": recBegintime,
+                                            "recEndtime": recEndtime,
+                                            "recOrganizer": recOrganizer,
+                                            "recInformation": recInformation
+                                            ,                                },
+                                        function (data) {
+                                            alert("recommend-add页面的ajax success执行了 ！");
+                                            alert("data : " + data);
+                                            if (data === 1) {
+                                                alert("添加成功！")
+                                                // window.location.href = 'recommend-list.html';
+                                            } else {
+                                                alert("添加失败！");
+                                                // window.location.href = 'recommend-add.html'
+                                            }
+                                        })
+                                }
+                            }
+                        }
+
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div class="x-body">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label for="recName" class="layui-form-label">
+                <span class="x-red">*</span>竞赛名
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="recName" name="recName" required lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="recBegintime" class="layui-form-label">
+                <span class="x-red">*</span>开始时间
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="recBegintime" name="recBegintime" required lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="recEndtime" class="layui-form-label">
+                <span class="x-red">*</span>结束时间
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="recEndtime" name="recEndtime" required lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="recOrganizer" class="layui-form-label">
+                <span class="x-red">*</span>举办方
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="recOrganizer" name="recOrganizer" required lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label for="recInformation" class="layui-form-label">
+                详细信息
+            </label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" id="recInformation" name="recInformation"
+                          class="layui-textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <!--            <label for="L_repass" class="layui-form-label">-->
+            </label>
+            <button id="submit" class="layui-btn" lay-filter="add" lay-submit="">
+                增加
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+
+</html>

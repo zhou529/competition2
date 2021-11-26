@@ -1,7 +1,7 @@
 package com.zln.competition.controller;
 
 import com.zln.competition.bean.Answer;
-import com.zln.competition.bean.User;
+import com.zln.competition.bean.Users;
 import com.zln.competition.service.AnswerService;
 import com.zln.competition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class AnswerController {
         }
         ServletContext servletContext = request.getServletContext();
 //        String  openid = (String) servletContext.getAttribute("openid");
-        User user = (User)  servletContext.getAttribute("user");
+        Users user = (Users)  servletContext.getAttribute("user");
         Integer userId = user.getUserId();
         System.out.println("获取到的userId = " + userId);
         Answer answer = new Answer();
@@ -60,11 +60,11 @@ public class AnswerController {
     public List<Answer> AnswerSelectByUserId(HttpServletRequest request){
         System.out.println("AnswerController的selectByUserId执行了");
         ServletContext servletContext = request.getServletContext();
-        User user1 = (User) servletContext.getAttribute("user");
+        Users user1 = (Users) servletContext.getAttribute("user");
         System.out.println("user1 : " + user1);
         String openid = user1.getUserOpenid();
         System.out.println("UserController获取到的openId-------------request.getAttribute(\"openid\") ：  " + openid);
-        User user = userService.selectByOpenId(openid);
+        Users user = userService.selectByOpenId(openid);
         int userId;
         if(user != null){
             userId = user.getUserId();

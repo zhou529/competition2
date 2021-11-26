@@ -2,6 +2,7 @@ package com.zln.competition.controller;
 
 //import com.alibaba.fastjson.JSONObject;
 import com.zln.competition.bean.Dynamic;
+import com.zln.competition.sensitive_word_filter.SensitivewordFilter;
 import com.zln.competition.service.DynamicService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class DynamicController {
@@ -32,10 +34,23 @@ public class DynamicController {
                           @RequestParam("dynTitle") String dynTitle){
 //                          @RequestParam("dateTime") String dateTime
         System.out.println("DynamicController的addDynamic方法执行了");
+        //查找是否包含敏感词
+        SensitivewordFilter sensitivewordFilter = new SensitivewordFilter();
+        SensitivewordFilter filter = new SensitivewordFilter();
+        System.out.println("敏感词的数量：" + sensitivewordFilter.sensitiveWordMap.size());
+        System.out.println("待检测语句字数：" + dynamicInfo.length());
+        long beginTime = System.currentTimeMillis();
+        Set<String> set = filter.getSensitiveWord(dynamicInfo, 1);
+        long endTime = System.currentTimeMillis();
+        System.out.println("语句中包含敏感词的个数为：" + set.size() + "。包含：" + set);
+        System.out.println("总共消耗时间为：" + (endTime - beginTime));
+        //把敏感词汇替换成*
+        String replaceDynamicInfo = sensitivewordFilter.replaceSensitiveWord(dynamicInfo, 1, "*");
+        System.out.println("替换之后的语句：" + replaceDynamicInfo);
+        //向数据库里面插入数据
         Dynamic dynamic = new Dynamic();
         dynamic.setDynInformation(dynamicInfo);
         dynamic.setDynTitle(dynTitle);
-//        dynamic.se
         int i = dynamicService.addDynamic(dynamic);
         return i;
     }

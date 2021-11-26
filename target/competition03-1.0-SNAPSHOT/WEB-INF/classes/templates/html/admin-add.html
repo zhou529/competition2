@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-L-admin1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        function validate_add_form() {
+            // 验证用户名
+            var name = $("#comUsername").val();
+            var reg_name = /(^[a-zA-Z0-9_-]{6,19}$)|(^[\u2E80-\u9FFF]{2,5})/;
+            if (!reg_name.test(name)) {
+                alert("用户名必须是2-5位中文或6-19位英文和数字的组合!");
+                return false;
+            }
+
+            // 验证密码
+            var password = $("#comUserpwd").val();
+            alert("password : " + password);
+            var reg_password = /(^[a-zA-Z0-9_-]{6,19}$)/;
+            if (!reg_password.test(password)) {
+                alert("密码必须是6-19位英文和数字的组合!");
+                return false;
+            }
+
+            //两次验证密码
+            var repass = $("#L_repass").val();
+            alert("repass : " + repass);
+            if (password != repass) {
+                alert("两次密码不一致!")
+                return false;
+            }
+            return true;
+        }
+
+
+        $(function () {
+            alert("admin-add页面加载成功了！");
+            //添加管理员功能
+            $("#submit").click(function () {
+                alert("admin-add页面的点击事件触发了 ！");
+                let b = validate_add_form();
+                if (b == true) {
+                    var comUsername = $("#comUsername").val();
+                    var comName = $("#com_name").val();
+                    var comUserpwd = $("#comUserpwd").val();
+                    var L_repass = $("#L_repass").val();
+                    //设置ajax是同步
+                    $.ajaxSettings.async = false;
+                    //判断用户名是否存在
+                    $.post("../isExistComAdmin",{"comUsername": comUsername},function (data) {
+                            alert("判断comUsername是否存在的ajax执行了 data = " + data);
+                            if (data === 1) {
+                                alert("用户名已存在!")
+                            } else {
+                                $.post("../selectByComName",{"comName":comName},function(data){
+                                    if(data === 0){
+                                        $.post("../insertComAdminAndCommunity.do",
+                                            {
+                                                "comUsername": comUsername,
+                                                "comName": comName,
+                                                "comUserpwd": comUserpwd
+                                            },
+                                            function (data) {
+                                                alert("admin-add页面的ajax success执行了 ！");
+                                                alert("data : " + data);
+                                                if (data === 1) {
+                                                    alert("添加成功！")
+                                                    window.location.href = 'admin-list.html';
+                                                } else {
+                                                    alert("添加失败！");
+                                                    window.location.href = 'admin-add.html'
+                                                }
+
+                                            })
+                                    }else {
+                                        alert("该社团已经有管理员啦，不能再添加啦！")
+                                    }
+
+                                });
+                            }
+                        });
+                }
+
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div class="x-body">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label for="comUsername" class="layui-form-label">
+                <span class="x-red">*</span>登录名
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="comUsername" name="comUsername" required lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>将会成为您唯一的登入名
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="comUsername" class="layui-form-label">
+                <span class="x-red">*</span>社团名称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="com_name" name="com_name" required lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="comUserpwd" class="layui-form-label">
+                <span class="x-red">*</span>密码
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" id="comUserpwd" name="pass" required lay-verify="pass"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                6-19位英文和数字的组合
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+                <span class="x-red">*</span>确认密码
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" id="L_repass" name="repass" required lay-verify="repass"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+            </label>
+            <button id="submit" class="layui-btn" lay-filter="add" lay-submit="">
+                增加
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+
+</html>

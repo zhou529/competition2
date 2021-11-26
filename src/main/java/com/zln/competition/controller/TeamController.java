@@ -2,8 +2,7 @@ package com.zln.competition.controller;
 
 import com.zln.competition.bean.ComAdmin;
 import com.zln.competition.bean.Team;
-import com.zln.competition.bean.User;
-import com.zln.competition.bean.UserInfo;
+import com.zln.competition.bean.Users;
 import com.zln.competition.service.TeamService;
 import com.zln.competition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,11 +179,11 @@ public class TeamController {
     public List<Team> selectByUserId(HttpServletRequest request) {
         System.out.println("TeamController的selectByUserId执行了");
         ServletContext servletContext = request.getServletContext();
-        User user1 = (User) servletContext.getAttribute("user");
+        Users user1 = (Users) servletContext.getAttribute("user");
         System.out.println("user1 : " + user1);
         String openid = user1.getUserOpenid();
         System.out.println("UserController获取到的openId-------------request.getAttribute(\"openid\") ：  " + openid);
-        User user = userService.selectByOpenId(openid);
+        Users user = userService.selectByOpenId(openid);
         int userId;
         if (user != null) {
             userId = user.getUserId();

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zln.competition.mapper.RecommendMapper">
+    <resultMap id="BaseResultMap" type="com.zln.competition.bean.Recommend">
+        <id column="Rec_id" property="recId"></id>
+        <result column="Rec_name" property="recName"></result>
+        <result column="Rec_beginTime" property="recBegintime"></result>
+        <result column="Rec_endTime" property="recEndtime"></result>
+        <result column="Rec_organizer" property="recOrganizer"></result>
+        <result column="Rec_browse" property="recBrowse"></result>
+        <result column="Rec_care" property="recCare"></result>
+        <result column="rec_information" property="recInformation"></result>
+        <result column="Rec_img" property="recImg"></result>
+        <result column="Rec_like" property="recLike"></result>
+        <result column="Rec_time" property="recTime"></result>
+        <result column="Rec_is" property="recIs"></result>
+        <result column="Com_id" property="comId"></result>
+        <collection property="community" javaType="list" ofType="Community">
+            <id column="Com_id" property="comId"></id>
+            <result column="Com_information" property="comInformation"></result>
+            <result column="Com_win" property="comWin"></result>
+            <result column="Com_winImg" property="comWinimg"></result>
+            <result column="Com_img" property="comImg"></result>
+            <result column="Com_qq" property="comQq"></result>
+            <result column="Com_name" property="comName"></result>
+        </collection>
+        <!--        <association column="Com_Id" property="com.zln.competition.bean.Community.comId"-->
+        <!--                     javaType="com.zln.competition.bean.Community"-->
+        <!--                     select="com.zln.competition.mapper.CommunityMapper.selectByComId" fetchType="eager"></association>-->
+    </resultMap>
+    <sql id="Base_Column_List">
+        Rec_id
+        , Rec_name, Rec_beginTime, Rec_endTime, Rec_organizer, Rec_browse, Rec_care,
+    rec_information, Rec_img, Rec_like, Rec_time, Rec_is, Com_id
+    </sql>
+
+    <!-- int allDeleteRecommend(Integer recId);-->
+    <delete id="allDeleteRecommend" parameterType="java.lang.Integer">
+        delete from recommend
+    </delete>
+
+<!--    int deleteByRecId(Integer recId);-->
+    <delete id="deleteByRecId" parameterType="java.lang.Integer">
+        delete from recommend
+        where Rec_id = #{recId,jdbcType=INTEGER}
+    </delete>
+
+
+    <!--    List<Recommend> selectRecommendByComId(Integer comId);-->
+    <select id="selectRecommendByComId" resultMap="BaseResultMap">
+        select
+        <!--        <include refid="Base_Column_List"/>-->
+        *
+        from recommend,community
+        where recommend.Com_id = community.Com_id
+        and recommend.Com_id = #{recId,jdbcType=INTEGER}
+    </select>
+
+
+
+<!--    List<Recommend> selectRecommendDim(Recommend recommend);-->
+    <select id="selectRecommendDim" resultMap="BaseResultMap">
+        select
+         <include refid="Base_Column_List"/>
+        from recommend
+        where recommend.Rec_name like #{recName,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--    public List<Recommend> selectAllRecommend();-->
+    <select id="selectAllRecommend" resultMap="BaseResultMap">
+        select
+        <!--        <include refid="Base_Column_List"/>-->
+        *
+        from recommend,community
+        where recommend.Com_id = community.Com_id
+    </select>
+
+    <!--    public Recommend selectRecommendAndCommunityByRecName(String recName);-->
+    <select id="selectRecommendAndCommunityByRecName" resultMap="BaseResultMap">
+        select
+        <!--        <include refid="Base_Column_List"/>-->
+        *
+        from recommend,community
+        where recommend.Com_id = community.Com_id
+        and recommend.Rec_name = #{recName,jdbcType=VARCHAR}
+    </select>
+
+<!--    public List<Recommend> selectRecommendByRecName(String recName);-->
+    <select id="selectRecommendByRecName" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from recommend
+        where recommend.Rec_name = #{recName,jdbcType=VARCHAR}
+     </select>
+
+    <!--    public Recommend selectRecommendById(Integer id);-->
+    <select id="selectRecommendById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from recommend
+        where recommend.Rec_id = #{recId,jdbcType=INTEGER}
+    </select>
+
+<!--    int insertRecommend(Recommend recommend);-->
+    <insert id="insertRecommend" parameterType="com.zln.competition.bean.Recommend">
+        insert into recommend
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">
+                Rec_id,
+            </if>
+            <if test="recName != null">
+                Rec_name,
+            </if>
+            <if test="recBegintime != null">
+                Rec_beginTime,
+            </if>
+            <if test="recEndtime != null">
+                Rec_endTime,
+            </if>
+            <if test="recOrganizer != null">
+                Rec_organizer,
+            </if>
+            <if test="recBrowse != null">
+                Rec_browse,
+            </if>
+            <if test="recCare != null">
+                Rec_care,
+            </if>
+            <if test="recInformation != null">
+                rec_information,
+            </if>
+            <if test="recImg != null">
+                Rec_img,
+            </if>
+            <if test="recLike != null">
+                Rec_like,
+            </if>
+            <if test="recTime != null">
+                Rec_time,
+            </if>
+            <if test="recIs != null">
+                Rec_is,
+            </if>
+            <if test="comId != null">
+                Com_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">
+                #{recId,jdbcType=INTEGER},
+            </if>
+            <if test="recName != null">
+                #{recName,jdbcType=VARCHAR},
+            </if>
+            <if test="recBegintime != null">
+                #{recBegintime,jdbcType=VARCHAR},
+            </if>
+            <if test="recEndtime != null">
+                #{recEndtime,jdbcType=VARCHAR},
+            </if>
+            <if test="recOrganizer != null">
+                #{recOrganizer,jdbcType=VARCHAR},
+            </if>
+            <if test="recBrowse != null">
+                #{recBrowse,jdbcType=INTEGER},
+            </if>
+            <if test="recCare != null">
+                #{recCare,jdbcType=INTEGER},
+            </if>
+            <if test="recInformation != null">
+                #{recInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="recImg != null">
+                #{recImg,jdbcType=VARCHAR},
+            </if>
+            <if test="recLike != null">
+                #{recLike,jdbcType=INTEGER},
+            </if>
+            <if test="recTime != null">
+                #{recTime,jdbcType=VARCHAR},
+            </if>
+            <if test="recIs != null">
+                #{recIs,jdbcType=INTEGER},
+            </if>
+            <if test="comId != null">
+                #{comId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+<!--    int updateRecommendBrowseByRecIdWX(Recommend record);-->
+    <update id="updateRecommendBrowseByRecIdWX" parameterType="com.zln.competition.bean.Recommend">
+        update recommend
+        set  Rec_browse = Rec_browse+1
+        where Rec_id = #{recId,jdbcType=INTEGER}
+    </update>
+
+
+    <!--    int updateRecommendByRecId(Recommend record);-->
+    <update id="updateRecommendByRecId">
+        update recommend
+        <set>
+            <if test="recName != null">
+                Rec_name = #{recName,jdbcType=VARCHAR},
+            </if>
+            <if test="recBegintime != null">
+                Rec_beginTime = #{recBegintime,jdbcType=VARCHAR},
+            </if>
+            <if test="recEndtime != null">
+                Rec_endTime = #{recEndtime,jdbcType=VARCHAR},
+            </if>
+            <if test="recOrganizer != null">
+                Rec_organizer = #{recOrganizer,jdbcType=VARCHAR},
+            </if>
+            <if test="recBrowse != null">
+                Rec_browse = #{recBrowse,jdbcType=INTEGER},
+            </if>
+            <if test="recCare != null">
+                Rec_care = #{recCare,jdbcType=INTEGER},
+            </if>
+            <if test="recInformation != null">
+                rec_information = #{recInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="recImg != null">
+                Rec_img = #{recImg,jdbcType=VARCHAR},
+            </if>
+            <if test="recLike != null">
+                Rec_like = #{recLike,jdbcType=INTEGER},
+            </if>
+            <if test="recTime != null">
+                Rec_time = #{recTime,jdbcType=VARCHAR},
+            </if>
+            <if test="recIs != null">
+                Rec_is = #{recIs,jdbcType=INTEGER},
+            </if>
+            <if test="comId != null">
+                Com_id = #{comId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where Rec_id = #{recId,jdbcType=INTEGER}
+    </update>
+
+</mapper>

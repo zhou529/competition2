@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zln.competition.mapper.UserInfoMapper" >
+    <resultMap id="BaseResultMap" type="com.zln.competition.bean.UserInfo" >
+            <id column="User_id" property="userId" jdbcType="INTEGER" javaType="java.lang.Integer"></id>
+            <result column="User_openid" property="userOpenid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <result column="User_phone" property="userPhone" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <result column="User_school" property="userSchool" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <result column="User_major" property="userMajor" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <result column="User_stuImg1" property="userStuimg1" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <result column="User_stuImg2" property="userStuimg2" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        User_id, User_openid, User_phone, User_school, User_major, User_stuImg1, User_stuImg2
+    </sql>
+<!--    List<UserInfo> selectAllUserInfo();-->
+    <select id="selectAllUserInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user_info
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from user_info
+        where User_id = #{userId,jdbcType=INTEGER}
+    </select>
+<!--    int deleteByUserId(Integer userId);-->
+    <delete id="deleteByUserId" parameterType="java.lang.Integer" >
+        delete from user_info
+        where User_id = #{userId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.zln.competition.bean.UserInfo" >
+        insert into user_info (User_id, User_openid, User_phone,
+                               User_school, User_major, User_stuImg1,
+                               User_stuImg2)
+        values (#{userId,jdbcType=INTEGER}, #{userOpenid,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR},
+                #{userSchool,jdbcType=VARCHAR}, #{userMajor,jdbcType=VARCHAR}, #{userStuimg1,jdbcType=VARCHAR},
+                #{userStuimg2,jdbcType=VARCHAR})
+    </insert>
+<!--    int insertUSerInfo(UserInfo record);-->
+    <insert id="insertUSerInfo" parameterType="com.zln.competition.bean.UserInfo" >
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                User_id,
+            </if>
+            <if test="userOpenid != null" >
+                User_openid,
+            </if>
+            <if test="userPhone != null" >
+                User_phone,
+            </if>
+            <if test="userSchool != null" >
+                User_school,
+            </if>
+            <if test="userMajor != null" >
+                User_major,
+            </if>
+            <if test="userStuimg1 != null" >
+                User_stuImg1,
+            </if>
+            <if test="userStuimg2 != null" >
+                User_stuImg2,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userOpenid != null" >
+                #{userOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null" >
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userSchool != null" >
+                #{userSchool,jdbcType=VARCHAR},
+            </if>
+            <if test="userMajor != null" >
+                #{userMajor,jdbcType=VARCHAR},
+            </if>
+            <if test="userStuimg1 != null" >
+                #{userStuimg1,jdbcType=VARCHAR},
+            </if>
+            <if test="userStuimg2 != null" >
+                #{userStuimg2,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+<!--    int updateUserInfoByUserId(UserInfo record);-->
+    <update id="updateUserInfoByUserId" parameterType="com.zln.competition.bean.UserInfo" >
+        update user_info
+        <set >
+            <if test="userOpenid != null" >
+                User_openid = #{userOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null" >
+                User_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userSchool != null" >
+                User_school = #{userSchool,jdbcType=VARCHAR},
+            </if>
+            <if test="userMajor != null" >
+                User_major = #{userMajor,jdbcType=VARCHAR},
+            </if>
+            <if test="userStuimg1 != null" >
+                User_stuImg1 = #{userStuimg1,jdbcType=VARCHAR},
+            </if>
+            <if test="userStuimg2 != null" >
+                User_stuImg2 = #{userStuimg2,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where User_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zln.competition.bean.UserInfo" >
+        update user_info
+        set User_openid = #{userOpenid,jdbcType=VARCHAR},
+            User_phone = #{userPhone,jdbcType=VARCHAR},
+            User_school = #{userSchool,jdbcType=VARCHAR},
+            User_major = #{userMajor,jdbcType=VARCHAR},
+            User_stuImg1 = #{userStuimg1,jdbcType=VARCHAR},
+            User_stuImg2 = #{userStuimg2,jdbcType=VARCHAR}
+        where User_id = #{userId,jdbcType=INTEGER}
+    </update>
+</mapper>

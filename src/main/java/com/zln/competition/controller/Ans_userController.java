@@ -1,7 +1,7 @@
 package com.zln.competition.controller;
 
 import com.zln.competition.bean.Ans_user;
-import com.zln.competition.bean.User;
+import com.zln.competition.bean.Users;
 import com.zln.competition.service.Ans_userService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class Ans_userController {
         System.out.println("前台传过来的ansId = " + ansId);
         ServletContext servletContext = request.getServletContext();
 //        String  openid = (String) servletContext.getAttribute("openid");
-        User user = (User)  servletContext.getAttribute("user");
+        Users user = (Users)  servletContext.getAttribute("user");
         Integer responseUserId = user.getUserId();
 
         Ans_user ans_user = new Ans_user();

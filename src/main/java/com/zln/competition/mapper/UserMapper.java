@@ -1,18 +1,17 @@
 package com.zln.competition.mapper;
 
-import com.zln.competition.bean.Answer;
-import com.zln.competition.bean.User;
-
-import java.util.List;
+import com.zln.competition.bean.Users;
 
 public interface UserMapper {
-    public int insertUser(User user);
+    public int insertUser(Users user);
 
-    public User selectAllUserByOpenid(String userOpenid);
+    public Users selectAllUserByOpenid(String userOpenid);
 
-    public User selectByOpenId(String openId);
+    public Users selectByOpenId(String openId);
 
     int deleteByUserIdFromUser(Integer userId);
 
-    int updateByOpenid(User record);
+    int updateByOpenid(Users record);
+
+    Users individualRank(Integer userId);
 }

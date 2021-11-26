@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zln.competition.mapper.ComAdminMapper">
+    <resultMap id="BaseResultMap" type="com.zln.competition.bean.ComAdmin">
+        <id column="com_username" property="comUsername" javaType="java.lang.String" jdbcType="VARCHAR"></id>
+        <result column="com_id" property="comId" javaType="java.lang.Integer" jdbcType="INTEGER" ></result>
+        <result column="com_userpwd" property="comUserpwd" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="com_order" property="comOrder" javaType="java.lang.Integer" jdbcType="INTEGER" ></result>
+        <result column="com_is" property="comIs" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="com_del" property="comDel" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="com_time" property="comTime" javaType="java.lang.String" jdbcType="VARCHAR" ></result>
+        <result column="com_name" property="comName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <!--  <resultMap id="Base" type="com.zln.competition.bean.ComAdmin">-->
+    <!--    <id property="comUsername" column="com_username></id>-->
+    <!--    <property>-->
+    <!--  </resultMap>-->
+    <sql id="Base_Column_List">
+        com_username, com_id, com_userpwd, com_order, com_is, com_del, com_name, com_time
+    </sql>
+
+<!--    public ComAdmin selectByComName(String comName);-->
+    <select id="selectByComName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from com_admin
+        where com_name = #{comName,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--    public ComAdmin selectByComAdmin(String comUsername);-->
+    <select id="selectByComAdmin" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from com_admin
+        where com_username = #{comUsername,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectUsernameAndPsw" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select com_username,
+               com_id,
+               com_userpwd,
+               com_order,
+               com_is,
+               com_del,
+               com_time,
+               com_name
+        from com_admin
+        where com_username = #{comUsername,jdbcType=VARCHAR}
+          and com_userpwd = #{comUserpwd,jdbcType=VARCHAR}
+    </select>
+
+    <!--  public List<ComAdmin> selectAllComAdmin();-->
+    <select id="selectAllComAdmin" resultType="com.zln.competition.bean.ComAdmin">
+        select com_username as comUsername,
+               com_id       as comId,
+               com_userpwd  as comUserpwd,
+               com_order    as comOrder,
+               com_is       as comIs,
+               com_del      as comDel,
+               com_time     as comTime,
+               com_name     as comName
+        from com_admin
+        where com_id != 0
+        order by com_id
+    </select>
+
+    <!--  public int deleteByPrimaryKey(String comUsername);-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from com_admin
+        where com_username = #{comUsername,jdbcType=VARCHAR}
+    </delete>
+
+    <!--    public int updateComDelOff(String comUsername);-->
+    <update id="updateComDelOff">
+        UPDATE com_admin
+        SET Com_del=1
+        WHERE Com_username = #{Com_username}
+    </update>
+
+    <!--    public int insertComAdmin(ComAdmin comAdmin);-->
+    <insert id="insertComAdmin" parameterType="com.zln.competition.bean.ComAdmin">
+        insert into com_admin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="comUsername != null">
+                com_username,
+            </if>
+            <if test="comId != null">
+                com_id,
+            </if>
+            <if test="comUserpwd != null">
+                com_userpwd,
+            </if>
+            <if test="comOrder != null">
+                com_order,
+            </if>
+            <if test="comIs != null">
+                com_is,
+            </if>
+            <if test="comDel != null">
+                com_del,
+            </if>
+            <if test="comName != null">
+                com_name,
+            </if>
+            <if test="comTime != null">
+                com_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="comUsername != null">
+                #{comUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="comId != null">
+                #{comId,jdbcType=INTEGER},
+            </if>
+            <if test="comUserpwd != null">
+                #{comUserpwd,jdbcType=VARCHAR},
+            </if>
+            <if test="comOrder != null">
+                #{comOrder,jdbcType=INTEGER},
+            </if>
+            <if test="comIs != null">
+                #{comIs,jdbcType=INTEGER},
+            </if>
+            <if test="comDel != null">
+                #{comDel,jdbcType=INTEGER},
+            </if>
+            <if test="comName != null">
+                #{comName,jdbcType=VARCHAR},
+            </if>
+            <if test="comTime != null">
+                #{comTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+<!--    public int updateByComId(Integer comId);-->
+    <update id="updateByComId">
+        update com_admin
+        <set>
+            <if test="comId != null">
+                com_id = #{comId,jdbcType=INTEGER},
+            </if>
+            <if test="comUserpwd != null">
+                com_userpwd = #{comUserpwd,jdbcType=VARCHAR},
+            </if>
+            <if test="comOrder != null">
+                com_order = #{comOrder,jdbcType=INTEGER},
+            </if>
+            <if test="comIs != null">
+                com_is = #{comIs,jdbcType=INTEGER},
+            </if>
+            <if test="comDel != null">
+                com_del = #{comDel,jdbcType=INTEGER},
+            </if>
+            <if test="comName != null">
+                com_name = #{comName,jdbcType=VARCHAR},
+            </if>
+            <if test="comTime != null">
+                com_time = #{comTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where   com_id = #{comId,jdbcType=INTEGER}
+    </update>
+
+
+
+
+    <!--    public int updateByComUsername(String comUsername);-->
+    <update id="updateByComUsername">
+        update com_admin
+        <set>
+            <if test="comUserpwd != null">
+                com_userpwd = #{comUserpwd,jdbcType=VARCHAR},
+            </if>
+            <if test="comOrder != null">
+                com_order = #{comOrder,jdbcType=INTEGER},
+            </if>
+            <if test="comIs != null">
+                com_is = #{comIs,jdbcType=INTEGER},
+            </if>
+            <if test="comDel != null">
+                com_del = #{comDel,jdbcType=INTEGER},
+            </if>
+            <if test="comTime != null">
+                com_time = #{comTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where
+        com_id = #{comId,jdbcType=INTEGER}
+    </update>
+
+<!--    public int updateByComAdmin(ComAdmin comAdmin);-->
+    <update id="updateByComAdmin" parameterType="com.zln.competition.bean.ComAdmin">
+        update com_admin
+        <set>
+            <if test="comUserpwd != null">
+                com_userpwd = #{comUserpwd,jdbcType=VARCHAR},
+            </if>
+            <if test="comOrder != null">
+                com_order = #{comOrder,jdbcType=INTEGER},
+            </if>
+            <if test="comIs != null">
+                com_is = #{comIs,jdbcType=INTEGER},
+            </if>
+            <if test="comDel != null">
+                com_del = #{comDel,jdbcType=INTEGER},
+            </if>
+            <if test="comName != null">
+                com_name = #{comName,jdbcType=VARCHAR},
+            </if>
+            <if test="comTime != null">
+                com_time = #{comTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where com_id = #{comId,jdbcType=INTEGER}
+    </update>
+
+</mapper>

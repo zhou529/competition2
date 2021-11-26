@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zln.competition.mapper.WinnersMapper" >
+    <resultMap id="BaseResultMap" type="com.zln.competition.bean.Winners" >
+        <id column="Win_id" property="winId" javaType="java.lang.Integer" jdbcType="INTEGER"></id>
+        <result column="Win_name" property="winName" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="Win_img" property="winImg" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="Win_qq" property="winQq" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="Win_num" property="winNum" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="Win_rec" property="winRec" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="Win_introduce" property="winIntroduce" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="Win_browse" property="winBrowse" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="Win_like" property="winLike" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+        <result column="Win_img1" property="winImg1" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="Win_img2" property="winImg2" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="Win_img3" property="winImg3" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="Win_img4" property="winImg4" javaType="java.lang.String" jdbcType="VARCHAR"></result>
+        <result column="Com_id" property="comId" javaType="java.lang.Integer" jdbcType="INTEGER"></result>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        Win_id, Win_name, Win_img, Win_qq, Win_num, Win_rec, Win_introduce, Win_browse, Win_like,
+    Win_img1, Win_img2, Win_img3, Win_img4, Com_id
+    </sql>
+
+<!--    public List<Winners> selectAllWinners();-->
+    <select id="selectAllWinners" resultMap="BaseResultMap"  >
+        select
+        <include refid="Base_Column_List" />
+        from winners
+    </select>
+
+</mapper>
