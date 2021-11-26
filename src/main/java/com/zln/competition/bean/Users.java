@@ -1,19 +1,19 @@
 package com.zln.competition.bean;
 
-public class User {
+public class Users {
     private Integer userId;
 
     private String userOpenid;
 
     private Integer userPay;
 
-    public User(Integer userId, String userOpenid, Integer userPay) {
+    public Users(Integer userId, String userOpenid, Integer userPay) {
         this.userId = userId;
         this.userOpenid = userOpenid;
         this.userPay = userPay;
     }
 
-    public User() {
+    public Users() {
         super();
     }
 
