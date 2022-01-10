@@ -11,10 +11,10 @@
         <result column="Rec_care" property="recCare"></result>
         <result column="rec_information" property="recInformation"></result>
         <result column="Rec_img" property="recImg"></result>
-        <result column="Rec_like" property="recLike"></result>
         <result column="Rec_time" property="recTime"></result>
         <result column="Rec_is" property="recIs"></result>
         <result column="Com_id" property="comId"></result>
+        <result column="tag_id" property="comId"></result>
         <collection property="community" javaType="list" ofType="Community">
             <id column="Com_id" property="comId"></id>
             <result column="Com_information" property="comInformation"></result>
@@ -30,8 +30,8 @@
     </resultMap>
     <sql id="Base_Column_List">
         Rec_id
-        , Rec_name, Rec_beginTime, Rec_endTime, Rec_organizer, Rec_browse, Rec_care,
-    rec_information, Rec_img, Rec_like, Rec_time, Rec_is, Com_id
+        , Rec_name, Rec_beginTime, Rec_endTime, Rec_organizer, Rec_browse,
+    rec_information, Rec_img, Rec_time, Rec_is, Com_id, tag_id
     </sql>
 
     <!-- int allDeleteRecommend(Integer recId);-->
@@ -123,17 +123,11 @@
             <if test="recBrowse != null">
                 Rec_browse,
             </if>
-            <if test="recCare != null">
-                Rec_care,
-            </if>
             <if test="recInformation != null">
                 rec_information,
             </if>
             <if test="recImg != null">
                 Rec_img,
-            </if>
-            <if test="recLike != null">
-                Rec_like,
             </if>
             <if test="recTime != null">
                 Rec_time,
@@ -143,6 +137,9 @@
             </if>
             <if test="comId != null">
                 Com_id,
+            </if>
+            <if test="tagId != null">
+                tag_id,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -164,17 +161,11 @@
             <if test="recBrowse != null">
                 #{recBrowse,jdbcType=INTEGER},
             </if>
-            <if test="recCare != null">
-                #{recCare,jdbcType=INTEGER},
-            </if>
             <if test="recInformation != null">
                 #{recInformation,jdbcType=VARCHAR},
             </if>
             <if test="recImg != null">
                 #{recImg,jdbcType=VARCHAR},
-            </if>
-            <if test="recLike != null">
-                #{recLike,jdbcType=INTEGER},
             </if>
             <if test="recTime != null">
                 #{recTime,jdbcType=VARCHAR},
@@ -184,6 +175,9 @@
             </if>
             <if test="comId != null">
                 #{comId,jdbcType=INTEGER},
+            </if>
+            <if test="tagId != null">
+                #{tagId},
             </if>
         </trim>
     </insert>
@@ -235,6 +229,9 @@
             </if>
             <if test="comId != null">
                 Com_id = #{comId,jdbcType=INTEGER},
+            </if>
+            <if test="tagId != null">
+                tag_id = #{comId,jdbcType=INTEGER},
             </if>
         </set>
         where Rec_id = #{recId,jdbcType=INTEGER}

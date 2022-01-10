@@ -73,18 +73,15 @@
 
             //编辑操作入口
             $('#show_tbody').on('click', '.editTeam', function () {
-
                 //获取对应的行
-                var trIndex = $('.editCommunity', '#show_tbody').index($(this));
+                var trIndex = $('.editTeam', '#show_tbody').index($(this));
                 var tar = $('#show_tbody tr').eq(trIndex);
-
-                //获取对应的第二列的值
+                //获取对应的列值
                 teamId = tar.children('td').eq(tar.find('td').length - 6).html();
                 teamName = tar.children('td').eq(tar.find('td').length - 5).html();
-                teamInformation = tar.children('td').eq(tar.find('td').length - 2).html();
-                competitionName = tar.children('td').eq(tar.find('td').length - 4).html();
-                teamQq = tar.children('td').eq(tar.find('td').length - 3).html();
-
+                teamInformation = tar.children('td').eq(tar.find('td').length - 4).html();
+                competitionName = tar.children('td').eq(tar.find('td').length - 3).html();
+                teamQq = tar.children('td').eq(tar.find('td').length - 2).html();
                 $.post("../putTeam",
                     {
                         "teamId": teamId,
@@ -94,8 +91,7 @@
                         "teamQq": teamQq
                     },
                     function () {
-                        // alert("../getCommunityBySession ： " + data)
-                        x_admin_show('编辑', 'team-edit.html')
+                        x_admin_show('编辑', 'team-edit.html');
                     })
             });
 

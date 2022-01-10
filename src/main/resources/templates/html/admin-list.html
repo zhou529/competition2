@@ -21,7 +21,6 @@
     <script>
         $(function () {
             $.post("../selectAll", function (data) {
-
                 for (let i = 0; i < data.length; i++) {
                     var comDel = data[i].comDel.toString();
                     //每一行要有一个初始化
@@ -86,19 +85,18 @@
 
             //编辑操作入口
             $('#show_tbody').on('click', '.editComAdmin', function () {
+                //获取对应的行
+                var trIndex = $('.editComAdmin', '#show_tbody').index($(this));
+                var tar = $('#show_tbody tr').eq(trIndex);
+                //获取对应的第二列的值
+                var comUsername = tar.children('td').eq(tar.find('td').length - 4).html();
 
-                    //获取对应的行
-                    var trIndex = $('.editComAdmin', '#show_tbody').index($(this));
-                    var tar = $('#show_tbody tr').eq(trIndex);
-                    //获取对应的第二列的值
-                    var comUsername = tar.children('td').eq(tar.find('td').length - 4).html();
-
-                    $.post("../getAdminPutSession",{"comUsername":comUsername},function(data){
-                        // $(this).parents('tr').remove();
-                        // setTimeout(window.location.reload(),100);
-                        x_admin_show('编辑','admin-edit.html')
-                        // window.location.href = 'admin-edit.html';
-                    })
+                $.post("../getAdminPutSession",{"comUsername":comUsername},function(data){
+                    // $(this).parents('tr').remove();
+                    // setTimeout(window.location.reload(),100);
+                    x_admin_show('编辑','admin-edit.html')
+                    // window.location.href = 'admin-edit.html';
+                })
             });
 
         })
