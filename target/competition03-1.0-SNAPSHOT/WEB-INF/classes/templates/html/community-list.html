@@ -108,7 +108,7 @@
                     $.post("../deleteByComId", {"comId": comId}, function (data) {
                         if (data == true) {
                             $(this).parents('tr').remove();
-                            setTimeout(window.location.reload(), 100);
+                            window.location.reload();
                         }
                     })
                 }
@@ -116,17 +116,16 @@
 
             //编辑操作入口
             $('#show_tbody').on('click', '.editCommunity', function () {
-
-                //获取对应的行
+                //获取对应的行----will be update record
                 var trIndex = $('.editCommunity', '#show_tbody').index($(this));
                 var tar = $('#show_tbody tr').eq(trIndex);
 
-                //获取对应的第二列的值
+                //获取对应的第二列的值(get this record's information)
                 comId = tar.children('td').eq(tar.find('td').length - 6).html();
                 comName = tar.children('td').eq(tar.find('td').length - 5).html();
-                comQq = tar.children('td').eq(tar.find('td').length - 2).html();
                 comInformation = tar.children('td').eq(tar.find('td').length - 4).html();
                 comWin = tar.children('td').eq(tar.find('td').length - 3).html();
+                comQq = tar.children('td').eq(tar.find('td').length - 2).html();
 
                 $.post("../putCommunity",
                     {
