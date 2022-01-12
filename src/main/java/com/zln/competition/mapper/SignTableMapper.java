@@ -9,4 +9,6 @@ public interface SignTableMapper {
 
     //    public List<SignTable> queryAll(SignTable signTable);
     SignTable selectBySignTable(SignTable signTable);
+
+    SignTable selectPayByOpenId(String openid);
 }

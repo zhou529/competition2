@@ -23,6 +23,12 @@ public class SignTableServiceImpl implements SignTableService {
         SignTable signTable1 = signTableMapper.selectBySignTable(signTable);
         return signTable1;
     }
+
+    @Override
+    public SignTable selectPayByOpenId(String openid) {
+        SignTable signTable = signTableMapper.selectPayByOpenId(openid);
+        return signTable;
+    }
 //    @Override
 //    public List<SignTable> queryAll(SignTable signTable){
 //        return signTableMapper.queryAll(signTable);

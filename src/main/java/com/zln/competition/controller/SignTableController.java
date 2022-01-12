@@ -1,6 +1,7 @@
 package com.zln.competition.controller;
 
 //import com.alibaba.fastjson.JSONObject;
+
 import com.zln.competition.bean.SignTable;
 import com.zln.competition.bean.Users;
 import com.zln.competition.service.SignTableService;
@@ -21,38 +22,69 @@ public class SignTableController {
     @Autowired
     UserService userService;
 
-//    @Transactional
+    @RequestMapping(value = "/querySignPay", method = RequestMethod.POST)
+    public Integer querySignPay(HttpServletRequest request) {
+        System.out.println("UserController的querySignPay执行了");
+        //1. get the only openid
+        ServletContext servletContext = request.getServletContext();
+        Users user = (Users) servletContext.getAttribute("user");
+        String openid = user.getUserOpenid();
+
+        //2. get the date and user_pay
+        SignTable sign = signTableService.selectPayByOpenId(openid);
+        int signPay = sign.getUser_pay();
+        return signPay;
+    }
+
+
+    //    @Transactional
     @RequestMapping(value = "/doSign", method = RequestMethod.POST)
     public int doSign(HttpServletRequest request) {
+        /**
+         * 1. get the only openid
+         * 2. get the date and user_pay
+         * 3. calculate the user_pay (set user_pay + 1)
+         * 4. save the new record into table for sign and user
+         */
         System.out.println("SignTableController的doSign执行了");
+        //1. get the only openid
         ServletContext servletContext = request.getServletContext();
-//        String  openid = (String) servletContext.getAttribute("openid");
         Users user = (Users) servletContext.getAttribute("user");
-        System.out.println("user : " + user);
         String openid = user.getUserOpenid();
-        System.out.println("SignTableController的doSign获取到的openid ：" + openid);
-//        往签到表中存数据
+
+        //2. get the date and user_pay
+        SignTable pay = signTableService.selectPayByOpenId(openid);
+        Integer user_pay = pay.getUser_pay();
+        System.out.println("pay = " + pay);
+        System.out.println("=======================================");
+        System.out.println("user_pay = " + user_pay);
+
+
         SignTable sign = new SignTable();
         sign.setUserOpenid(openid);
         sign.setYear(CalendarUtil.getYear());
         sign.setMonth(CalendarUtil.getMonth());
         sign.setDay(CalendarUtil.getDate());
-        System.out.println("sign = " + sign);
 
-        int updateUser = 0;
         //判断是否签到过
-        SignTable signTable = signTableService.selectBySignTable(sign);
-        System.out.println("signTable = " + signTable);
-        if (signTable == null) {
+        int updateUser = 0;
+        System.out.println("要检查的sign是否有记录： " + sign);
+        SignTable is_exist_sign = signTableService.selectBySignTable(sign);
+        System.out.println("is_exist_sign = " + is_exist_sign);
+
+        if (is_exist_sign == null) {
             System.out.println("数据库里没有可以签到");
-            //插入数据
+            //3. calculate the user_pay (set user_pay + 1)
+            int new_user_pay = user_pay + 1;
+            sign.setUser_pay(new_user_pay);
+            //4. save the new record into table for sign and user
+            System.out.println("开始insert sign = " + sign);
             int insertSign = signTableService.insertSignTable(sign);
-            System.out.println("insertSign = " + insertSign);
+            //success insert into sign ✔
             if (insertSign != 0) {
                 Users user1 = new Users();
                 user1.setUserOpenid(openid);
-
-                user1.setUserPay(user.getUserPay() + 1);
+                user1.setUserPay(new_user_pay);
                 System.out.println("要更改积分的user1 = " + user1);
                 updateUser = userService.updateByOpenid(user1);
                 System.out.println("updateUser = " + updateUser);

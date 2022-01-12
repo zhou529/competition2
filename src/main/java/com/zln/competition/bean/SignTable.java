@@ -11,12 +11,23 @@ public class SignTable {
 
     private Integer day;
 
-    public SignTable(Integer signId, String userOpenid, Integer year, Integer month, Integer day) {
+    private Integer user_pay;
+
+    public Integer getUser_pay() {
+        return user_pay;
+    }
+
+    public void setUser_pay(Integer user_pay) {
+        this.user_pay = user_pay;
+    }
+
+    public SignTable(Integer signId, String userOpenid, Integer year, Integer month, Integer day, Integer user_pay) {
         this.signId = signId;
         this.userOpenid = userOpenid;
         this.year = year;
         this.month = month;
         this.day = day;
+        this.user_pay = user_pay;
     }
 
     public SignTable() {
@@ -71,6 +82,7 @@ public class SignTable {
                 ", year=" + year +
                 ", month=" + month +
                 ", day=" + day +
+                ", user_pay=" + user_pay +
                 '}';
     }
 }

@@ -42,8 +42,8 @@ public class UserController {
         return userRank.getUserPay();
     }
 
-    @RequestMapping(value = "/querySignPay", method = RequestMethod.POST)
-    public Integer getUserInfo(HttpServletRequest request) {
+/*    @RequestMapping(value = "/querySignPay", method = RequestMethod.POST)
+    public Integer querySignPay(HttpServletRequest request) {
         System.out.println("UserController的querySignPay执行了");
         ServletContext servletContext = request.getServletContext();
         Users user = (Users) servletContext.getAttribute("user");
@@ -51,7 +51,7 @@ public class UserController {
         int signPay = user.getUserPay();
         System.out.println("signPay =" + signPay);
         return signPay;
-    }
+    }*/
 
     @RequestMapping("/insertUserByOpenId")
     public String getUserInfo(@RequestParam(name = "code") String code, HttpServletRequest request) throws Exception {
