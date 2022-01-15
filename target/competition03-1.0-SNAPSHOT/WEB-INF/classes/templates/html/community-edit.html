@@ -23,9 +23,9 @@
         function validate_edit_form() {
             // 验证社团名
             var name = $("#comName").val();
-            var reg_name = /(^[a-zA-Z0-9_-]{6,19}$)|(^[\u2E80-\u9FFF]{2,5})/;
+            var reg_name = /(^[a-zA-Z0-9_-]{2,19}$)|(^[\u2E80-\u9FFF]{2,5})/;
             if (!reg_name.test(name)) {
-                alert("用户名必须是2-5位中文或6-19位英文和数字的组合!");
+                alert("用户名必须是2-5位中文或2-19位英文和数字的组合!");
                 return false;
             }
 
@@ -59,11 +59,11 @@
                    var comInformation = JSON.parse(sessionStorage.getItem("comInformation"));
                    var comWin = JSON.parse(sessionStorage.getItem("comWin"));*/
                    let b = validate_edit_form();
+                   var comName = $("#comName").val();;
+                   var comQq = $("#comQq").val();
+                   var comInformation = $("#comInformation").val();
+                   var comWin = $("#comWin").val();
                    if(b == true){
-                       var comName = $("#comName").val();;
-                       var comQq = $("#comQq").val();
-                       var comInformation = $("#comInformation").val();
-                       var comWin = $("#comWin").val();
                        $.post("../updateByCommunity",
                            {
                                "comName": comName,
@@ -79,6 +79,11 @@
                                    alert("修改失败！");
                                }
                            })
+                   }else if(b == false){
+                       $("#comName").val(comName);
+                       $("#comQq").val(comQq);
+                       $("#comInformation").val(comInformation);
+                       $("#comWin").val(comWin);
                    }
 
                })

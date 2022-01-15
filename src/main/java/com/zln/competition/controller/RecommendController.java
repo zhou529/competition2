@@ -53,11 +53,11 @@ public class RecommendController {
         Recommend recommend = new Recommend();
         recommend.setRecId(recId);
         recommend.setRecName(recName);
-        recommend.setRecInformation(recInformation);
         recommend.setRecBegintime(recBegintime);
         recommend.setRecEndtime(recEndtime);
         recommend.setRecOrganizer(recOrganizer);
-
+        recommend.setRecInformation(recInformation);
+        System.out.println("updateRecommendByRecId的commend" + recommend);
         int i = recommendService.updateRecommendByRecId(recommend);
         return i;
     }

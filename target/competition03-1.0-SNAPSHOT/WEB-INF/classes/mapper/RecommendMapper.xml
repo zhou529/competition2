@@ -8,11 +8,9 @@
         <result column="Rec_endTime" property="recEndtime"></result>
         <result column="Rec_organizer" property="recOrganizer"></result>
         <result column="Rec_browse" property="recBrowse"></result>
-        <result column="Rec_care" property="recCare"></result>
         <result column="rec_information" property="recInformation"></result>
         <result column="Rec_img" property="recImg"></result>
         <result column="Rec_time" property="recTime"></result>
-        <result column="Rec_is" property="recIs"></result>
         <result column="Com_id" property="comId"></result>
         <result column="tag_id" property="comId"></result>
         <collection property="community" javaType="list" ofType="Community">
@@ -31,7 +29,7 @@
     <sql id="Base_Column_List">
         Rec_id
         , Rec_name, Rec_beginTime, Rec_endTime, Rec_organizer, Rec_browse,
-    rec_information, Rec_img, Rec_time, Rec_is, Com_id, tag_id
+    rec_information, Rec_img, Rec_time, Com_id, tag_id
     </sql>
 
     <!-- int allDeleteRecommend(Integer recId);-->
@@ -132,9 +130,6 @@
             <if test="recTime != null">
                 Rec_time,
             </if>
-            <if test="recIs != null">
-                Rec_is,
-            </if>
             <if test="comId != null">
                 Com_id,
             </if>
@@ -169,9 +164,6 @@
             </if>
             <if test="recTime != null">
                 #{recTime,jdbcType=VARCHAR},
-            </if>
-            <if test="recIs != null">
-                #{recIs,jdbcType=INTEGER},
             </if>
             <if test="comId != null">
                 #{comId,jdbcType=INTEGER},
@@ -209,23 +201,14 @@
             <if test="recBrowse != null">
                 Rec_browse = #{recBrowse,jdbcType=INTEGER},
             </if>
-            <if test="recCare != null">
-                Rec_care = #{recCare,jdbcType=INTEGER},
-            </if>
             <if test="recInformation != null">
                 rec_information = #{recInformation,jdbcType=VARCHAR},
             </if>
             <if test="recImg != null">
                 Rec_img = #{recImg,jdbcType=VARCHAR},
             </if>
-            <if test="recLike != null">
-                Rec_like = #{recLike,jdbcType=INTEGER},
-            </if>
             <if test="recTime != null">
                 Rec_time = #{recTime,jdbcType=VARCHAR},
-            </if>
-            <if test="recIs != null">
-                Rec_is = #{recIs,jdbcType=INTEGER},
             </if>
             <if test="comId != null">
                 Com_id = #{comId,jdbcType=INTEGER},

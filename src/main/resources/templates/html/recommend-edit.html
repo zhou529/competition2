@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>欢迎页面-L-admin1.0</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="../css/font.css">
+  <link rel="stylesheet" href="../css/xadmin.css">
+  <script src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+  <script type="text/javascript" src="../js/xadmin.js"></script>
+  <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+  <!--[if lt IE 9]>
+  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <script>
+    function validate_edit_form() {
+      //25~55行：验证输入是否是日期格式
+      var recommend_name = $("#recommend_name").val();
+      var organizer = $("#organizer").val();
+      var start_time = $("#start_time").val();
+      var end_time = $("#end_time").val();
+      var recInformation = $("#recInformation").val();
+
+      //verfy the recommend_name
+      var reg_name = /(^[a-zA-Z0-9_-]{2,19}$)|(^[\u2E80-\u9FFF]{2,5})/;
+      if (!reg_name.test(recommend_name)) {
+        alert("竞赛名必须是2-5位中文或2-19位英文和数字的组合!");
+        return false;
+      }
+      if (!reg_name.test(organizer)) {
+        alert("举办方必须是2-5位中文或2-19位英文和数字的组合!");
+        return false;
+      }
+      if(!isDate(start_time) || !isDate(end_time)){
+        alert("action");
+        return false;
+      }
+      function isDate(dateString){
+        if(dateString.trim()=="")return true;
+        var r=dateString.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+        if(r==null){
+          alert("请输入格式正确的日期\n\r日期格式：yyyy-mm-dd\n\r例    如：2008-08-08\n\r");
+          return false;
+        }
+        var d=new Date(r[1],r[3]-1,r[4]);
+        var num = (d.getFullYear()==r[1]&&(d.getMonth()+1)==r[3]&&d.getDate()==r[4]);
+        if(num==0){
+          alert("请输入格式正确的日期\n\r日期格式：yyyy-mm-dd\n\r例    如：2008-08-08\n\r");
+        }
+        return (num!=0);
+      }
+
+      return true;
+    }
+    $(function () {
+      $.ajaxSettings.async = false;
+      //编辑操作入口  recommend
+      $.post("../getRecommend",function (data){
+        $("#recommend_name").val(data.recName);
+        $("#organizer").val(data.recOrganizer);
+        $("#start_time").val(data.recBegintime);
+        $("#end_time").val(data.recEndtime);
+        $("#recInformation").val(data.recInformation);
+      })
+      $("#submitButton").click(function () {
+        let b = validate_edit_form();
+        var recName = $("#recommend_name").val();
+        var recOrganizer = $("#organizer").val();
+        var recBegintime = $("#start_time").val();
+        var recEndtime = $("#end_time").val();
+        var recInformation = $("#recInformation").val();
+        if(b){
+          alert("输入文本符合规则")
+          $.post("../updateRecommendByRecId",
+            {
+              "recName": recName,
+              "recBegintime": recBegintime,
+              "recEndtime": recEndtime,
+              "recOrganizer": recOrganizer,
+              "recInformation": recInformation,
+            },
+            function (data) {
+              alert("ajax执行了")
+              // $(this).parents('tr').remove();
+              if (data === 1) {
+                alert("修改成功！")
+              } else {
+                alert("修改失败！");
+              }
+            })
+        }else{
+          $("#recommend_name").val(data.recName);
+          $("#organizer").val(data.recOrganizer);
+          $("#start_time").val(data.recBegintime);
+          $("#end_time").val(data.recEndtime);
+          $("#recInformation").val(data.recInformation);
+        }
+        layui.use(['form','layer'], function(){
+          $ = layui.jquery;
+          var form = layui.form
+                  ,layer = layui.layer;
+          form.on('submit(add)', function(data){
+            console.log(data);
+            var index = parent.layer.getFrameIndex(window.name);
+            //关闭当前frame
+            parent.layer.close(index);
+            parent.location.reload();
+            return false;
+          });
+        });
+      })
+      //close frame
+      layui.use(['form','layer'], function(){
+        $ = layui.jquery;
+        var form = layui.form
+                ,layer = layui.layer;
+        form.on('submit(add)', function(data){
+          console.log(data);
+          var index = parent.layer.getFrameIndex(window.name);
+          //关闭当前frame
+          parent.layer.close(index);
+          parent.location.reload();
+          return false;
+        });
+      });
+    })
+  </script>
+</head>
+
+<body>
+<div class="x-body">
+  <form class="layui-form">
+    <div class="layui-form-item">
+      <label for="recommend_name" class="layui-form-label">
+        <span class="x-red">*</span>竞赛名
+      </label>
+      <div class="layui-input-inline">
+        <input type="text" id="recommend_name" name="recommend_name" required lay-verify="required"
+               autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label for="organizer" class="layui-form-label">
+        <span class="x-red">*</span>举办方
+      </label>
+      <div class="layui-input-inline">
+        <input type="text" id="organizer" name="organizer" required lay-verify="phone"
+               autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label for="start_time" class="layui-form-label">
+        <span class="x-red">*</span>开始时间
+      </label>
+      <div class="layui-input-inline">
+        <input type="text" id="start_time" name="start_time" required lay-verify="phone"
+               autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label for="end_time" class="layui-form-label">
+        <span class="x-red">*</span>结束时间
+      </label>
+      <div class="layui-input-inline">
+        <input type="text" id="end_time" name="end_time" required lay-verify="phone"
+               autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+      <label for="recInformation" class="layui-form-label">
+        简 介
+      </label>
+      <div class="layui-input-block">
+        <textarea placeholder="请输入内容" id="recInformation" name="recInformation" class="layui-textarea"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+      <label for="recommend_img" class="layui-form-label">
+        上传图片
+      </label>
+      <div class="layui-input-block">
+        <textarea placeholder="请输入内容" id="recommend_img" name="recommend_img" class="layui-textarea"></textarea>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      </label>
+      <button id="submitButton" class="layui-btn" lay-filter="add" lay-submit="">
+        修改
+      </button>
+    </div>
+  </form>
+</div>
+<!--<script>
+  //close frame
+  layui.use(['form','layer'], function(){
+    $ = layui.jquery;
+    var form = layui.form
+            ,layer = layui.layer;
+    form.on('submit(add)', function(data){
+      console.log(data);
+      var index = parent.layer.getFrameIndex(window.name);
+      //关闭当前frame
+      parent.layer.close(index);
+      parent.location.reload();
+      return false;
+    });
+  });
+</script>-->
+</body>
+
+</html>
