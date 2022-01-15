@@ -84,6 +84,10 @@
                                   alert("修改失败！");
                               }
                           })
+                  }else if(b == false){
+                      $("#user_phone").val(data.userPhone);
+                      $("#user_school").val(data.userSchool);
+                      $("#user_major").val(data.userMajor);
                   }
 
               })

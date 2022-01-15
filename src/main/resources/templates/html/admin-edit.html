@@ -57,31 +57,37 @@
 
             $("#submitButton").click(function (){
                 let b = validate_edit_form();
-                if(b == true){
+                if(b){
                     var comDel = $("#comDel").val();
                     var comUserpwd = $("#comUserpwd").val();
                     var L_repass = $("#L_repass").val();
-                }
-                $.post("../updateByComUsername",
-                    {
-                        "comDel":comDel,
-                        "comUserpwd":comUserpwd,
-                        "L_repass":L_repass,
-                    },
-                    function (data){
-                        if(data == 1){
-                        alert("修改成功！")
-                            layer.alert("修改成功", {icon: 6},function () {
-                                // 获得frame索引
-                                var index = parent.layer.getFrameIndex(window.name);
-                                //关闭当前frame
-                                parent.layer.close(index);
-                            });
-                    }else{
-                        alert("修改失败！")
-                    }
+                    $.post("../updateByComUsername",
+                        {
+                            "comDel":comDel,
+                            "comUserpwd":comUserpwd,
+                            "L_repass":L_repass,
+                        },
+                        function (data){
+                            if(data == 1){
+                                alert("修改成功！")
+                                layer.alert("修改成功", {icon: 6},function () {
+                                    // 获得frame索引
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    //关闭当前frame
+                                    parent.layer.close(index);
+                                });
+                            }else{
+                                alert("修改失败！")
+                            }
 
-                });
+                        });
+                }else if(b == false){
+                    $("#username").val(data.comUsername);
+                    $("#comName").val(data.comName);
+                    $("#comDel").val(data.comDel);
+                }
+
+
             });
             //close frame
             layui.use(['form','layer'], function(){
