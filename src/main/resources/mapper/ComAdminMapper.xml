@@ -79,6 +79,12 @@
         WHERE Com_username = #{Com_username}
     </update>
 
+<!--    public int updateComDelOn(String comUsername);-->
+    <update id="updateComDelOn">
+        UPDATE com_admin
+        SET Com_del=0
+        WHERE Com_username = #{Com_username}
+    </update>
     <!--    public int insertComAdmin(ComAdmin comAdmin);-->
     <insert id="insertComAdmin" parameterType="com.zln.competition.bean.ComAdmin">
         insert into com_admin

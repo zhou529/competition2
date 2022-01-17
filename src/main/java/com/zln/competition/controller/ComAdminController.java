@@ -223,9 +223,23 @@ public class ComAdminController {
      */
     @RequestMapping(value = "/updateComDelOff.do",method = RequestMethod.POST)
     public int updateComDelOff(@RequestParam("comUsername") String comUsername){
-        System.out.println("ComAdminController的updateComDel方法执行啦");
+        System.out.println("ComAdminController的updateComDelOn方法执行啦");
         System.out.println("前台传过来的comUsername ： " + comUsername);
         int i = comAdminService.updateComDelOff(comUsername);
+        System.out.println("ComAdminController的updateComDel方法的返回值i = " + i);
+        return i;
+    }
+
+    /**
+     * 更改账号状态，0：正常使用，1：不能使用
+     * @param comUsername
+     * @return
+     */
+    @RequestMapping(value = "/updateComDelOn.do",method = RequestMethod.POST)
+    public int updateComDelOn(@RequestParam("comUsername") String comUsername){
+        System.out.println("ComAdminController的updateComDelOn方法执行啦");
+        System.out.println("前台传过来的comUsername ： " + comUsername);
+        int i = comAdminService.updateComDelOn(comUsername);
         System.out.println("ComAdminController的updateComDel方法的返回值i = " + i);
         return i;
     }

@@ -86,8 +86,27 @@
                             }
                         }
                     )
+                }else if(b == false){
+                    $("#teamName").val(data.teamName);
+                    $("#teamQq").val(data.teamQq);
+                    $("#teamInformation").val(data.teamInformation);
+                    $("#competitionName").val(data.competitionName);
                 }
             })
+            //close frame
+            layui.use(['form','layer'], function(){
+                $ = layui.jquery;
+                var form = layui.form
+                    ,layer = layui.layer;
+                form.on('submit(add)', function(data){
+                    console.log(data);
+                    var index = parent.layer.getFrameIndex(window.name);
+                    //关闭当前frame
+                    parent.layer.close(index);
+                    parent.location.reload();
+                    return false;
+                });
+            });
         })
     </script>
 </head>
@@ -139,23 +158,6 @@
         </div>
     </form>
 </div>
-<script>
-    //close frame
-    layui.use(['form','layer'], function(){
-        $ = layui.jquery;
-        var form = layui.form
-            ,layer = layui.layer;
-        form.on('submit(add)', function(data){
-            console.log(data);
-            var index = parent.layer.getFrameIndex(window.name);
-            //关闭当前frame
-            parent.layer.close(index);
-            parent.location.reload();
-            return false;
-        });
-    });
-</script>
-
 <!--<script>
   layui.use(['form','layer'], function(){
       $ = layui.jquery;

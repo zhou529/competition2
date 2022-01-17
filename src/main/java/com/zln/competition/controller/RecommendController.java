@@ -1,11 +1,9 @@
 package com.zln.competition.controller;
 
-import com.zln.competition.bean.ComAdmin;
-import com.zln.competition.bean.Community;
-import com.zln.competition.bean.Recommend;
-import com.zln.competition.bean.UserInfo;
+import com.zln.competition.bean.*;
 import com.zln.competition.service.ComAdminService;
 import com.zln.competition.service.RecommendService;
+import com.zln.competition.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +18,41 @@ import java.util.List;
 public class RecommendController {
     @Autowired
     RecommendService recommendService;
+    @Autowired
+    UserInfoService userInfoService;
+
+    @RequestMapping(value = "/selectByTag")
+    public List<Recommend> selectByTag(HttpServletRequest request){
+        ServletContext servletContext = request.getServletContext();
+        Users user = (Users) servletContext.getAttribute("user");
+        String userOpenid = user.getUserOpenid();
+        System.out.println("拉拉拉拉拉拉啊啦啦user = " + user);
+        System.out.println("拉拉拉拉拉拉啊啦啦user = " + userOpenid);
+        System.out.println("selectByTag");
+
+        // 判断是否实名认证过
+        UserInfo userInfo = userInfoService.selectByOpenId(userOpenid);
+        System.out.println("userInfoService.selectByOpenId(userOpenid); = " + userInfo);
+        System.out.println("userInfo.getUserMajor() = " + userInfo.getUserMajor());
+
+        List<Recommend> recommends;
+        if(userInfo.getUserMajor() == null || userInfo.getUserMajor() == ""){
+            recommends = recommendService.selectAllRecommend();
+            System.out.println("recommends : " + recommends);
+            return recommends;
+        }else {
+            recommends = recommendService.selectByTag(userOpenid);
+            System.out.println("controller的selectByTag方法的返回值 ：" + recommends);
+        }
+        return recommends;
+    }
+
+    @RequestMapping(value = "/hot_category")
+    public List<Recommend> hot_category() {
+        List<Recommend> recommends = recommendService.hot_category();
+        return recommends;
+    }
+
 
     @RequestMapping(value = "/updateRecommendBrowseByRecIdWX")
     public int updateRecommendBrowseByRecIdWX(@RequestParam("recId") String recId){

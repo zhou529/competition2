@@ -31,6 +31,7 @@ public interface ComAdminService {
      * @return
      */
     public int updateComDelOff(String comUsername);
+    public int updateComDelOn(String comUsername);
 
     public int updateByComAdmin(ComAdmin comAdmin);
 

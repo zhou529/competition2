@@ -24,6 +24,19 @@ public class RecommendServiceImpl implements RecommendService {
         List<Recommend> recommends = recommendMapper.selectRecommendDim(recommend);
         return recommends;
     }
+
+    @Override
+    public List<Recommend> hot_category() {
+        List<Recommend> recommends = recommendMapper.hot_category();
+        return recommends;
+    }
+
+    @Override
+    public List<Recommend> selectByTag(String openId) {
+        List<Recommend> recommends = recommendMapper.selectByTag(openId);
+        return recommends;
+    }
+
     @Override
     public int updateRecommendByRecId(Recommend record){
         return recommendMapper.updateRecommendByRecId(record);

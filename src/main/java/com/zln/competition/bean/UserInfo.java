@@ -15,7 +15,37 @@ public class UserInfo {
 
     private String userStuimg2;
 
-    public UserInfo(Integer userId, String userOpenid, String userPhone, String userSchool, String userMajor, String userStuimg1, String userStuimg2) {
+    public String getStu_id() {
+        return stu_id;
+    }
+
+    public void setStu_id(String stu_id) {
+        this.stu_id = stu_id;
+    }
+
+    public String getId_cart() {
+        return id_cart;
+    }
+
+    public void setId_cart(String id_cart) {
+        this.id_cart = id_cart;
+    }
+
+    private String username;
+
+    private String stu_id;
+
+    private String id_cart;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public UserInfo(Integer userId, String userOpenid, String userPhone, String userSchool, String userMajor, String userStuimg1, String userStuimg2, String username, String stu_id, String id_cart) {
         this.userId = userId;
         this.userOpenid = userOpenid;
         this.userPhone = userPhone;
@@ -23,6 +53,9 @@ public class UserInfo {
         this.userMajor = userMajor;
         this.userStuimg1 = userStuimg1;
         this.userStuimg2 = userStuimg2;
+        this.username = username;
+        this.stu_id = stu_id;
+        this.id_cart = id_cart;
     }
 
     public UserInfo() {
@@ -95,6 +128,9 @@ public class UserInfo {
                 ", userMajor='" + userMajor + '\'' +
                 ", userStuimg1='" + userStuimg1 + '\'' +
                 ", userStuimg2='" + userStuimg2 + '\'' +
+                ", username='" + username + '\'' +
+                ", stu_id='" + stu_id + '\'' +
+                ", id_cart='" + id_cart + '\'' +
                 '}';
     }
 }

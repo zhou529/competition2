@@ -49,4 +49,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         return 0;
     }
 
+    @Override
+    public UserInfo selectByOpenId(String userOpenid) {
+        return userInfoMapper.selectByOpenId(userOpenid);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.zln.competition.controller;
 
 import com.zln.competition.bean.Community;
 import com.zln.competition.bean.UserInfo;
+import com.zln.competition.bean.Users;
 import com.zln.competition.service.UserInfoService;
 import com.zln.competition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -21,6 +23,45 @@ public class UserInfoController {
     @Autowired
     UserService userService;
 
+
+
+    @RequestMapping(value = "/updateUserInfo")
+    public int updateUserInfo(@RequestParam("phoneNumber") String phoneNumber,
+                              @RequestParam("userName") String userName,
+                              @RequestParam("studentID") String studentID,
+                              @RequestParam("IDNumber") String IDNumber,
+                              @RequestParam("setMajor") String setMajor,
+                              @RequestParam("setSchool") String setSchool,
+                              HttpServletRequest request) {
+        System.out.println("UserInfoController的insertUSerInfo执行啦");
+        ServletContext servletContext = request.getServletContext();
+        Users user = (Users) servletContext.getAttribute("user");
+        String userOpenid = user.getUserOpenid();
+
+        System.out.println("setSchool = " + setSchool);
+        if(setSchool.equals("") || setSchool == null || setSchool.equals("undefined")){
+            setSchool = "哈尔滨学院";
+        }
+        if(setMajor.equals("") || setMajor == null || setMajor.equals("undefined")){
+            setMajor = "计算机";
+        }
+        UserInfo record = new UserInfo();
+        record.setUsername(userName);
+        record.setStu_id(studentID);
+        record.setId_cart(IDNumber);
+        record.setUserPhone(phoneNumber);
+        record.setUserMajor(setMajor);
+        record.setUserSchool(setSchool);
+        record.setUserOpenid(userOpenid);
+
+        int insert_is_true = userInfoService.updateUserInfoByUserId(record);
+
+        return insert_is_true;
+    }
+
+
+
+/*
     @RequestMapping(value = "/updateUserInfoByUserId", method = RequestMethod.POST)
     public int updateUserInfoByUserId(@RequestParam("user_phone") String user_phone,
                                       @RequestParam("user_major") String user_major,
@@ -40,6 +81,7 @@ public class UserInfoController {
         int i = userInfoService.updateUserInfoByUserId(userInfo);
         return i;
     }
+*/
 
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
     public UserInfo getUserInfo(HttpServletRequest request) {

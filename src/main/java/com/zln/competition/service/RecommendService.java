@@ -25,7 +25,9 @@ public interface RecommendService {
 
     int updateRecommendBrowseByRecIdWX(Integer recId);
 
-
     List<Recommend> selectRecommendDim(Recommend recommend);
 
+    List<Recommend> hot_category();
+
+    List<Recommend> selectByTag(String openId);
 }

@@ -18,4 +18,6 @@ public interface UserInfoService {
     int updateUserInfoByUserId(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
+
+    UserInfo selectByOpenId(String userOpenid);
 }

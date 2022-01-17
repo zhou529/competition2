@@ -84,12 +84,27 @@
                                   alert("修改失败！");
                               }
                           })
+                  }else if(b == false){
+                      $("#user_phone").val(data.userPhone);
+                      $("#user_school").val(data.userSchool);
+                      $("#user_major").val(data.userMajor);
                   }
 
               })
-
-
-
+              //close frame
+              layui.use(['form','layer'], function(){
+                  $ = layui.jquery;
+                  var form = layui.form
+                      ,layer = layui.layer;
+                  form.on('submit(add)', function(data){
+                      console.log(data);
+                      var index = parent.layer.getFrameIndex(window.name);
+                      //关闭当前frame
+                      parent.layer.close(index);
+                      parent.location.reload();
+                      return false;
+                  });
+              });
           })
       </script>
   </head>
@@ -127,27 +142,11 @@
           <div class="layui-form-item">
               </label>
               <button  id="submitButton" class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
+                  修改
               </button>
           </div>
       </form>
     </div>
-    <script>
-        //close frame
-        layui.use(['form','layer'], function(){
-            $ = layui.jquery;
-            var form = layui.form
-                ,layer = layui.layer;
-            form.on('submit(add)', function(data){
-                console.log(data);
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-                parent.location.reload();
-                return false;
-            });
-        });
-    </script>
     <!--<script>
       layui.use(['form','layer'], function(){
           $ = layui.jquery;

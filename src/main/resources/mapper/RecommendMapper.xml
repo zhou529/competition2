@@ -43,6 +43,16 @@
         where Rec_id = #{recId,jdbcType=INTEGER}
     </delete>
 
+<!--    List<Recommend> selectByTag();-->
+    <select id="selectByTag" resultMap="BaseResultMap">
+        SELECT recommend.* FROM recommend
+        JOIN
+            (
+                SELECT tag.tag_id, User_major FROM user_info JOIN tag ON tag.Rec_tag = user_info.User_major
+                WHERE User_openid = #{userOpenid,jdbcType=VARCHAR}
+            ) AS t
+        ON  recommend.tag_id = t.tag_id
+    </select>
 
     <!--    List<Recommend> selectRecommendByComId(Integer comId);-->
     <select id="selectRecommendByComId" resultMap="BaseResultMap">
@@ -219,5 +229,12 @@
         </set>
         where Rec_id = #{recId,jdbcType=INTEGER}
     </update>
+
+<!--    List<Recommend> hot_category();-->
+    <select id="hot_category" resultMap="BaseResultMap">
+        SELECT Rec_tag AS Rec_name, SUM(Rec_browse) AS Rec_browse FROM recommend
+        JOIN tag ON tag.tag_id = recommend.tag_id
+        GROUP BY recommend.tag_id;
+    </select>
 
 </mapper>

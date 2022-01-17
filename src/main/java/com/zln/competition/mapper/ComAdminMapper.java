@@ -20,6 +20,7 @@ public interface ComAdminMapper {
 
     //修改管理员状态
     public int updateComDelOff(String comUsername);
+    public int updateComDelOn(String comUsername);
 
     //添加管理员
     public int insertComAdmin(ComAdmin comAdmin);

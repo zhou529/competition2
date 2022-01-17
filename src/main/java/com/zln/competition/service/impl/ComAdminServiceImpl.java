@@ -65,6 +65,13 @@ public class ComAdminServiceImpl implements ComAdminService {
         return i;
     }
 
+    @Override
+    public int updateComDelOn(String comUsername) {
+        int i = comAdminMapper.updateComDelOn(comUsername);
+        System.out.println("ComAdminServiceImpl的updateComDel方法的返回值i = " + i);
+        return i;
+    }
+
 
     @Override
     public int deleteByPrimaryKey(String comUsername){
