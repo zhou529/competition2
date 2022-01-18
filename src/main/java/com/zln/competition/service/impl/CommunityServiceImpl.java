@@ -21,6 +21,11 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
+    public int updateCommunityBrowseByComIdWX(Integer comId) {
+        return communityMapper.updateCommunityBrowseByComIdWX(comId);
+    }
+
+    @Override
     public Community selectCommunityByComId(Integer comId){
         Community community = communityMapper.selectCommunityByComId(comId);
         return community;

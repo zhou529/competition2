@@ -40,6 +40,8 @@ public interface CommunityService {
     public int updateByCommunity(Community community);
 
     public Community selectCommunityByComId(Integer comId);
+
     List<Community> selectCommunityDim(Community communityDim);
 
+    int updateCommunityBrowseByComIdWX(Integer comId);
 }

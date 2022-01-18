@@ -23,6 +23,13 @@ public class CommunityController {
     @Resource
     ComAdminService comAdminService;
 
+    @RequestMapping(value = "/updateCommunityBrowseByComIdWX")
+    public int updateCommunityBrowseByRecIdWX(@RequestParam("comId") String comId){
+        System.out.println("CommunityController的updateCommunityBrowseByComIdWX方法执行啦");
+        int i = communityService.updateCommunityBrowseByComIdWX(Integer.valueOf(comId));
+        return i;
+    }
+
 
     /**
      * 根据社团名模糊查询
@@ -180,10 +187,10 @@ public class CommunityController {
         return communities;
     }
 
-    public List<Community> selectAllCommunity() {
-        List<Community> communities = communityService.selectAllCommunity();
-        return communities;
-    }
+//    public List<Community> selectAllCommunity() {
+//        List<Community> communities = communityService.selectAllCommunity();
+//        return communities;
+//    }
 
     @RequestMapping(value = "/selectCommunityByComName", method = RequestMethod.POST)
     public List<Community> selectCommunityByComName(HttpServletRequest request) {
@@ -196,7 +203,7 @@ public class CommunityController {
         Integer comIs = admin.getComIs();
         if (comIs == 2) {
             //只有超级管理员可以看
-            communities = selectAllCommunity();
+            communities = communityService.selectAllCommunity();
         }/*else {
             //获取comId
 //            Integer comId = admin.getComId();

@@ -3,6 +3,8 @@ package com.zln.competition.bean;
 public class Community {
     private Integer comId;
 
+    private Integer click_number;
+
     private String comInformation;
 
     private String comWin;
@@ -15,8 +17,9 @@ public class Community {
 
     private String comName;
 
-    public Community(Integer comId, String comInformation, String comWin, String comWinimg, String comImg, String comQq, String comName) {
+    public Community(Integer comId, Integer click_number, String comInformation, String comWin, String comWinimg, String comImg, String comQq, String comName) {
         this.comId = comId;
+        this.click_number = click_number;
         this.comInformation = comInformation;
         this.comWin = comWin;
         this.comWinimg = comWinimg;
@@ -45,6 +48,14 @@ public class Community {
         this.comInformation = comInformation == null ? null : comInformation.trim();
     }
 
+
+    public Integer getClick_number() {
+        return click_number;
+    }
+
+    public void setClick_number(Integer click_number) {
+        this.click_number = click_number;
+    }
     public String getComWin() {
         return comWin;
     }
@@ -89,6 +100,7 @@ public class Community {
     public String toString() {
         return "Community{" +
                 "comId=" + comId +
+                ", click_number=" + click_number +
                 ", comInformation='" + comInformation + '\'' +
                 ", comWin='" + comWin + '\'' +
                 ", comWinimg='" + comWinimg + '\'' +

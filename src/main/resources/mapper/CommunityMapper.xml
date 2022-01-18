@@ -9,11 +9,19 @@
         <result column="Com_winImg" property="comWinimg" javaType="java.lang.String" jdbcType="VARCHAR" />
         <result column="Com_img" property="comImg" javaType="java.lang.String" jdbcType="VARCHAR" />
         <result column="Com_qq" property="comQq" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="click_number"  property="click_number" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        Com_id, Com_information, Com_win, Com_winImg, Com_img, Com_qq, Com_name
+        Com_id, Com_information, Com_win, Com_winImg, Com_img, Com_qq, Com_name, click_number
     </sql>
+
+    <!--    int updateCommunityBrowseByComIdWX(Integer comId);-->
+    <update id="updateCommunityBrowseByComIdWX">
+        update community
+        set  click_number = click_number+1
+        where Com_id = #{comId,jdbcType=INTEGER}
+    </update>
 
     <!--    public List<Community> selectAllByComName(String comName);-->
     <select id="selectAllByComName"  resultMap="BaseResultMap">
@@ -31,7 +39,8 @@
                Com_winImg    as comWinimg,
                Com_img       as comImg,
                Com_qq      as comQq,
-               Com_name     as comName
+               Com_name     as comName,
+            click_number as click_number
         from community
         where Com_id != 0
         order by Com_id
@@ -140,6 +149,9 @@
             </if>
             <if test="comQq != null">
                 Com_qq = #{comQq,jdbcType=VARCHAR},
+            </if>
+            <if test="click_number != null">
+                click_number = #{click_number,jdbcType=VARCHAR},
             </if>
         </set>
         where Com_id = #{comId,jdbcType=INTEGER}

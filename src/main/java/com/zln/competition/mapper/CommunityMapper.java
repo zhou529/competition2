@@ -30,4 +30,6 @@ public interface CommunityMapper {
     int updateByCommunity(Community community);
 
     List<Community> selectCommunityDim(Community communityDim);
+
+    int updateCommunityBrowseByComIdWX(Integer comId);
 }
