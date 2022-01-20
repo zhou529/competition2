@@ -27,6 +27,7 @@
         select
         <include refid="Base_Column_List" />
         from answer
+        order by Ans_id desc
     </select>
 
 <!--    public List<Answer> selectByUserId();-->

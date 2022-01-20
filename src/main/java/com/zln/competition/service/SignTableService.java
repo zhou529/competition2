@@ -15,4 +15,6 @@ public interface SignTableService {
 
     SignTable individualRank(String userOpenId);
 
+    int addSignPayForAns(String userOpenid, Integer exchangedPay);
+
 }

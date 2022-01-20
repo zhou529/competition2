@@ -14,5 +14,7 @@ public interface SignTableMapper {
 
     int updateSignPay(String userOpenid, Integer exchangedPay);
 
+    int addSignPayForAns(String userOpenid, Integer exchangedPay);
+
     SignTable individualRank(String userOpenId);
 }

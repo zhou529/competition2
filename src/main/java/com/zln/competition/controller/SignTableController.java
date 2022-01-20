@@ -24,7 +24,7 @@ public class SignTableController {
 
 
 
-    @RequestMapping(value = "/individual_rank", method = RequestMethod.POST)
+/*    @RequestMapping(value = "/individual_rank", method = RequestMethod.POST)
     public Integer individual_rank(HttpServletRequest request) {
         System.out.println("SignTableController的individual_rank执行了");
         ServletContext servletContext = request.getServletContext();
@@ -42,7 +42,7 @@ public class SignTableController {
 //
 //        System.out.println(" userRank.getUserPay() = " + userRank.getUserPay());
         return signTable.getUser_pay();
-    }
+    }*/
 
 
 

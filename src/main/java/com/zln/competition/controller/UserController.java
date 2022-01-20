@@ -26,7 +26,6 @@ public class UserController {
     UserService userService;
     @Autowired
     UserInfoService userInfoService;
-/*
 
     @RequestMapping(value = "/individual_rank", method = RequestMethod.POST)
     public Integer individual_rank(HttpServletRequest request) {
@@ -42,7 +41,6 @@ public class UserController {
         System.out.println(" userRank.getUserPay() = " + userRank.getUserPay());
         return userRank.getUserPay();
     }
-*/
 
 /*    @RequestMapping(value = "/querySignPay", method = RequestMethod.POST)
     public Integer querySignPay(HttpServletRequest request) {

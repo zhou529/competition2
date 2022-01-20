@@ -22,7 +22,7 @@
                 AND User_openid = #{_parameter, jdbcType=VARCHAR}
             </if>
         </trim>
-        AND user_pay > 0
+        AND user_pay > -1
         GROUP BY User_openid
     </select>
 
@@ -51,7 +51,12 @@
         set user_pay = user_pay - #{exchangedPay, jdbcType=INTEGER}
         where User_openid = #{userOpenid, jdbcType=VARCHAR}
     </update>
-
+<!--    int addSignPayForAns(String userOpenid, Integer exchangedPay);-->
+    <update id="addSignPayForAns">
+        update sign_table
+        set user_pay = #{exchangedPay, jdbcType=INTEGER}
+        where User_openid = #{userOpenid, jdbcType=VARCHAR}
+    </update>
 
     <!--    public List<SignTable> queryAll(SignTable SignTable);-->
     <select id="queryAll" resultMap="BaseResultMap" parameterType="com.zln.competition.bean.SignTable">

@@ -135,7 +135,16 @@ public class PayStoreController {
                 //更改积分 -- sign_table
                 int is_update = signTableService.updateSignPay(userOpenid, exchangedPay);
                 if(is_update != 0){
-                    return  1;
+                    //先查询 当前积分
+                    SignTable update_user = signTableService.selectPayByOpenId(userOpenid);
+                    System.out.println("update_user = " + update_user);
+                    Integer new_user_pay = update_user.getUser_pay();
+                    Users user1 = new Users();
+                    user1.setUserOpenid(userOpenid);
+                    user1.setUserPay(new_user_pay);
+                    System.out.println("要更改积分的user1 = " + user1);
+                    int updateUser = userService.updateByOpenid(user1);
+                    return  updateUser;
 /*                //先查询 当前积分
                     SignTable update_user = signTableService.selectPayByOpenId(userOpenid);
                     System.out.println("update_user = " + update_user);

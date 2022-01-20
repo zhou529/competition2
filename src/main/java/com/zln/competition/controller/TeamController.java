@@ -21,6 +21,29 @@ public class TeamController {
     @Autowired
     UserService userService;
 
+    @RequestMapping(value = "/insertTeamInfoByUser")
+    public int insertTeamInfoByUser(
+                              @RequestParam("recName") String recName,
+                              @RequestParam("teamQq") String teamQq,
+                              @RequestParam("teamInformation") String teamInformation,
+                              HttpServletRequest request){
+
+        //获取comId
+        ServletContext servletContext = request.getServletContext();
+        Users user = (Users) servletContext.getAttribute("user");
+        Integer userId = user.getUserId();
+
+        Team team = new Team();
+        team.setUserId(userId);
+        team.setCompetitionName(recName);
+        team.setTeamQq(teamQq);
+        team.setTeamInformation(teamInformation);
+
+        int i = teamService.insertTeamInfo(team);
+        return i;
+    }
+
+
     @RequestMapping(value = "/selectTeamByTeamId")
     public Team selectTeamByTeamId(@RequestParam("teamId") String teamId){
         System.out.println("TeamController的selectTeamByTeamId执行啦");
