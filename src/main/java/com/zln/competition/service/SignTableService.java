@@ -10,4 +10,9 @@ public interface SignTableService {
     SignTable selectBySignTable(SignTable signTable);
 
     SignTable selectPayByOpenId(String openid);
+
+    int updateSignPay(String userOpenid, Integer exchangedPay);
+
+    SignTable individualRank(String userOpenId);
+
 }

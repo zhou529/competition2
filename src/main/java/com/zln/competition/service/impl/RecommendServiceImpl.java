@@ -75,6 +75,16 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     @Override
+    public List<Recommend> recommend_race() {
+        return recommendMapper.recommend_race();
+    }
+
+    @Override
+    public List<Recommend> recommend_number_for_community() {
+        return recommendMapper.recommend_number_for_community();
+    }
+
+    @Override
     public Recommend selectRecommendAndCommunityByRecName(String recName){
         Recommend recommend = recommendMapper.selectRecommendAndCommunityByRecName(recName);
         System.out.println("RecommendServiceImpl 的  recommend : " + recommend);

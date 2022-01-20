@@ -2,6 +2,7 @@ package com.zln.competition.controller;
 
 import com.zln.competition.bean.ComAdmin;
 import com.zln.competition.bean.Community;
+import com.zln.competition.bean.Recommend;
 import com.zln.competition.bean.Team;
 import com.zln.competition.service.ComAdminService;
 import com.zln.competition.service.CommunityService;
@@ -22,6 +23,13 @@ public class CommunityController {
     CommunityService communityService;
     @Resource
     ComAdminService comAdminService;
+
+    @RequestMapping(value = "/hot_community")
+    public List<Community> hot_community() {
+        List<Community> communities = communityService.hot_community();
+        return communities;
+    }
+
 
     @RequestMapping(value = "/updateCommunityBrowseByComIdWX")
     public int updateCommunityBrowseByRecIdWX(@RequestParam("comId") String comId){

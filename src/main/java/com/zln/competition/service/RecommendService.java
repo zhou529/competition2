@@ -7,6 +7,10 @@ import java.util.List;
 public interface RecommendService {
     public List<Recommend> selectAllRecommend();
 
+    List<Recommend> recommend_race();
+
+    List<Recommend> recommend_number_for_community();
+
     public Recommend selectRecommendAndCommunityByRecName(String recName);
 
     public Recommend selectRecommendById(Integer id);

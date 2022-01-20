@@ -83,6 +83,17 @@ public class UserInfoController {
     }
 */
 
+    @RequestMapping(value = "/selectByOpenId", method = RequestMethod.POST)
+    public UserInfo selectByOpenId(HttpServletRequest request) {
+        System.out.println("UserInfoController的selectByOpenId执行啦");
+        ServletContext servletContext = request.getServletContext();
+        Users user = (Users) servletContext.getAttribute("user");
+        System.out.println("user = " + user);
+        String userOpenid = user.getUserOpenid();
+        UserInfo userInfo = userInfoService.selectByOpenId(userOpenid);
+        return userInfo;
+    }
+
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
     public UserInfo getUserInfo(HttpServletRequest request) {
         System.out.println("UserInfoController的getUserInfo执行啦");

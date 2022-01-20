@@ -69,6 +69,7 @@
             });
             //删除操作入口
             $('#show_tbody').on('click', '.delComadmin', function () {
+                alert("点击时间出发了")
                 if (confirm("确认要删除么？")) {
                     //获取对应的行
                     var trIndex = $('.delComadmin', '#show_tbody').index($(this));

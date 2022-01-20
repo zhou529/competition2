@@ -26,6 +26,11 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
+    public List<Community> hot_community() {
+        return communityMapper.hot_community();
+    }
+
+    @Override
     public Community selectCommunityByComId(Integer comId){
         Community community = communityMapper.selectCommunityByComId(comId);
         return community;

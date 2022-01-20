@@ -237,4 +237,24 @@
         GROUP BY recommend.tag_id;
     </select>
 
+<!--    List<Recommend> recommend_race();-->
+    <select id="recommend_race" resultMap="BaseResultMap">
+        SELECT Rec_tag AS Rec_name, number AS Rec_browse  FROM tag
+        JOIN
+        (
+            SELECT tag_id, COUNT(*) AS number FROM recommend
+            GROUP BY tag_id
+
+        ) AS a
+        ON  a.tag_id = tag.tag_id WHERE  a.tag_id != 0
+    </select>
+
+<!--    List<Recommend> recommend_number_for_community();-->
+    <select id="recommend_number_for_community" resultMap="BaseResultMap">
+        SELECT  Com_name as Rec_name, COUNT(*)  as Rec_browse FROM recommend
+        JOIN community ON community.Com_id = recommend.Com_id
+        WHERE community.Com_id != 0
+        GROUP BY community.Com_name
+    </select>
+
 </mapper>

@@ -15,7 +15,8 @@
 
     <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
-    <script src="https://cdn.bootcss.com/echarts/3.7.0/echarts.min.js"></script>
+    <script src="../js/echars.js"></script>
+<!--    <script src="https://cdn.bootcss.com/echarts/3.7.0/echarts.min.js"></script>-->
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 </head>
@@ -27,7 +28,6 @@
     var myChart = echarts.init(document.getElementById('main'));
 
     $(function () {
-        alert("页面加载成功")
         var name = new Array();
         var result = new Array();
         $.post("../hot_category", function (data) {
@@ -41,8 +41,6 @@
                     name.push(testJson.recName)
                     result.push(testJson.recBrowse)
                 }
-                alert("name , result = " + name[0] + result[0])
-
                 // 指定图表的配置项和数据
                 var option = {
                     title: {
@@ -66,7 +64,7 @@
                 };
                 myChart.setOption(option);
             } else {
-                alert("改失败！")
+                alert("查询失败！")
             }
         })
     })

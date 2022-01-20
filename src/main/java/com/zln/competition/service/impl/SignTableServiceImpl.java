@@ -29,6 +29,16 @@ public class SignTableServiceImpl implements SignTableService {
         SignTable signTable = signTableMapper.selectPayByOpenId(openid);
         return signTable;
     }
+
+    @Override
+    public int updateSignPay(String userOpenid, Integer exchangedPay) {
+        return signTableMapper.updateSignPay(userOpenid, exchangedPay);
+    }
+
+    @Override
+    public SignTable individualRank(String userOpenId) {
+        return signTableMapper.individualRank(userOpenId);
+    }
 //    @Override
 //    public List<SignTable> queryAll(SignTable signTable){
 //        return signTableMapper.queryAll(signTable);

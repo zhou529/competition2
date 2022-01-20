@@ -23,6 +23,12 @@
         where Com_id = #{comId,jdbcType=INTEGER}
     </update>
 
+<!--    List<Community> hot_community();-->
+    <select id="hot_community"  resultMap="BaseResultMap">
+        SELECT Com_name , click_number FROM community
+        WHERE Com_id != 0
+    </select>
+
     <!--    public List<Community> selectAllByComName(String comName);-->
     <select id="selectAllByComName"  resultMap="BaseResultMap">
         select

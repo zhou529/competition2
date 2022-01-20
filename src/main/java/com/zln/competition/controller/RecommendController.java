@@ -47,6 +47,14 @@ public class RecommendController {
         return recommends;
     }
 
+    @RequestMapping(value = "/recommend_number_for_community")
+    public List<Recommend> recommend_number_for_community() {
+        List<Recommend> recommends = recommendService.recommend_number_for_community();
+        return recommends;
+    }
+
+
+
     @RequestMapping(value = "/hot_category")
     public List<Recommend> hot_category() {
         List<Recommend> recommends = recommendService.hot_category();

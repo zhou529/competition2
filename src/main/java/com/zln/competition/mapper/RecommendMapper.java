@@ -35,4 +35,8 @@ public interface RecommendMapper {
     List<Recommend> hot_category();
 
     List<Recommend> selectByTag(String openId);
+
+    List<Recommend> recommend_race();
+
+    List<Recommend> recommend_number_for_community();
 }

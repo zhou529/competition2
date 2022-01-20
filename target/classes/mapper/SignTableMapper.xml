@@ -22,8 +22,36 @@
                 AND User_openid = #{_parameter, jdbcType=VARCHAR}
             </if>
         </trim>
+        AND user_pay > 0
         GROUP BY User_openid
     </select>
+
+<!--    SignTable individualRank(String userOpenId);-->
+    <select id="individualRank" resultMap="BaseResultMap">
+        select
+            User_openid, MIN(rank) AS user_pay
+        from (SELECT
+                  `User_openid`,
+                  @rank := @rank + 1 AS `rank`
+              FROM
+                  users,(
+                  SELECT
+                  @rank := 0 AS `rank`
+                  ) t
+              GROUP BY User_openid, user_pay
+              ORDER BY
+                  user_pay DESC) a
+        where User_openid = #{userOpenId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--    int updateSignPay(String userOpenid);-->
+    <update id="updateSignPay">
+        update sign_table
+        set user_pay = user_pay - #{exchangedPay, jdbcType=INTEGER}
+        where User_openid = #{userOpenid, jdbcType=VARCHAR}
+    </update>
+
 
     <!--    public List<SignTable> queryAll(SignTable SignTable);-->
     <select id="queryAll" resultMap="BaseResultMap" parameterType="com.zln.competition.bean.SignTable">

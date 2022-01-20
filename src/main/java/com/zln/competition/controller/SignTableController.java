@@ -22,6 +22,30 @@ public class SignTableController {
     @Autowired
     UserService userService;
 
+
+
+    @RequestMapping(value = "/individual_rank", method = RequestMethod.POST)
+    public Integer individual_rank(HttpServletRequest request) {
+        System.out.println("SignTableController的individual_rank执行了");
+        ServletContext servletContext = request.getServletContext();
+        Users user = (Users) servletContext.getAttribute("user");
+        System.out.println("user : " + user);
+        String userOpenid = user.getUserOpenid();
+        SignTable signTable = signTableService.individualRank(userOpenid);
+        System.out.println("signTable : " + signTable);
+
+
+//        int userId = user.getUserId();
+//        System.out.println("userId =" + userId);
+////        这里面的userPay是排名，为了图方便
+//        Users userRank = userService.individualRank(userId);
+//
+//        System.out.println(" userRank.getUserPay() = " + userRank.getUserPay());
+        return signTable.getUser_pay();
+    }
+
+
+
     @RequestMapping(value = "/querySignPay", method = RequestMethod.POST)
     public Integer querySignPay(HttpServletRequest request) {
         System.out.println("UserController的querySignPay执行了");

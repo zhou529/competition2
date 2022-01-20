@@ -32,4 +32,6 @@ public interface CommunityMapper {
     List<Community> selectCommunityDim(Community communityDim);
 
     int updateCommunityBrowseByComIdWX(Integer comId);
+
+    List<Community> hot_community();
 }
