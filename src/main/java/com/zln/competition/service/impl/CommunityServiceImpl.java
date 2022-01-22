@@ -81,6 +81,11 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
+    public List<Community> selectCommunityByLikeComName(String comName) {
+        return communityMapper.selectCommunityByLikeComName(comName);
+    }
+
+    @Override
     public int deleteByComId(Integer comId) {
         int i = communityMapper.deleteByComId(comId);
         System.out.println("CommunityServiceImpl的deleteByPrimaryKey方法的返回值i = " + i);

@@ -42,6 +42,9 @@ public interface ComAdminService {
      * @return
      */
     public int insertComAdmin(ComAdmin comAdmin);
+    public List<ComAdmin> selectComAdminByLikeUsername(String comUsername);
+
+
 
     //根据comUsername查询对象
     public ComAdmin selectByComAdmin(String comUsername);

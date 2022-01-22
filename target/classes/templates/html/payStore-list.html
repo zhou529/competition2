@@ -84,10 +84,6 @@
 
         //获取对应的第二列的值
         productId = tar.children('td').eq(tar.find('td').length - 6).html();
-        // function to(){
-        //   window.location.href="upload.html?values="+productId;
-        // }
-        // window.location.href="upload.html?values="+productId;
         x_admin_show('编辑', 'payStore_upload.html?productId=' + productId)
       });
 
@@ -114,6 +110,17 @@
                 })
       });
 
+      //搜索操作入口
+      $('#searchs').on('click', function () {
+        var productName = $("#productName").val();
+        if(productName.length > 0){
+          window.location.href = 'payStore-select.html?productName=' + productName;
+        }else {
+          alert("不能为空！")
+        }
+
+        // x_admin_show('查询','admin-select.html?comUsername=' + select_comUsername)
+      });
 
     })
   </script>
@@ -131,12 +138,21 @@
     <i class="layui-icon" style="line-height:38px">ဂ</i></a>
 </div>
 <div class="x-body">
-  <div class="layui-row">
-    <form class="layui-form layui-col-md12 x-so">
-      <!--<input class="layui-input" placeholder="开始日" name="start" id="start">
-      <input class="layui-input" placeholder="截止日" name="end" id="end">-->
-      <input type="text" name="username"  placeholder="请输入商品名称" autocomplete="off" class="layui-input">
-      <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+  <div style="margin: 10px 10px 10px 10px">
+    <form class="layui-form layui-form-pane" action="">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">用户名</label>
+          <div class="layui-input-inline">
+            <input type="text" name="productName" autocomplete="off" class="layui-input" id="productName">
+          </div>
+        </div>
+        <div class="layui-inline">
+          <button onclick="searchs" type="button" class="layui-btn layui-btn-primary" id="searchs" lay-submit
+                  lay-filter="data-search-btn" data-type="reload"><i class="layui-icon"></i> 搜 索
+          </button>
+        </div>
+      </div>
     </form>
   </div>
   <xblock>

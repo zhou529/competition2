@@ -15,6 +15,8 @@ public interface TeamMapper {
 
     List<Team> selectTeamByTeamName(String teamName);
 
+    List<Team> selectTeamByLikeCompetitionName(String competitionName);
+
     int deleteByTeamId(Integer teamId);
 
     int updateTeamByTeamId(Team record);

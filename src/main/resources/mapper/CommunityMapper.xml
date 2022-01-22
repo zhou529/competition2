@@ -23,7 +23,16 @@
         where Com_id = #{comId,jdbcType=INTEGER}
     </update>
 
-<!--    List<Community> hot_community();-->
+<!--    public List<Community> selectCommunityByLikeComName(String comName);-->
+    <select id="selectCommunityByLikeComName"  resultMap="BaseResultMap">
+        select
+            *
+        from community
+        where Com_name like #{comName,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--    List<Community> hot_community();-->
     <select id="hot_community"  resultMap="BaseResultMap">
         SELECT Com_name , click_number FROM community
         WHERE Com_id != 0

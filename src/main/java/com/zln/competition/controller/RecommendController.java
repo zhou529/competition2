@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,20 @@ public class RecommendController {
     RecommendService recommendService;
     @Autowired
     UserInfoService userInfoService;
+
+    @RequestMapping(value = "/selectRecommendByLikeRecname",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    public List<Recommend> selectRecommendByLikeRecname(@RequestParam("recName") String recName) throws UnsupportedEncodingException {
+        System.out.println("RecommendController的selectRecommendByLikeRecname方法执行啦");
+        System.out.println("recName = " + recName);
+        String decode = URLDecoder.decode(recName, "utf-8");
+        System.out.println("decode = " + decode);
+
+        Recommend recommend = new Recommend();
+        recommend.setRecName("%"+decode+"%");
+        List<Recommend> recommends = recommendService.selectRecommendDim(recommend);
+        return recommends;
+    }
+
 
     @RequestMapping(value = "/updateRecImg",method = RequestMethod.POST)
     public Map<String, Object> updateRecImg(@RequestParam MultipartFile fileExcel,
@@ -112,6 +128,7 @@ public class RecommendController {
         List<Recommend> recommends = recommendService.selectRecommendDim(recommend);
         return recommends;
     }
+
 
     @RequestMapping(value = "/updateRecommendByRecId", method = RequestMethod.POST)
     public int updateRecommendByRecId(HttpServletRequest request,

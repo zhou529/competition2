@@ -29,6 +29,7 @@
                 // alert("data 的 comIs: " + data.comIs);
                 // alert(data.comIs == 2);
                 //判断身份
+                //超级管理员
                 if (data.comIs === 2) {
                     $("#manager").css('display', 'block');
                     $("#userManager").css('display', 'block')
@@ -37,6 +38,11 @@
                     $("#analytic_statistics").css('display', 'block')
                     $("#fdback").css('display', 'block')
                     $("#allAdmin_log").css('display', 'block')
+                }
+                //普通管理员
+                if (data.comIs === 1) {
+                    $("#manager").css('display', 'block');
+
                 }
             });
             // 退出功能

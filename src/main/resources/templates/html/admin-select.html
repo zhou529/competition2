@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-L-admin1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+        $(function () {
+            var comUsername;
+            var url = window.location.search; //获取url中"?"符后的字串
+            if (url.indexOf("?") != -1) {
+                comUsername = url.substr(url.indexOf("=") + 1);
+            }
+
+            $.post("../selectComAdminByLikeUsername", {"comUsername": comUsername}, function (data) {
+                if(data){
+                    for (let i = 0; i < data.length; i++) {
+                        var comDel = data[i].comDel.toString();
+                        //每一行要有一个初始化
+                        var comAdmin = '';
+                        //社团id
+                        comAdmin += '<td>' + data[i].comId + '</td>';
+                        //账号
+                        comAdmin += '<td id="comUsername">' + data[i].comUsername + '</td>';
+                        //社团名
+                        comAdmin += '<td>' + data[i].comName + '</td>';
+                        //帐号状态
+                        // comAdmin+='<td>' + comDel + '</td>';
+                        if (comDel == 0) {
+                            comAdmin += "<td class=\"td-status\">\n" +
+                                "                <span>" +
+                                "<button class='update_to_1' style=\"background-color: #7ED321;width: 76px;height: 36px;color: #FFFFFF\">已启用</button></span>\n" +
+                                "            </td>";
+                        } else if (comDel == 1) {
+                            comAdmin += "<td class=\"td-status\">\n" +
+                                "               <span>" +
+                                "<button class='update_to_0' style=\"width: 76px;height: 36px;color: red\">已停用</button></span>\n" +
+                                "            </td>";
+                        } else {
+                            comAdmin += '<td>' + comDel + '</td>';
+                        }
+                        //操作  onclick="x_admin_show('编辑','admin-edit.html')"
+                        comAdmin += "<td class=\"td-manage\">\n" +
+                            "                <a class='editComAdmin' title=\"编辑\"  href=\"javascript:;\">\n" +
+                            "                    <i class=\"layui-icon\">&#xe642;</i>\n" +
+                            "                </a>\n" +
+                            "                <a class='delComadmin' title=\"删除\"  href=\"javascript:;\">\n" +
+                            "                    <i class=\"layui-icon\">&#xe640;</i>\n" +
+                            "                </a>\n" +
+                            "            </td>";
+                        //加入到html中
+                        $('#show_tbody').append('<tr id="adminInfo">' + comAdmin + '</tr>');
+                    }
+                }else {
+                    alert("换个关键词试试吧~")
+                }
+                $("#totalData").html("共有数据：" + data.length + "条");
+            });
+            //删除操作入口
+            $('#show_tbody').on('click', '.delComadmin', function () {
+                alert("点击时间出发了")
+                if (confirm("确认要删除么？")) {
+                    //获取对应的行
+                    var trIndex = $('.delComadmin', '#show_tbody').index($(this));
+                    var tar = $('#show_tbody tr').eq(trIndex);
+                    //获取对应的第二列的值
+                    comUsername = tar.children('td').eq(tar.find('td').length - 4).html();
+                    $.post("../deleteByPrimaryKey.do", {"comUsername": comUsername}, function (data) {
+                        if (data == 1) {
+                            $(this).parents('tr').remove();
+                            setTimeout(window.location.reload(), 100);
+                        }
+                    })
+                }
+            });
+
+            //编辑操作入口
+            $('#show_tbody').on('click', '.editComAdmin', function () {
+                //获取对应的行
+                var trIndex = $('.editComAdmin', '#show_tbody').index($(this));
+                var tar = $('#show_tbody tr').eq(trIndex);
+                //获取对应的第二列的值
+                var comUsername = tar.children('td').eq(tar.find('td').length - 4).html();
+                $.post("../getAdminPutSession", {"comUsername": comUsername}, function (data) {
+                    // $(this).parents('tr').remove();
+                    // setTimeout(window.location.reload(),100);
+                    x_admin_show('编辑', 'admin-edit.html')
+                    // window.location.href = 'admin-edit.html';
+                })
+            });
+            //更改权限入口
+            $('#show_tbody').on('click', '.update_to_0', function () {
+                if (confirm("确认要启用么？")) {
+                    //获取对应的行
+                    var trIndex = $('.update_to_0', '#show_tbody').index($(this));
+                    var tar = $('#show_tbody tr').eq(trIndex);
+                    //获取对应的第二列的值
+                    var com_name = tar.children('td').eq(tar.find('td').length - 4).html();
+                    alert("com_name = " + com_name)
+                    $.post("../updateComDelOn.do", {"comUsername": com_name}, function (data) {
+                        if (data) {
+                            alert("修改成功")
+                            window.location.reload();
+                        } else {
+                            alert("修改失败！")
+                        }
+                    })
+                }
+            });
+            $('#show_tbody').on('click', '#update_to_1', function () {
+                if (confirm("确认要停用么？")) {
+                    //获取对应的行
+                    var trIndex = $('#update_to_1', '#show_tbody').index($(this));
+                    var tar = $('#show_tbody tr').eq(trIndex);
+                    //获取对应的第二列的值
+                    var com_name = tar.children('td').eq(tar.find('td').length - 4).html();
+                    alert("com_name ?= " + com_name)
+                    $.post("../updateComDelOff.do", {"comUsername": com_name}, function (data) {
+                        if (data) {
+                            alert("修改成功")
+                            // $(this).parents('tr').remove();
+                            window.location.reload();
+                        } else {
+                            alert("修改失败！")
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+</head>
+
+<body>
+<div class="x-body">
+
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>com_Id</th>
+            <th>账号</th>
+            <th>社团名</th>
+            <th>账号状态</th>
+            <th>操作</th>
+        </thead>
+        <tbody id="show_tbody">
+
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+
+</html>

@@ -13,6 +13,8 @@ public interface UserInfoMapper {
 
     int insertSelective(UserInfo record);
 
+    List<UserInfo> selectUserByLikeNameOrPhone(String nameOrPhone);
+
     UserInfo selectByPrimaryKey(Integer userId);
 
     UserInfo selectByOpenId(String userOpenid);

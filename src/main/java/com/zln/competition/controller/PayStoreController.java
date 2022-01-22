@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +32,22 @@ public class PayStoreController {
     @Autowired
     UserService userService;
 
-   /* @RequestMapping(value = "/updateImgById",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/selectPayStoreByLikeProductName",method = RequestMethod.POST)
+    public List<PayStore> selectPayStoreByLikeProductName(@RequestParam("productName") String productName) throws UnsupportedEncodingException {
+        System.out.println("PayStoreController selectUserByLikeNameOrPhone方法执行啦");
+        String decode = URLDecoder.decode(productName, "utf-8");
+        System.out.println("decode = " + decode);
+
+        Recommend recommend = new Recommend();
+        recommend.setRecName("%"+decode+"%");
+        decode = "%" + decode + "%";
+        List<PayStore> payStores = payStoreService.selectPayStoreByLikeProductName(decode);
+        return payStores;
+    }
+
+
+    /* @RequestMapping(value = "/updateImgById",method = RequestMethod.POST)
     public int updateImgById(HttpServletRequest request,
                                            @RequestParam("productImg") String productImg){
         System.out.println("PayStoreController的updateByPrimaryKeySelective方法执行了");

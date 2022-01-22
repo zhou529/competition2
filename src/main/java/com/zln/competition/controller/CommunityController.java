@@ -12,6 +12,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,18 @@ public class CommunityController {
     CommunityService communityService;
     @Resource
     ComAdminService comAdminService;
+
+
+    @RequestMapping(value = "/selectCommunityByLikeComName",method = RequestMethod.POST)
+    public List<Community> selectCommunityByLikeComName(@RequestParam("comName") String comName) throws UnsupportedEncodingException {
+        System.out.println("CommunityController selectCommunityByLikeComName方法执行啦");
+        String decode = URLDecoder.decode("comName", "utf-8");
+        decode = "%" + decode + "%";
+        System.out.println("decode" + decode);
+        List<Community> communities = communityService.selectCommunityByLikeComName(decode);
+        return communities;
+    }
+
 
 
     @RequestMapping(value = "/updateComImg",method = RequestMethod.POST)

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>欢迎页面-L-admin1.0</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="../css/font.css">
+  <link rel="stylesheet" href="../css/xadmin.css">
+  <script src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+  <script type="text/javascript" src="../js/xadmin.js"></script>
+  <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+  <!--[if lt IE 9]>
+  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <script>
+    $(function () {
+      var competitionName;
+      var url = window.location.search; //获取url中"?"符后的字串
+      if (url.indexOf("?") != -1) {
+        competitionName = url.substr(url.indexOf("=") + 1);
+      }
+      $.post("../selectTeamByLikeCompetitionName",{"competitionName":competitionName}, function (data){
+        if(data){
+          for (let i = 0; i < data.length; i++) {
+            var team = "";
+            //第一列的多选框
+            //ID
+            team += '<td>' + data[i].teamId + '</td>';
+            //队名
+            team += '<td>' + data[i].teamName + '</td>';
+            //简介
+            team += '<td>' + data[i].teamInformation + '</td>';
+            //竞赛名
+            team += '<td>' + data[i].competitionName + '</td>';
+            //qq群
+            team += '<td>' + data[i].teamQq + '</td>';
+            //操作  onclick="x_admin_show('编辑','admin-edit.html')"
+            team += "<td class=\"td-manage\">\n" +
+                    "                <a class='editTeam' title=\"编辑\"  href=\"javascript:;\">\n" +
+                    "                    <i class=\"layui-icon\">&#xe642;</i>\n" +
+                    "                </a>\n" +
+                    "                <a class='delTeam' title=\"删除\"  href=\"javascript:;\">\n" +
+                    "                    <i class=\"layui-icon\">&#xe640;</i>\n" +
+                    "                </a>\n" +
+                    "            </td>";
+            //加入到html中
+            $('#show_tbody').append('<tr id="team">' + team + '</tr>');
+          }        }else {
+          alert("换个关键词试试吧~")
+        }
+        $("#totalData").html("共有数据：" + data.length + "条");
+      });
+      //删除操作入口
+      $('#show_tbody').on('click', '.delTeam', function () {
+        if (confirm("确认要删除么？")) {
+          //获取对应的行
+          var trIndex = $('.delTeam', '#show_tbody').index($(this));
+          var tar = $('#show_tbody tr').eq(trIndex);
+          //获取对应的第二列的值
+          teamId = tar.children('td').eq(tar.find('td').length - 6).html();
+          $.post("../deleteByTeamId",{"teamId":teamId},function(data){
+            if(data == 1){
+              $(this).parents('tr').remove();
+              setTimeout(window.location.reload(),100);
+            }
+          })
+        }
+      });
+
+      //编辑操作入口
+      $('#show_tbody').on('click', '.editTeam', function () {
+        //获取对应的行
+        var trIndex = $('.editTeam', '#show_tbody').index($(this));
+        var tar = $('#show_tbody tr').eq(trIndex);
+        //获取对应的列值
+        teamId = tar.children('td').eq(tar.find('td').length - 6).html();
+        teamName = tar.children('td').eq(tar.find('td').length - 5).html();
+        teamInformation = tar.children('td').eq(tar.find('td').length - 4).html();
+        competitionName = tar.children('td').eq(tar.find('td').length - 3).html();
+        teamQq = tar.children('td').eq(tar.find('td').length - 2).html();
+        $.post("../putTeam",
+                {
+                  "teamId": teamId,
+                  "teamName": teamName,
+                  "teamInformation": teamInformation,
+                  "competitionName": competitionName,
+                  "teamQq": teamQq
+                },
+                function () {
+                  x_admin_show('编辑', 'team-edit.html');
+                })
+      });
+
+
+    })
+  </script>
+</head>
+
+<body>
+<div class="x-body">
+
+  <table class="layui-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>队名</th>
+      <th>简介</th>
+      <th>竞赛名</th>
+      <th>qq群</th>
+      <th>操作</th>
+    </thead>
+    <tbody id="show_tbody">
+
+    </tbody>
+  </table>
+
+</div>
+
+</body>
+
+</html>

@@ -16,6 +16,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -27,6 +29,18 @@ public class ComAdminController {
     LoginLogService loginLogService;
     @Autowired
     CommunityService communityService;
+
+
+    @RequestMapping(value = "/selectComAdminByLikeUsername",method = RequestMethod.POST)
+    public List<ComAdmin> selectComAdminByLikeUsername(@RequestParam("comUsername") String comUsername) throws UnsupportedEncodingException {
+        System.out.println("ComAdminController的 selectComAdminByLikeUsername方法执行啦");
+        String decode = URLDecoder.decode("comUsername", "utf-8");
+        decode = "%" + decode + "%";
+        System.out.println("decode" + decode);
+        List<ComAdmin> comAdmin = comAdminService.selectComAdminByLikeUsername(decode);
+        return comAdmin;
+    }
+
 
 
     @RequestMapping(value = "/selectByComName",method = RequestMethod.POST)

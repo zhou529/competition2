@@ -16,7 +16,9 @@ public interface CommunityMapper {
     public int insertCommunity(Community community);
 
     //根据comName查询数据
-    public Community selectCommunityByComName(String comName);
+    public Community selectCommunityByComName(String comName)
+    ;
+    public List<Community> selectCommunityByLikeComName(String comName);
 
     //查询所有数据
     public List<Community> selectAllCommunity();

@@ -19,7 +19,24 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script>
+
+        // function searchs() {
+        //     alert("带年纪时间出发了额")
+        //         var select_comUsername = $("#username").val();
+        //     window.location.href = 'admin-select.html';
+        //
+        //     // x_admin_show('查询','admin-select.html?comUsername=' + select_comUsername)
+        // };
+
+        // function searchs() {
+        //     var select_comUsername = $("#username").val();
+        //     alert("select_comUsername = " + select_comUsername)
+        //     x_admin_show('查询','admin-select.html?comUsername=' + select_comUsername)
+        //
+        // }
         $(function () {
+
+
             $.post("../selectAll", function (data) {
                 for (let i = 0; i < data.length; i++) {
                     var comDel = data[i].comDel.toString();
@@ -43,12 +60,12 @@
                     if (comDel == 0) {
                         comAdmin += "<td class=\"td-status\">\n" +
                             "                <span>" +
-                            "<button id='update_to_1' style=\"background-color: #7ED321;width: 76px;height: 36px;color: #FFFFFF\">已启用</button></span>\n" +
+                            "<button class='update_to_1' style=\"background-color: #7ED321;width: 76px;height: 36px;color: #FFFFFF\">已启用</button></span>\n" +
                             "            </td>";
                     } else if (comDel == 1) {
                         comAdmin += "<td class=\"td-status\">\n" +
                             "               <span>" +
-                            "<button id='update_to_0' style=\"width: 76px;height: 36px;color: red\">已停用</button></span>\n" +
+                            "<button class='update_to_0' style=\"width: 76px;height: 36px;color: red\">已停用</button></span>\n" +
                             "            </td>";
                     } else {
                         comAdmin += '<td>' + comDel + '</td>';
@@ -67,6 +84,16 @@
                 }
                 $("#totalData").html("共有数据：" + data.length + "条");
             });
+            $('#searchs').on('click', function () {
+                var comUsername = $("#username").val();
+                if(comUsername.length > 0){
+                    window.location.href = 'admin-select.html?comUsername=' + comUsername;
+                }else {
+                    alert("不能为空！")
+                }
+
+                // x_admin_show('查询','admin-select.html?comUsername=' + select_comUsername)
+            });
             //删除操作入口
             $('#show_tbody').on('click', '.delComadmin', function () {
                 alert("点击时间出发了")
@@ -76,10 +103,10 @@
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第二列的值
                     comUsername = tar.children('td').eq(tar.find('td').length - 4).html();
-                    $.post("../deleteByPrimaryKey.do",{"comUsername":comUsername},function(data){
-                        if(data == 1){
+                    $.post("../deleteByPrimaryKey.do", {"comUsername": comUsername}, function (data) {
+                        if (data == 1) {
                             $(this).parents('tr').remove();
-                            setTimeout(window.location.reload(),100);
+                            setTimeout(window.location.reload(), 100);
                         }
                     })
                 }
@@ -92,27 +119,27 @@
                 var tar = $('#show_tbody tr').eq(trIndex);
                 //获取对应的第二列的值
                 var comUsername = tar.children('td').eq(tar.find('td').length - 4).html();
-                $.post("../getAdminPutSession",{"comUsername":comUsername},function(data){
+                $.post("../getAdminPutSession", {"comUsername": comUsername}, function (data) {
                     // $(this).parents('tr').remove();
                     // setTimeout(window.location.reload(),100);
-                    x_admin_show('编辑','admin-edit.html')
+                    x_admin_show('编辑', 'admin-edit.html')
                     // window.location.href = 'admin-edit.html';
                 })
             });
             //更改权限入口
-            $('#show_tbody').on('click', '#update_to_0', function () {
+            $('#show_tbody').on('click', '.update_to_0', function () {
                 if (confirm("确认要启用么？")) {
                     //获取对应的行
-                    var trIndex = $('#update_to_0', '#show_tbody').index($(this));
+                    var trIndex = $('.update_to_0', '#show_tbody').index($(this));
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第二列的值
                     var com_name = tar.children('td').eq(tar.find('td').length - 4).html();
                     alert("com_name = " + com_name)
-                    $.post("../updateComDelOn.do",{"comUsername":com_name},function(data){
-                        if(data){
+                    $.post("../updateComDelOn.do", {"comUsername": com_name}, function (data) {
+                        if (data) {
                             alert("修改成功")
                             window.location.reload();
-                        }else {
+                        } else {
                             alert("修改失败！")
                         }
                     })
@@ -126,12 +153,12 @@
                     //获取对应的第二列的值
                     var com_name = tar.children('td').eq(tar.find('td').length - 4).html();
                     alert("com_name ?= " + com_name)
-                    $.post("../updateComDelOff.do",{"comUsername":com_name},function(data){
-                        if(data){
+                    $.post("../updateComDelOff.do", {"comUsername": com_name}, function (data) {
+                        if (data) {
                             alert("修改成功")
                             // $(this).parents('tr').remove();
                             window.location.reload();
-                        }else {
+                        } else {
                             alert("修改失败！")
                         }
                     })
@@ -155,12 +182,29 @@
         <i class="layui-icon" style="line-height:38px">ဂ</i></a>
 </div>
 <div class="x-body">
-    <div class="layui-row">
+    <!--<div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
-            <!--            <input class="layui-input" placeholder="开始日" name="start" id="start">-->
-            <!--            <input class="layui-input" placeholder="截止日" name="end" id="end">-->
-            用户名 : <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
-            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+            &lt;!&ndash;            <input class="layui-input" placeholder="开始日" name="start" id="start">&ndash;&gt;
+            &lt;!&ndash;            <input class="layui-input" placeholder="截止日" name="end" id="end">&ndash;&gt;
+            用户名 : <input id="username" type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            <button class="layui-btn" lay-submit="" lay-filter="sreach" id="selectLike"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>-->
+    <div style="margin: 10px 10px 10px 10px">
+        <form class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" autocomplete="off" class="layui-input" id="username">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button onclick="searchs" type="button" class="layui-btn layui-btn-primary" id="searchs" lay-submit
+                            lay-filter="data-search-btn" data-type="reload"><i class="layui-icon"></i> 搜 索
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
     <xblock>

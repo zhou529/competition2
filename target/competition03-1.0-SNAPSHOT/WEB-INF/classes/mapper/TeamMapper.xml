@@ -31,6 +31,14 @@
         where Team_name = #{teamName,jdbcType=INTEGER}
     </select>
 
+<!--    List<Team> selectTeamByLikeCompetitionName(String competitionName);-->
+    <select id="selectTeamByLikeCompetitionName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from team
+        where Competition_name like #{competitionName,jdbcType=INTEGER}
+    </select>
+
 
     <!--    int deleteByTeamId(Integer teamId);-->
     <delete id="deleteByTeamId" parameterType="java.lang.Integer">

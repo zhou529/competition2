@@ -95,7 +95,16 @@
                   })
         });
 
+        $('#searchs').on('click', function () {
+          var nameOrPhone = $("#nameOrPhone").val();
+          if(nameOrPhone.length > 0){
+            window.location.href = 'member-select.html?nameOrPhone=' + nameOrPhone;
+          }else {
+            alert("不能为空！")
+          }
 
+          // x_admin_show('查询','admin-select.html?comUsername=' + select_comUsername)
+        });
       })
     </script>
   </head>
@@ -112,12 +121,21 @@
         <i class="layui-icon" style="line-height:38px">ဂ</i></a>
     </div>
     <div class="x-body">
-      <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-          <!--<input class="layui-input" placeholder="开始日" name="start" id="start">
-          <input class="layui-input" placeholder="截止日" name="end" id="end">-->
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+      <div style="margin: 10px 10px 10px 10px">
+        <form class="layui-form layui-form-pane" action="">
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">请输入姓名或者手机号</label>
+              <div class="layui-input-inline">
+                <input type="text" name="nameOrPhone" autocomplete="off" class="layui-input" id="nameOrPhone">
+              </div>
+            </div>
+            <div class="layui-inline">
+              <button onclick="searchs" type="button" class="layui-btn layui-btn-primary" id="searchs" lay-submit
+                      lay-filter="data-search-btn" data-type="reload"><i class="layui-icon"></i> 搜 索
+              </button>
+            </div>
+          </div>
         </form>
       </div>
      <!-- <xblock>

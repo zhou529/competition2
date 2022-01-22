@@ -30,6 +30,8 @@ public interface ComAdminMapper {
     //根据comUsername查询对象
     public ComAdmin selectByComAdmin(String comUsername);
 
+    public List<ComAdmin> selectComAdminByLikeUsername(String comUsername);
+
     //编辑管理员信息
     public int updateByComUsername(ComAdmin comAdmin);
 

@@ -20,8 +20,9 @@
     <![endif]-->
     <script>
         $(function () {
+
             //设置ajax是同步
-            // $.ajaxSettings.async = false;
+            $.ajaxSettings.async = false;
             //查找
             /*$("#selectCommunityByComName").click(function () {
                 alert("community-list页面查询的点击事件触发了");
@@ -161,6 +162,18 @@
                         x_admin_show('编辑', 'community-edit.html')
                     })
             });
+
+            //搜索操作入口
+            $('#searchs').on('click', function () {
+                var comName = $("#comName").val();
+                if(comName.length > 0){
+                    window.location.href = 'community-select.html?comName=' + comName;
+                }else {
+                    alert("不能为空！")
+                }
+
+                // x_admin_show('查询','admin-select.html?comUsername=' + select_comUsername)
+            });
         });
     </script>
 </head>
@@ -178,39 +191,21 @@
         <i class="layui-icon" style="line-height:38px">ဂ</i></a>
 </div>
 <div class="x-body">
-    <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-            <input class="layui-input" placeholder="社团名称" name="start" id="start">
-            <!--<input class="layui-input" placeholder="截止日" name="end" id="end">
-            <div class="layui-input-inline">
-              <select name="contrller">
-                <option>支付状态</option>
-                <option>已支付</option>
-                <option>未支付</option>
-              </select>
+    <div style="margin: 10px 10px 10px 10px">
+        <form class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="comName" autocomplete="off" class="layui-input" id="comName">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button onclick="searchs" type="button" class="layui-btn layui-btn-primary" id="searchs" lay-submit
+                            lay-filter="data-search-btn" data-type="reload"><i class="layui-icon"></i> 搜 索
+                    </button>
+                </div>
             </div>
-            <div class="layui-input-inline">
-              <select name="contrller">
-                <option>支付方式</option>
-                <option>支付宝</option>
-                <option>微信</option>
-                <option>货到付款</option>
-              </select>
-            </div>
-            <div class="layui-input-inline">
-              <select name="contrller">
-                <option value="">订单状态</option>
-                <option value="0">待确认</option>
-                <option value="1">已确认</option>
-                <option value="2">已收货</option>
-                <option value="3">已取消</option>
-                <option value="4">已完成</option>
-                <option value="5">已作废</option>
-              </select>
-            </div>
-            <input type="text" name="username"  placeholder="请输入订单号" autocomplete="off" class="layui-input">-->
-            <button id="selectCommunityByComName" class="layui-btn" lay-submit="" lay-filter="sreach"><i
-                    class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
     <xblock>

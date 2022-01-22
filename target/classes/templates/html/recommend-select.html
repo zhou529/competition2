@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>欢迎页面-L-admin1.0</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="../css/font.css">
+  <link rel="stylesheet" href="../css/xadmin.css">
+  <script src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+  <script type="text/javascript" src="../js/xadmin.js"></script>
+  <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+  <!--[if lt IE 9]>
+  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <script>
+    $(function () {
+      var recName;
+      var url = window.location.search; //获取url中"?"符后的字串
+      if (url.indexOf("?") != -1) {
+        recName = url.substr(url.indexOf("=") + 1);
+      }
+
+      $.post("../selectRecommendByLikeRecname",{"recName" : recName}, function (data){
+        if(data){
+          for (let i = 0; i < data.length; i++) {
+            var recommend = "";
+            //ID
+            recommend += '<td>' + data[i].recId + '</td>';
+            //竞赛名
+            recommend += '<td>' + data[i].recName + '</td>';
+            //举办方
+            recommend += '<td>' + data[i].recOrganizer + '</td>';
+            //开始时间
+            recommend += '<td>' + data[i].recBegintime + '</td>';
+            //结束时间
+            recommend += '<td>' + data[i].recEndtime + '</td>'
+            //简介
+            recommend += '<td>' + data[i].recInformation + '</td>';
+            if (data[i].recImg != null) {
+              recommend += '  <td class=\'editRecImg\'>\n' +
+                      '      <img src="../images/uploadImage/' + data[i].recImg + '"Img height="50" width="200" >\n' +
+                      '    </td>'
+            } else {
+              recommend += '<td class=\'editRecImg\'>\n' + '</td>'
+            }
+            //操作  onclick="x_admin_show('编辑','admin-edit.html')"
+            recommend += "<td class=\"td-manage\">\n" +
+                    "                <a class='editRecommend' title=\"编辑\"  href=\"javascript:;\">\n" +
+                    "                    <i class=\"layui-icon\">&#xe642;</i>\n" +
+                    "                </a>\n" +
+                    "                <a class='delRecommend' title=\"删除\"  href=\"javascript:;\">\n" +
+                    "                    <i class=\"layui-icon\">&#xe640;</i>\n" +
+                    "                </a>\n" +
+                    "            </td>";
+            //加入到html中
+            $('#show_tbody').append('<tr id="recommend">' + recommend + '</tr>');
+          }
+        }else {
+          alert("换个关键词试试吧！")
+        }
+
+        $("#totalData").html("共有数据：" + data.length + "条");
+      });
+      //删除全部操作入口
+      $("#allDeleteRecommend").click(function () {
+        $.post("../allDeleteRecommend",function(data){
+          // if(data == 1){
+          //     $(this).parents('tr').remove();
+          //     setTimeout(window.location.reload(),100);
+          // }
+        })
+      })
+      //上传 or 修改图片
+      $('#show_tbody').on('click', '.editRecImg', function () {
+        var trIndex = $('.editRecImg', '#show_tbody').index($(this));
+        var tar = $('#show_tbody tr').eq(trIndex);
+
+        //获取对应的第二列的值
+        recId = tar.children('td').eq(tar.find('td').length - 8).html();
+        // function to(){
+        //   window.location.href="upload.html?values="+productId;
+        // }
+        x_admin_show('编辑', 'recommend_upload.html?recId=' + recId)
+      });
+      //删除操作入口
+      $('#show_tbody').on('click', '.delRecommend', function () {
+
+        if (confirm("确认要删除么？")) {
+          //获取对应的行
+          var trIndex = $('.delRecommend', '#show_tbody').index($(this));
+          var tar = $('#show_tbody tr').eq(trIndex);
+          //获取对应的第二列的值
+          recId = tar.children('td').eq(tar.find('td').length - 8).html();
+          $.post("../deleteByRecId",{"recId":recId},function(data){
+            if(data == 1){
+              $(this).parents('tr').remove();
+              setTimeout(window.location.reload(),100);
+            }
+          })
+        }
+      });
+
+      //编辑操作入口
+      $('#show_tbody').on('click', '.editRecommend', function () {
+
+        //获取对应的行
+        var trIndex = $('.editRecommend', '#show_tbody').index($(this));
+        var tar = $('#show_tbody tr').eq(trIndex);
+        //获取对应的第二列的值
+        var recId = tar.children('td').eq(tar.find('td').length - 8).html();
+        var recName = tar.children('td').eq(tar.find('td').length - 7).html();
+        var recOrganizer = tar.children('td').eq(tar.find('td').length - 6).html();
+        var recBegintime = tar.children('td').eq(tar.find('td').length - 5).html();
+        var recEndtime = tar.children('td').eq(tar.find('td').length - 4).html();
+        var recInformation = tar.children('td').eq(tar.find('td').length - 3).html();
+
+        $.post("../putRecommend",
+                {
+                  "recId":recId,
+                  "recName":recName,
+                  "recBegintime":recBegintime,
+                  "recEndtime":recEndtime,
+                  "recOrganizer":recOrganizer,
+                  "recInformation":recInformation
+                },function(data){
+                  x_admin_show('编辑','recommend-edit.html')
+                })
+      });
+    })
+  </script>
+</head>
+
+<body>
+<div class="x-body">
+
+  <table class="layui-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>竞赛名</th>
+      <th>举办方</th>
+      <th>开始时间</th>
+      <th>结束时间</th>
+      <th>简介</th>
+      <th>图片</th>
+      <th>操作</th>
+    </thead>
+    <tbody id="show_tbody">
+
+    </tbody>
+  </table>
+
+</div>
+
+</body>
+
+</html>

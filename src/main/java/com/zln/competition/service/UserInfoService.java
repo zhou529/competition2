@@ -15,6 +15,8 @@ public interface UserInfoService {
 
     UserInfo selectByPrimaryKey(Integer userId);
 
+    List<UserInfo> selectUserByLikeNameOrPhone(String nameOrPhone);
+
     int updateUserInfoByUserId(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);

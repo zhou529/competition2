@@ -40,6 +40,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    public List<UserInfo> selectUserByLikeNameOrPhone(String nameOrPhone) {
+        return userInfoMapper.selectUserByLikeNameOrPhone(nameOrPhone);
+    }
+
+    @Override
     public int updateUserInfoByUserId(UserInfo record){
         return userInfoMapper.updateUserInfoByUserId(record);
     }

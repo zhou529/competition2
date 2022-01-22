@@ -1,6 +1,7 @@
 package com.zln.competition.controller;
 
 import com.zln.competition.bean.Community;
+import com.zln.competition.bean.Recommend;
 import com.zln.competition.bean.UserInfo;
 import com.zln.competition.bean.Users;
 import com.zln.competition.service.UserInfoService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -23,6 +26,18 @@ public class UserInfoController {
     @Autowired
     UserService userService;
 
+    @RequestMapping(value = "/selectUserByLikeNameOrPhone",method = RequestMethod.POST)
+    public List<UserInfo> selectUserByLikeNameOrPhone(@RequestParam("nameOrPhone") String nameOrPhone) throws UnsupportedEncodingException {
+        System.out.println("CommunityController selectUserByLikeNameOrPhone方法执行啦");
+        String decode = URLDecoder.decode(nameOrPhone, "utf-8");
+        System.out.println("decode = " + decode);
+
+        Recommend recommend = new Recommend();
+        recommend.setRecName("%"+decode+"%");
+        decode = "%" + decode + "%";
+        List<UserInfo> userInfos = userInfoService.selectUserByLikeNameOrPhone(decode);
+        return userInfos;
+    }
 
 
     @RequestMapping(value = "/updateUserInfo")

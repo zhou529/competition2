@@ -25,6 +25,13 @@
         set exchange_number = exchange_number + 1
         where product_id = #{productId,jdbcType=INTEGER}
     </update>
+<!--    List<PayStore> selectPayStoreByLikeProductName(String productName);-->
+    <select id="selectPayStoreByLikeProductName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from pay_store
+        where product_name like #{productName,jdbcType=VARCHAR}
+    </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />

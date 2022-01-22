@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -20,6 +22,21 @@ public class TeamController {
     TeamService teamService;
     @Autowired
     UserService userService;
+
+
+
+    @RequestMapping(value = "/selectTeamByLikeCompetitionName", method = RequestMethod.POST)
+    public List<Team> selectTeamByLikeCompetitionName(@RequestParam("competitionName") String competitionName) throws UnsupportedEncodingException {
+        System.out.println("TeamController的dselectTeamByLikeCompetitionName方法执行啦");
+        System.out.println("competitionName = " + competitionName);
+        String decode = URLDecoder.decode(competitionName, "utf-8");
+        System.out.println("decode = " + decode);
+        decode = "%"+decode+"%";
+        List<Team> teams = teamService.selectTeamByLikeCompetitionName(decode);
+        return teams;
+    }
+
+
 
     @RequestMapping(value = "/insertTeamInfoByUser")
     public int insertTeamInfoByUser(

@@ -30,6 +30,11 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public List<Team> selectTeamByLikeCompetitionName(String competitionName) {
+        return teamMapper.selectTeamByLikeCompetitionName(competitionName);
+    }
+
+    @Override
     public List<Team> selectTeamByTeamName(String teamName) {
         List<Team> teams = teamMapper.selectTeamByTeamName(teamName);
         return teams;

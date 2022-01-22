@@ -36,6 +36,14 @@
         where com_username = #{comUsername,jdbcType=VARCHAR}
     </select>
 
+<!--    public ComAdmin selectComAdminByLikeUsername(String comUsername);-->
+    <select id="selectComAdminByLikeUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from com_admin
+        where com_username like #{comUsername,jdbcType=VARCHAR}
+    </select>
+
     <select id="selectUsernameAndPsw" resultMap="BaseResultMap" parameterType="java.lang.String">
         select com_username,
                com_id,

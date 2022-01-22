@@ -18,7 +18,16 @@
         stu_id, id_cart
     </sql>
 
-<!--    UserInfo selectByOpenId(String userOpenid);-->
+<!--    List<UserInfo> selectUserByLikeNameOrPhone(String nameOrPhone);-->
+    <select id="selectUserByLikeNameOrPhone" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user_info
+        WHERE User_name like #{nameOrPhone,jdbcType=VARCHAR}
+        OR User_phone like #{nameOrPhone,jdbcType=VARCHAR}
+    </select>
+
+    <!--    UserInfo selectByOpenId(String userOpenid);-->
     <select id="selectByOpenId" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />

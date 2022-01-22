@@ -16,6 +16,9 @@ public interface PayStoreService {
     int updateByPrimaryKeySelective(PayStore record);
 
     int updateByPayStore(PayStore record);
+
+    List<PayStore> selectPayStoreByLikeProductName(String productName);
+
     int updateImgById(PayStore record);
 
     int updateByPrimaryKey(PayStore record);

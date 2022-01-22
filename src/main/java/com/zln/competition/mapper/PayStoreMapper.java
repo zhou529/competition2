@@ -23,5 +23,7 @@ public interface PayStoreMapper {
 
     List<PayStore> selectAllPayStore();
 
+    List<PayStore> selectPayStoreByLikeProductName(String productName);
+
     int updateExchangeNumber(Integer productId);
 }

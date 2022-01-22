@@ -13,12 +13,14 @@
     select log_id as logId,username username,login_time loginTime,login_ip loginIp
 from login_log
 where username != 'admin' and username is not null
+order by loginTime desc
 </select>
 <!--    List<LoginLog> selectAllLoginLogByAdmin();-->
     <select id="selectAllLoginLogByAdmin" resultType="com.zln.competition.bean.LoginLog">
         select log_id as logId,username username,login_time loginTime,login_ip loginIp
         from login_log
         where username =  #{username,jdbcType=VARCHAR}
+        order by loginTime desc
     </select>
 
     <!--    LoginLog insertLoginLog(LoginLog loginLog);-->

@@ -22,6 +22,8 @@ public interface CommunityService {
      */
     public int insertCommunity(Community community);
 
+    public List<Community> selectCommunityByLikeComName(String comName);
+
     /**
      * 根据com_name查询id，引入到com_admin表中
      * @param comName

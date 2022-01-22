@@ -57,6 +57,11 @@ public class ComAdminServiceImpl implements ComAdminService {
         return i;
     }
 
+    @Override
+    public List<ComAdmin> selectComAdminByLikeUsername(String comUsername){
+        return comAdminMapper.selectComAdminByLikeUsername(comUsername);
+    }
+
 
     @Override
     public int updateComDelOff(String comUsername){

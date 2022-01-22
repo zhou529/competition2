@@ -19,6 +19,8 @@ public interface TeamService {
 
     public int updateTeamByTeamId(Team record);
 
+    List<Team> selectTeamByLikeCompetitionName(String competitionName);
+
     List<Team> selectTeamDim(Team DimTeam);
 
     Team selectTeamByTeamId(Integer teamId);

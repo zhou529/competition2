@@ -129,6 +129,17 @@
                     x_admin_show('编辑','recommend-edit.html')
                 })
             });
+            //搜索操作入口
+            $('#searchs').on('click', function () {
+                var recName = $("#recName").val();
+                if(recName.length > 0){
+                    window.location.href = 'recommend-select.html?recName=' + recName;
+                }else {
+                    alert("不能为空！")
+                }
+
+                // x_admin_show('查询','admin-select.html?comUsername=' + select_comUsername)
+            });
         });
     </script>
 </head>
@@ -146,14 +157,24 @@
         <i class="layui-icon" style="line-height:38px">ဂ</i></a>
 </div>
 <div class="x-body">
-    <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-            <!--            <input class="layui-input" placeholder="开始日" name="start" id="start">-->
-            <!--            <input class="layui-input" placeholder="截止日" name="end" id="end">-->
-            队伍名 : <input type="text" name="username" placeholder="请输入队伍名" autocomplete="off" class="layui-input">
-            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-        </form>
-    </div>
+    <div class="x-body">
+        <div style="margin: 10px 10px 10px 10px">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">竞赛名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="recName" autocomplete="off" class="layui-input" id="recName">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button onclick="searchs" type="button" class="layui-btn layui-btn-primary" id="searchs" lay-submit
+                                lay-filter="data-search-btn" data-type="reload"><i class="layui-icon"></i> 搜 索
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     <xblock>
         <button id=”allDeleteRecommend“ class="layui-btn layui-btn-danger"><i class="layui-icon"></i>批量删除</button>
         <button class="layui-btn" onclick="x_admin_show('添加队伍','./recommend-add.html')"><i class="layui-icon"></i>添加

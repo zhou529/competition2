@@ -44,6 +44,11 @@ public class PayStoreServiceImpl implements PayStoreService {
     }
 
     @Override
+    public List<PayStore> selectPayStoreByLikeProductName(String productName) {
+        return payStoreMapper.selectPayStoreByLikeProductName(productName);
+    }
+
+    @Override
     public int updateImgById(PayStore record) {
         return payStoreMapper.updateImgById(record);
     }

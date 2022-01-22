@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>欢迎页面-L-admin1.0</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="../css/font.css">
+  <link rel="stylesheet" href="../css/xadmin.css">
+  <script src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+  <script type="text/javascript" src="../js/xadmin.js"></script>
+  <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+  <!--[if lt IE 9]>
+  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <script>
+    $(function () {
+      var nameOrPhone;
+      var url = window.location.search; //获取url中"?"符后的字串
+      if (url.indexOf("?") != -1) {
+        nameOrPhone = url.substr(url.indexOf("=") + 1);
+      }
+
+      $.post("../selectUserByLikeNameOrPhone",{"nameOrPhone": nameOrPhone}, function (data){
+        if(data){
+          for (let i = 0; i < data.length; i++) {
+            var userInfo = "";
+            //第一列的多选框
+            //ID
+            userInfo += '<td>' + data[i].userId + '</td>';
+            //openID
+            userInfo += '<td>' + data[i].userOpenid + '</td>';
+            //学校
+            userInfo += '<td>' + data[i].userSchool + '</td>';
+            // 专业
+            userInfo += '<td>' + data[i].userMajor + '</td>';
+            // 手机号码
+            userInfo += '<td>' + data[i].userPhone + '</td>';
+            userInfo += "<td class=\"td-manage\">\n" +
+                    "                <a class='editUserInfo' title=\"编辑\"  href=\"javascript:;\">\n" +
+                    "                    <i class=\"layui-icon\">&#xe642;</i>\n" +
+                    "                </a>\n" +
+                    "                <a class='delUser' title=\"删除\"  href=\"javascript:;\">\n" +
+                    "                    <i class=\"layui-icon\">&#xe640;</i>\n" +
+                    "                </a>\n" +
+                    "            </td>";
+            //加入到html中
+            $('#show_tbody').append('<tr id="userInfo">' + userInfo + '</tr>');
+          }
+        }else {
+          alert("换个关键词试试吧！")
+        }
+
+        $("#totalData").html("共有数据：" + data.length + "条");
+      });
+      //删除操作入口
+      $('#show_tbody').on('click', '.delUser', function () {
+        if (confirm("确认要删除么？")) {
+          //获取对应的行
+          var trIndex = $('.delUser', '#show_tbody').index($(this));
+          var tar = $('#show_tbody tr').eq(trIndex);
+          //获取对应的第二列的值
+          userId = tar.children('td').eq(tar.find('td').length - 6).html();
+          $.post("../deleteByUserIdFromUserAndInfo",{"userId":userId},function(data){
+            if(data == 1){
+              $(this).parents('tr').remove();
+              setTimeout(window.location.reload(),100);
+            }
+          })
+        }
+      });
+
+
+      //编辑操作入口
+      $('#show_tbody').on('click', '.editUserInfo', function () {
+
+        //获取对应的行
+        var trIndex = $('.editUserInfo', '#show_tbody').index($(this));
+        var tar = $('#show_tbody tr').eq(trIndex);
+
+        //获取对应的第二列的值
+        user_id = tar.children('td').eq(tar.find('td').length - 6).html();
+        user_phone = tar.children('td').eq(tar.find('td').length - 2).html();
+        user_school = tar.children('td').eq(tar.find('td').length - 4).html();
+        user_major = tar.children('td').eq(tar.find('td').length - 3).html();
+        $.post("../putUserInfo",
+                {
+                  "user_id":user_id,
+                  "user_phone":user_phone,
+                  "user_school": user_school,
+                  "user_major": user_major
+                },
+                function () {
+                  // alert("../getCommunityBySession ： " + data)
+                  x_admin_show('编辑', 'member-edit.html')
+                })
+      });
+
+    })
+  </script>
+</head>
+
+<body>
+<div class="x-body">
+
+  <table class="layui-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>openID</th>
+      <th>学校</th>
+      <th>专业</th>
+      <th>手机号码</th>
+      <th>操作</th></tr>
+    </thead>
+    <tbody id="show_tbody">
+
+    </tbody>
+  </table>
+
+</div>
+
+</body>
+
+</html>
