@@ -76,4 +76,9 @@ public class LoginLogServiceImpl implements LoginLogService {
         return time;
     }
 
+    @Override
+    public List<LoginLog> selectAllLoginLogByAdmin(String username) {
+        return loginLogMapper.selectAllLoginLogByAdmin(username);
+    }
+
 }

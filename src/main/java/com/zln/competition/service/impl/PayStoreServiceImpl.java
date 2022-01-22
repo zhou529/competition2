@@ -44,6 +44,11 @@ public class PayStoreServiceImpl implements PayStoreService {
     }
 
     @Override
+    public int updateImgById(PayStore record) {
+        return payStoreMapper.updateImgById(record);
+    }
+
+    @Override
     public int updateByPrimaryKey(PayStore record) {
         return payStoreMapper.updateByPrimaryKey(record);
     }

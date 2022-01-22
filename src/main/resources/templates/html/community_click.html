@@ -30,38 +30,71 @@
   $(function () {
     alert("加载成功！")
     var datas = new Array();
-    $.post("../recommend_race", function (data) {
+    var result = new Array();
+    $.post("../community_click", function (data) {
       if (data) {
         var length = data.length;
-        // 1 5
         for (let i = 0; i < length; i++) {
           var item = {};
           let res = JSON.stringify(data[i]);
           var testJson = eval("(" + res + ")");
           // alert("eval(res) = " +  eval("(" + res + ")"));
-          item["name"] = testJson.recName;
-          item["value"] = testJson.recBrowse;
-          datas.push(item);
+          datas.push(testJson.comName);
+          result.push(testJson.click_number);
         }
         // 指定图表的配置项和数据
         option = {
           xAxis: {
-            data: ['A', 'B', 'C', 'D', 'E']
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
           },
-          yAxis: {},
+          yAxis: {
+            type: 'value'
+          },
           series: [
             {
-              data: [10, 22, 28, 43, 49],
+              name: 'Step Start',
               type: 'line',
-              stack: 'x'
+              step: 'start',
+              data: [120, 132, 101, 134, 90, 230, 210]
             },
             {
-              data: [5, 4, 3, 5, 10],
+              name: 'Step Middle',
               type: 'line',
-              stack: 'x'
+              step: 'middle',
+              data: [220, 282, 201, 234, 290, 430, 410]
+            },
+            {
+              name: 'Step End',
+              type: 'line',
+              step: 'end',
+              data: [450, 432, 401, 454, 590, 530, 510]
             }
           ]
         };
+/*        option = {
+          xAxis: {
+            data: datas
+          },
+
+          yAxis: {},
+          series: [
+            {
+              type: 'bar',
+              data: result,
+              barWidth: '30%',
+              itemStyle: {
+                barBorderRadius: 5,
+                borderWidth: 1,
+                borderType: 'solid',
+                borderColor: '#73c0de',
+                shadowColor: '#5470c6',
+                shadowBlur: 3,
+                color:'#91cc75'
+              }
+            }
+          ]
+        };*/
         myChart.setOption(option);
       } else {
         alert("查询失败！")

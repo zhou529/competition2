@@ -63,6 +63,11 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     @Override
+    public int updateRecImgByRecId(Recommend record) {
+        return recommendMapper.updateRecImgByRecId(record);
+    }
+
+    @Override
     public List<Recommend> selectRecommendByComId(Integer comId){
         return recommendMapper.selectRecommendByComId(comId);
     }

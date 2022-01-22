@@ -4,16 +4,22 @@ import com.zln.competition.bean.*;
 import com.zln.competition.service.PayStoreService;
 import com.zln.competition.service.SignTableService;
 import com.zln.competition.service.UserService;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PayStoreController {
@@ -23,6 +29,49 @@ public class PayStoreController {
     SignTableService signTableService;
     @Autowired
     UserService userService;
+
+   /* @RequestMapping(value = "/updateImgById",method = RequestMethod.POST)
+    public int updateImgById(HttpServletRequest request,
+                                           @RequestParam("productImg") String productImg){
+        System.out.println("PayStoreController的updateByPrimaryKeySelective方法执行了");
+        HttpSession session = request.getSession();
+        PayStore getPayStore = (PayStore)session.getAttribute("payStore");
+        Integer productId = getPayStore.getProductId();
+        System.out.println("productImg = " + productImg);
+        PayStore payStore = new PayStore();
+        payStore.setProductId(productId);
+        payStore.setProductImg(productImg);
+        int is_update = payStoreService.updateImgById(payStore);
+        System.out.println("PayStoreController的updateImgById方法的返回值is_update ： " + is_update);
+        return is_update;
+    } */
+    @RequestMapping(value = "/updateImgById",method = RequestMethod.POST)
+    public Map<String, Object> updateImgById(@RequestParam MultipartFile fileExcel,
+                                 @RequestParam("productId") String productId){
+        System.out.println("productId = " + productId);
+        ImageUpLoad imageUpLoad = new ImageUpLoad();
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> stringObjectMap = imageUpLoad.imgExport(fileExcel);
+        Boolean result = (Boolean) stringObjectMap.get("result");
+        System.out.println("stringObjectMap.get(\"result\") = " + stringObjectMap.get("result"));
+        if(result){
+            String fileName = fileExcel.getOriginalFilename();
+            System.out.println("fileName = " + fileName);
+            PayStore payStore = new PayStore();
+            payStore.setProductId(Integer.valueOf(productId));
+            payStore.setProductImg(fileName);
+            int is_update = payStoreService.updateByPrimaryKeySelective(payStore);
+            System.out.println("PayStoreController的updateByPrimaryKeySelective方法的返回值is_update ： " + is_update);
+            if(is_update != 0){
+                return stringObjectMap;
+            }
+        }
+        map.put("result",true);
+        map.put("errorMsg","参数错误！");
+        return map;
+    }
+
+
 
     @RequestMapping(value = "/selectByPrimaryKey",method = RequestMethod.POST)
     public PayStore selectByPrimaryKey(HttpServletRequest request,
@@ -46,13 +95,62 @@ public class PayStoreController {
         return payStore;
     }
 
-
-
     @RequestMapping(value = "/updateByPrimaryKeySelective",method = RequestMethod.POST)
     public int updateByPrimaryKeySelective(HttpServletRequest request,
-                                   @RequestParam("productName") String productName,
-                                   @RequestParam("productPay") String productPay,
-                                   @RequestParam("productImg") String productImg){
+                                           @RequestParam(value = "productName", required = false) String productName,
+                                           @RequestParam(value = "productPay", required = false) String productPay,
+//                                   @RequestParam(value = "productImg", required = false) String productImg
+                                           MultipartFile file
+    ) throws IOException {
+        System.out.println("PayStoreController的updateByPrimaryKeySelective方法执行了");
+        HttpSession session = request.getSession();
+        PayStore getPayStore = (PayStore)session.getAttribute("payStore");
+        Integer productId = getPayStore.getProductId();
+        System.out.println("productName = " + productName);
+        System.out.println("productPay = " + productPay);
+        System.out.println("file = " + file);
+        //绝对根路径
+        String realPath=request.getServletContext().getRealPath("/");
+        System.out.println(realPath);
+      /*  if (file != null) {
+
+            // 保存文件
+            String myFileName = file.getOriginalFilename();
+            // 如果名称不为“”,说明该文件存在，否则说明该文件不存在
+            if (myFileName.trim() != "") {
+                // 重命名上传后的文件名
+                String fileName = file.getOriginalFilename();
+                // 定义上传路径
+                String relativePath="uploads"+ File.separator+ DateUtils.getYMD();
+                File pathFile = new File(realPath+relativePath);
+                if (!pathFile.exists()) {
+                    pathFile.mkdirs();
+                }
+                String path = pathFile +File.separator+ fileName;
+                File localFile = new File(path);
+                file.transferTo(localFile);
+//                return BaseVO.getSuccess(relativePath+File.separator+ fileName);
+            }
+
+        }
+        PayStore payStore = new PayStore();
+        payStore.setProductId(productId);
+        payStore.setProductName(productName);
+        payStore.setExchangedPay(Integer.valueOf(productPay));
+        payStore.setProductImg(productImg);
+        int is_update = payStoreService.updateByPrimaryKeySelective(payStore);
+        System.out.println("PayStoreController的updateByPrimaryKeySelective方法的返回值is_update ： " + is_update);
+        return is_update;*/
+        return 0;
+    }
+
+
+/*    @RequestMapping(value = "/updateByPrimaryKeySelective",method = RequestMethod.POST)
+    public int updateByPrimaryKeySelective(HttpServletRequest request,
+                                   @RequestParam(value = "productName", required = false) String productName,
+                                   @RequestParam(value = "productPay", required = false) String productPay,
+                                   @RequestParam(value = "productImg", required = false) String productImg
+    ){
         System.out.println("PayStoreController的updateByPrimaryKeySelective方法执行了");
         HttpSession session = request.getSession();
         PayStore getPayStore = (PayStore)session.getAttribute("payStore");
@@ -68,7 +166,7 @@ public class PayStoreController {
         int is_update = payStoreService.updateByPrimaryKeySelective(payStore);
         System.out.println("PayStoreController的updateByPrimaryKeySelective方法的返回值is_update ： " + is_update);
         return is_update;
-    }
+    }*/
 
 
     @RequestMapping(value = "/deleteByPrimaryKey",method = RequestMethod.POST)

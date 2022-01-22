@@ -19,6 +19,8 @@ public interface PayStoreMapper {
 
     int updateByPrimaryKey(PayStore record);
 
+    int updateImgById(PayStore record);
+
     List<PayStore> selectAllPayStore();
 
     int updateExchangeNumber(Integer productId);

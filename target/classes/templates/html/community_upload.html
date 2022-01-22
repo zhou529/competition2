@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax图片上传</title>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/ajaxfileupload.js?v=1"></script>
+
+</head>
+<body>
+<input type="file" name="fileExcel" id="fileExcel" onchange="submitFile()" class="layui-btn"  lay-filter="add" />
+</body>
+
+<script type="text/javascript">
+    //接收一个值
+    var comId;
+    var url=window.location.search; //获取url中"?"符后的字串
+    alert("url = " + url)
+    if(url.indexOf("?")!=-1){
+        comId = url.substr(url.indexOf("=")+1);
+    }
+    function submitFile() {
+        $.ajaxFileUpload({
+            url: "../updateComImg?comId=" + comId,  //上传处理程序地址
+            secureuri: false,            //  是否启用安全提交，默认为false。
+            fileElementId: "fileExcel",       // 需要上传的文件域的ID，input的id，我这里为file
+            dataType: 'json',            // 服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+            type: 'post',                // 请求类型
+            success: function (response, status) {
+                $("#file").val("");
+                alert("上传成功！");
+            },
+            error: function (response, status, e) {
+                $("#file").val("");
+                alert("服务器出现异常：" + e);
+            }
+        });
+        //close frame
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+            var form = layui.form
+                ,layer = layui.layer;
+            form.on('submit(add)', function(data){
+                console.log(data);
+                var index = parent.layer.getFrameIndex(window.name);
+                //关闭当前frame
+                parent.layer.close(index);
+                parent.location.reload();
+                return false;
+            });
+        });
+
+    }
+</script>
+</html>

@@ -28,6 +28,8 @@ public interface RecommendMapper {
 
     int updateRecommendByRecId(Recommend record);
 
+    int updateRecImgByRecId(Recommend record);
+
     int updateRecommendBrowseByRecIdWX(Integer recId);
 
     List<Recommend> selectRecommendDim(Recommend recommend);

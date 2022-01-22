@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 public class FdbackController {
@@ -30,5 +31,11 @@ public class FdbackController {
         fdback.setFdbackInformation(fdbackInformation);
         int i = fdbackService.insertSelective(fdback);
         return i;
+    }
+
+    @RequestMapping(value = "/selectAllFdback")
+    public List<Fdback> selectAllFdback(){
+        List<Fdback> fdbacks = fdbackService.selectAllFdback();
+        return fdbacks;
     }
 }

@@ -43,6 +43,13 @@
                     recommend += '<td>' + data[i].recEndtime + '</td>'
                     //简介
                     recommend += '<td>' + data[i].recInformation + '</td>';
+                    if (data[i].recImg != null) {
+                        recommend += '  <td class=\'editRecImg\'>\n' +
+                            '      <img src="../images/uploadImage/' + data[i].recImg + '"Img height="50" width="200" >\n' +
+                            '    </td>'
+                    } else {
+                        recommend += '<td class=\'editRecImg\'>\n' + '</td>'
+                    }
                     //操作  onclick="x_admin_show('编辑','admin-edit.html')"
                     recommend += "<td class=\"td-manage\">\n" +
                         "                <a class='editRecommend' title=\"编辑\"  href=\"javascript:;\">\n" +
@@ -66,6 +73,18 @@
                     // }
                 })
             })
+            //上传 or 修改图片
+            $('#show_tbody').on('click', '.editRecImg', function () {
+                var trIndex = $('.editRecImg', '#show_tbody').index($(this));
+                var tar = $('#show_tbody tr').eq(trIndex);
+
+                //获取对应的第二列的值
+                recId = tar.children('td').eq(tar.find('td').length - 8).html();
+                // function to(){
+                //   window.location.href="upload.html?values="+productId;
+                // }
+                x_admin_show('编辑', 'recommend_upload.html?recId=' + recId)
+            });
             //删除操作入口
             $('#show_tbody').on('click', '.delRecommend', function () {
 
@@ -74,7 +93,7 @@
                     var trIndex = $('.delRecommend', '#show_tbody').index($(this));
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第二列的值
-                    recId = tar.children('td').eq(tar.find('td').length - 7).html();
+                    recId = tar.children('td').eq(tar.find('td').length - 8).html();
                     $.post("../deleteByRecId",{"recId":recId},function(data){
                         if(data == 1){
                             $(this).parents('tr').remove();
@@ -91,12 +110,12 @@
                 var trIndex = $('.editRecommend', '#show_tbody').index($(this));
                 var tar = $('#show_tbody tr').eq(trIndex);
                 //获取对应的第二列的值
-                var recId = tar.children('td').eq(tar.find('td').length - 7).html();
-                var recName = tar.children('td').eq(tar.find('td').length - 6).html();
-                var recOrganizer = tar.children('td').eq(tar.find('td').length - 5).html();
-                var recBegintime = tar.children('td').eq(tar.find('td').length - 4).html();
-                var recEndtime = tar.children('td').eq(tar.find('td').length - 3).html();
-                var recInformation = tar.children('td').eq(tar.find('td').length - 2).html();
+                var recId = tar.children('td').eq(tar.find('td').length - 8).html();
+                var recName = tar.children('td').eq(tar.find('td').length - 7).html();
+                var recOrganizer = tar.children('td').eq(tar.find('td').length - 6).html();
+                var recBegintime = tar.children('td').eq(tar.find('td').length - 5).html();
+                var recEndtime = tar.children('td').eq(tar.find('td').length - 4).html();
+                var recInformation = tar.children('td').eq(tar.find('td').length - 3).html();
 
                 $.post("../putRecommend",
                     {
@@ -155,6 +174,7 @@
             <th>开始时间</th>
             <th>结束时间</th>
             <th>简介</th>
+            <th>图片</th>
             <!--            <th>邮箱</th>-->
             <!--            <th>社团状态</th>-->
             <!--            <th>上次登录时间</th>-->

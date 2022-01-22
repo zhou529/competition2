@@ -11,4 +11,6 @@ public interface LoginLogMapper {
     int insertLoginLog(LoginLog loginLog);
 
     List<LoginLog> selectAllLoginLog();
+
+    List<LoginLog> selectAllLoginLogByAdmin(String username);
 }

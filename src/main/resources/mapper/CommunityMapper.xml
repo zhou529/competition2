@@ -29,6 +29,13 @@
         WHERE Com_id != 0
     </select>
 
+<!--    List<Community> community_click();-->
+    <select id="community_click"  resultMap="BaseResultMap">
+        SELECT Com_name, number as click_number  FROM user_click_community AS u,community
+        WHERE u.community_id = community.Com_id
+    </select>
+
+
     <!--    public List<Community> selectAllByComName(String comName);-->
     <select id="selectAllByComName"  resultMap="BaseResultMap">
         select
@@ -133,8 +140,19 @@
             </if>
         </trim>
     </insert>
+<!--    int updateComImg(Community community);-->
+    <update id="updateComImg" parameterType="com.zln.competition.bean.Community">
+        update community
+        <set>
+            <if test="comImg != null">
+                Com_img = #{comImg,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where Com_id = #{comId,jdbcType=INTEGER}
+    </update>
 
-<!--    int updateByCommunity(Community community);-->
+
+    <!--    int updateByCommunity(Community community);-->
     <update id="updateByCommunity" parameterType="com.zln.competition.bean.Community">
         update community
         <set>

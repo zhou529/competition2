@@ -21,6 +21,9 @@ public interface RecommendService {
 
     int allDeleteRecommend();
 
+    int updateRecImgByRecId(Recommend record);
+
+
     List<Recommend> selectRecommendByRecName(String recName);
 
     int insertRecommend(Recommend recommend);

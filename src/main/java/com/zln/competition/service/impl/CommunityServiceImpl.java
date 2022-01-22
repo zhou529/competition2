@@ -26,8 +26,18 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
+    public int updateComImg(Community community) {
+        return communityMapper.updateComImg(community);
+    }
+
+    @Override
     public List<Community> hot_community() {
         return communityMapper.hot_community();
+    }
+
+    @Override
+    public List<Community> community_click() {
+        return communityMapper.community_click();
     }
 
     @Override

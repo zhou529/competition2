@@ -11,6 +11,12 @@
   <sql id="Base_Column_List" >
     fdback_id, fdback_information, user_id
   </sql>
+<!--  List<Fdback> selectAllFdback();-->
+  <select id="selectAllFdback" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fdback
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

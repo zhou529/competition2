@@ -12,4 +12,6 @@ public interface LoginLogService {
     List<LoginLog> selectAllLoginLog();
 
     public String getAsTime(Integer ansId) ;
+
+    List<LoginLog> selectAllLoginLogByAdmin(String username);
 }

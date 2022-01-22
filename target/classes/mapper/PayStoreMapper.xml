@@ -118,6 +118,15 @@
         </set>
         where product_id = #{productId,jdbcType=INTEGER}
     </update>
+
+<!--    int updateImgById(PayStore record);-->
+    <update id="updateImgById">
+        update pay_store
+        set
+            product_img = #{productImg,jdbcType=VARCHAR}
+        where product_id = #{productId,jdbcType=INTEGER}
+    </update>
+
     <update id="updateByPrimaryKey" parameterType="com.zln.competition.bean.PayStore">
         update pay_store
         set product_name = #{productName,jdbcType=VARCHAR},

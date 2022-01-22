@@ -79,6 +79,13 @@
                     } else {
                         community += '<td>' + '</td>';
                     }
+                    if (data[i].comImg != null) {
+                        community += '  <td class=\'editComImg\'>\n' +
+                        '      <img src="../images/uploadImage/' + data[i].comImg + '"Img height="50" width="200" >\n' +
+                        '    </td>'
+                    } else {
+                        community += '<td class=\'editComImg\'>\n' + '</td>'
+                    }
                     if (data[i].comQq != null) {
                         community += '<td>' + data[i].comQq + '</td>';
                     } else {
@@ -97,6 +104,21 @@
                 }
                 $("#totalData").html("共有数据：" + data.length + "条");
             });
+
+            //上传 or 修改图片
+            $('#show_tbody').on('click', '.editComImg', function () {
+                var trIndex = $('.editComImg', '#show_tbody').index($(this));
+                var tar = $('#show_tbody tr').eq(trIndex);
+
+                //获取对应的第二列的值
+                comId = tar.children('td').eq(tar.find('td').length - 7).html();
+                alert("comId = " + comId)
+                // function to(){
+                //   window.location.href="upload.html?values="+productId;
+                // }
+                // window.location.href="upload.html?values="+productId;
+                x_admin_show('编辑', 'community_upload.html?comId=' + comId)
+            });
             //删除操作入口
             $('#show_tbody').on('click', '.delCommunity', function () {
                 if (confirm("确认要删除么？")) {
@@ -104,7 +126,7 @@
                     var trIndex = $('.delCommunity', '#show_tbody').index($(this));
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第一列的值
-                    comId = tar.children('td').eq(tar.find('td').length - 6).html();
+                    comId = tar.children('td').eq(tar.find('td').length - 7).html();
                     $.post("../deleteByComId", {"comId": comId}, function (data) {
                         if (data == true) {
                             $(this).parents('tr').remove();
@@ -121,11 +143,11 @@
                 var tar = $('#show_tbody tr').eq(trIndex);
 
                 //获取对应的第二列的值(get this record's information)
-                comId = tar.children('td').eq(tar.find('td').length - 6).html();
-                comName = tar.children('td').eq(tar.find('td').length - 5).html();
-                comInformation = tar.children('td').eq(tar.find('td').length - 4).html();
-                comWin = tar.children('td').eq(tar.find('td').length - 3).html();
-                comQq = tar.children('td').eq(tar.find('td').length - 2).html();
+                comId = tar.children('td').eq(tar.find('td').length - 7).html();
+                comName = tar.children('td').eq(tar.find('td').length - 6).html();
+                comInformation = tar.children('td').eq(tar.find('td').length - 5).html();
+                comWin = tar.children('td').eq(tar.find('td').length - 4).html();
+                comQq = tar.children('td').eq(tar.find('td').length - 3).html();
 
                 $.post("../putCommunity",
                     {
@@ -209,6 +231,7 @@
             <th>社团名</th>
             <th>主要内容</th>
             <th>获奖记录</th>
+            <th>图片</th>
             <th>qq群</th>
             <th>操作</th>
         </tr>

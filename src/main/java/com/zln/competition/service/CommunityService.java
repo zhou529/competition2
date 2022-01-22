@@ -45,5 +45,9 @@ public interface CommunityService {
 
     int updateCommunityBrowseByComIdWX(Integer comId);
 
+    int updateComImg(Community community);
+
     List<Community> hot_community();
+
+    List<Community> community_click();
 }

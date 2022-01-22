@@ -190,7 +190,12 @@
         set  Rec_browse = Rec_browse+1
         where Rec_id = #{recId,jdbcType=INTEGER}
     </update>
-
+<!--    int updateRecImgByRecId(Recommend record);-->
+    <update id="updateRecImgByRecId" parameterType="com.zln.competition.bean.Recommend">
+        update recommend
+        set  Rec_img = #{recImg,jdbcType=VARCHAR}
+        where Rec_id = #{recId,jdbcType=INTEGER}
+    </update>
 
     <!--    int updateRecommendByRecId(Recommend record);-->
     <update id="updateRecommendByRecId">

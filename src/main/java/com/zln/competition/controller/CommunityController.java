@@ -1,12 +1,10 @@
 package com.zln.competition.controller;
 
-import com.zln.competition.bean.ComAdmin;
-import com.zln.competition.bean.Community;
-import com.zln.competition.bean.Recommend;
-import com.zln.competition.bean.Team;
+import com.zln.competition.bean.*;
 import com.zln.competition.service.ComAdminService;
 import com.zln.competition.service.CommunityService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -14,7 +12,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @ResponseBody
@@ -23,6 +23,39 @@ public class CommunityController {
     CommunityService communityService;
     @Resource
     ComAdminService comAdminService;
+
+
+    @RequestMapping(value = "/updateComImg",method = RequestMethod.POST)
+    public Map<String, Object> updateComImg(@RequestParam MultipartFile fileExcel,
+                                             @RequestParam("comId") String comId){
+        System.out.println("comId = " + comId);
+        ImageUpLoad imageUpLoad = new ImageUpLoad();
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> stringObjectMap = imageUpLoad.imgExport(fileExcel);
+        Boolean result = (Boolean) stringObjectMap.get("result");
+        System.out.println("stringObjectMap.get(\"result\") = " + stringObjectMap.get("result"));
+        if(result){
+            String fileName = fileExcel.getOriginalFilename();
+            System.out.println("fileName = " + fileName);
+            Community community = new Community();
+            community.setComId(Integer.valueOf(comId));
+            community.setComImg(fileName);
+            int is_update =communityService.updateComImg(community);
+            if(is_update != 0){
+                return stringObjectMap;
+            }
+        }
+        map.put("result",true);
+        map.put("errorMsg","参数错误！");
+        return map;
+    }
+
+
+    @RequestMapping(value = "/community_click")
+    public List<Community> community_click() {
+        List<Community> communities = communityService.community_click();
+        return communities;
+    }
 
     @RequestMapping(value = "/hot_community")
     public List<Community> hot_community() {

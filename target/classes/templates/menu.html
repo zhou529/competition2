@@ -1,45 +1,48 @@
- <!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>后台登录-L-admin1.0</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="css/font.css">
     <link rel="stylesheet" href="css/xadmin.css">
 
     <script src="js/jquery.min.js"></script>
     <script src="lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/xadmin.js"></script>
-<!--    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>-->
+    <!--    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>-->
 
     <script>
         $(function () {
             $.ajaxSettings.async = false;
-            $.post("loginOp.do",function (data) {
+            $.post("loginOp.do", function (data) {
                 //加载社团名
                 $("#com_name").html(data.comName);
                 //使用sessionStorge创建一个本地存储的name/value
-                sessionStorage.setItem("comId",JSON.stringify(data.comId));
+                sessionStorage.setItem("comId", JSON.stringify(data.comId));
                 // alert("data 的 comIs: " + data.comIs);
                 // alert(data.comIs == 2);
                 //判断身份
-                if(data.comIs === 2){
+                if (data.comIs === 2) {
                     $("#manager").css('display', 'block');
                     $("#userManager").css('display', 'block')
                     $("#communityManager").css('display', 'block')
                     $("#jifenstore").css('display', 'block')
                     $("#analytic_statistics").css('display', 'block')
+                    $("#fdback").css('display', 'block')
+                    $("#allAdmin_log").css('display', 'block')
                 }
             });
             // 退出功能
-            $("#isOut").click(function (){
-                $.post("isOut.do",function (data){
-                    if(data === true){
+            $("#isOut").click(function () {
+                $.post("isOut.do", function (data) {
+                    if (data === true) {
                         window.location.href = 'index.html';
                     }
                 });
@@ -69,12 +72,12 @@
         <li class="layui-nav-item">
             <a id="com_name" href="javascript:;"></a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-<!--                <dd><a onClick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>-->
-<!--                <dd><a onClick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>-->
+                <!--                <dd><a onClick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>-->
+                <!--                <dd><a onClick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>-->
                 <dd><a href="index.html">退出</a></dd>
             </dl>
         </li>
-<!--        <li class="layui-nav-item to-index"><a href="#">前台首页</a></li>-->
+        <!--        <li class="layui-nav-item to-index"><a href="#">前台首页</a></li>-->
     </ul>
 
 </div>
@@ -96,7 +99,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>社团列表</cite>
                         </a>
-                    </li >
+                    </li>
                 </ul>
             </li>
             <li id="recommend">
@@ -111,7 +114,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>竞赛列表</cite>
                         </a>
-                    </li >
+                    </li>
                 </ul>
             </li>
             <li id="team">
@@ -126,7 +129,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>队伍列表</cite>
                         </a>
-                    </li >
+                    </li>
                 </ul>
             </li>
             <li id="manager" style="display: none">
@@ -141,7 +144,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>管理员列表</cite>
                         </a>
-                    </li >
+                    </li>
                 </ul>
             </li>
             <li id="userManager" style="display: none">
@@ -156,7 +159,22 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>用户列表</cite>
                         </a>
-                    </li >
+                    </li>
+                </ul>
+            </li>
+            <li id="fdback" style="display: none">
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe69e;</i>
+                    <cite>用户反馈</cite>
+                    <i class="iconfont nav_right">&#xe6a7;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="html/fdback-list.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>用户反馈</cite>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li id="jifenstore" style="display: none">
@@ -171,7 +189,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>积分商城管理</cite>
                         </a>
-                    </li >
+                    </li>
                 </ul>
             </li>
             <li id="analytic_statistics" style="display: none">
@@ -186,7 +204,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>热门社团</cite>
                         </a>
-                    </li >
+                    </li>
                     <li>
                         <a _href="html/hot_category.html">
                             <i class="iconfont">&#xe6a7;</i>
@@ -202,7 +220,7 @@
                     <li>
                         <a _href="html/community_click.html">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>社团浏览量</cite>
+                            <cite>用户活跃度</cite>
                         </a>
                     </li>
                     <li>
@@ -230,7 +248,28 @@
                         </a>
                     </li>
                 </ul>
-            </li>            </ul>
+            </li>
+            <li id="others">
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe6ae;</i>
+                    <cite>登录日志</cite>
+                    <i class="iconfont nav_right">&#xe6a7;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="html/personal_log.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>个人登录日志</cite>
+                        </a>
+                    </li>
+                    <li id="allAdmin_log">
+                        <a _href="html/allAdmin_log.html" style="display: none">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>管理员登录日志</cite>
+                        </a>
+                    </li>
+                </ul>
+        </ul>
     </div>
 </div>
 <!-- <div class="x-slide_left"></div> -->

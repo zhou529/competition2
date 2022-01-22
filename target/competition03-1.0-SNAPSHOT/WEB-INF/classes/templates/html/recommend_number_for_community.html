@@ -28,9 +28,11 @@
     var myChart = echarts.init(document.getElementById('main'));
 
     $(function () {
+        alert("加载好了")
         var name = new Array();
         var result = new Array();
         $.post("../recommend_number_for_community", function (data) {
+            alert("ajax加载完成")
             if (data) {
                 var length = data.length;
                 // 1 5
@@ -40,24 +42,37 @@
                     // alert("eval(res) = " +  eval("(" + res + ")"));
                     name.push(testJson.recName)
                     result.push(testJson.recBrowse)
+                    alert("recName = " + testJson.recName)
+                    alert("recBrowse = " + testJson.recBrowse)
                 }
                 // 指定图表的配置项和数据
                 option = {
                     xAxis: {
                         data: name
                     },
+
                     yAxis: {},
                     series: [
                         {
                             type: 'bar',
-                            data: result
+                            data: result,
+                            barWidth: '30%',
+                            itemStyle: {
+                                barBorderRadius: 5,
+                                borderWidth: 1,
+                                borderType: 'solid',
+                                // borderColor: '#73c0de',
+                                // shadowColor: '#5470c6',
+                                shadowBlur: 3,
+                                color: '#91cc75'
+                            }
                         }
                     ]
                 };
+                myChart.setOption(option);
             } else {
                 alert("查询失败！")
             }
-            window.location.reload()
         })
     })
 

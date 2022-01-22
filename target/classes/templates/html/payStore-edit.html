@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 
 <head>
   <meta charset="UTF-8">
   <title>欢迎页面-L-admin1.0</title>
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<!--  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
   <meta name="viewport"
         content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
   <link rel="stylesheet" href="../css/font.css">
   <link rel="stylesheet" href="../css/xadmin.css">
@@ -53,30 +54,27 @@
         if(b == true){
           var productName = $("#productName").val();
           var productPay = $("#productPay").val();
-          var productImg = $("#productImg").val();
           $.post("../updateByPrimaryKeySelective",
-            {
-              "productName":productName,
-              "productPay":productPay,
-              "productImg":productImg,
-            },
-            function (data){
-              if(data == 1){
-                alert("修改成功！")
-                layer.alert("修改成功", {icon: 6},function () {
-                  // 获得frame索引
-                  var index = parent.layer.getFrameIndex(window.name);
-                  //关闭当前frame
-                  parent.layer.close(index);
-                });
-              }else {
-                alert("修改失败！")
-              }
-            });
+                  {
+                    "productName":productName,
+                    "productPay":productPay
+                  },
+                  function (data){
+                    if(data == 1){
+                      alert("修改成功！")
+                      layer.alert("修改成功", {icon: 6},function () {
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                      });
+                    }else {
+                      alert("修改失败！")
+                    }
+                  });
         }
           $("#productName").val(data.productName);
           $("#productPay").val(data.exchangedPay);
-          $("#productImg").val(data.productImg);
       });
       //close frame
       layui.use(['form','layer'], function(){
@@ -118,13 +116,26 @@
       </div>
     </div>
     <div class="layui-form-item">
-      <label for="productImg" class="layui-form-label">
-        <span class="x-red">*</span>图片
-      </label>
-      <div class="layui-input-inline">
-        <input type="image" id="productImg" name="productImg" required lay-verify="productImg"
-               autocomplete="off" class="layui-input">
-      </div>
+<!--      <label for="productImg" class="layui-form-label">-->
+<!--        <span class="x-red">*</span>图片-->
+<!--      </label>-->
+      <table style="width: 600px;" cellpadding="0" cellspacing="1" border="1"
+             class="formtable">
+        <tr>
+
+          <td class="value">
+            <div id="imgsrc"></div>
+            <div>
+              <input id="imgpath" type="hidden" name="imgpath" value=""
+                     datatype="*"> <input id="input_file" name="file"
+                                          type="file" accept="image/*" value="上传图片">
+
+            </div>
+          </td>
+        </tr>
+      </table>
+
+<!--      </div>-->
     </div>
     <div class="layui-form-item">
       </label>

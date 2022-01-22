@@ -16,6 +16,7 @@ public interface PayStoreService {
     int updateByPrimaryKeySelective(PayStore record);
 
     int updateByPayStore(PayStore record);
+    int updateImgById(PayStore record);
 
     int updateByPrimaryKey(PayStore record);
 

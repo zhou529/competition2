@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 @Service
@@ -43,5 +44,10 @@ public class FdbackServiceImpl implements FdbackService {
     @Override
     public int updateByPrimaryKey(Fdback record) {
         return fdbackMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<Fdback> selectAllFdback() {
+        return fdbackMapper.selectAllFdback();
     }
 }

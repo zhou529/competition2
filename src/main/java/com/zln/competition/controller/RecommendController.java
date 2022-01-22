@@ -6,12 +6,14 @@ import com.zln.competition.service.RecommendService;
 import com.zln.competition.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @ResponseBody
@@ -20,6 +22,32 @@ public class RecommendController {
     RecommendService recommendService;
     @Autowired
     UserInfoService userInfoService;
+
+    @RequestMapping(value = "/updateRecImg",method = RequestMethod.POST)
+    public Map<String, Object> updateRecImg(@RequestParam MultipartFile fileExcel,
+                                            @RequestParam("recId") String recId){
+        System.out.println("recId = " + recId);
+        ImageUpLoad imageUpLoad = new ImageUpLoad();
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> stringObjectMap = imageUpLoad.imgExport(fileExcel);
+        Boolean result = (Boolean) stringObjectMap.get("result");
+        System.out.println("stringObjectMap.get(\"result\") = " + stringObjectMap.get("result"));
+        if(result){
+            String fileName = fileExcel.getOriginalFilename();
+            System.out.println("fileName = " + fileName);
+            Recommend recommend = new Recommend();
+            recommend.setRecId(Integer.valueOf(recId));
+            recommend.setRecImg(fileName);
+            int is_update= recommendService.updateRecImgByRecId(recommend);
+            if(is_update != 0){
+                return stringObjectMap;
+            }
+        }
+        map.put("result",true);
+        map.put("errorMsg","参数错误！");
+        return map;
+    }
+
 
     @RequestMapping(value = "/selectByTag")
     public List<Recommend> selectByTag(HttpServletRequest request){
@@ -58,6 +86,12 @@ public class RecommendController {
     @RequestMapping(value = "/hot_category")
     public List<Recommend> hot_category() {
         List<Recommend> recommends = recommendService.hot_category();
+        return recommends;
+    }
+
+    @RequestMapping(value = "/recommend_race")
+    public List<Recommend> recommend_race() {
+        List<Recommend> recommends = recommendService.recommend_race();
         return recommends;
     }
 
