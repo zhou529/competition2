@@ -35,23 +35,28 @@
                     $("#userManager").css('display', 'block')
                     $("#communityManager").css('display', 'block')
                     $("#jifenstore").css('display', 'block')
-                    $("#analytic_statistics").css('display', 'block')
                     $("#fdback").css('display', 'block')
                     $("#allAdmin_log").css('display', 'block')
+                    $("#hot_community").css('display', 'block')
+                    $("#hot_category").css('display', 'block')
+                    $("#recommend_race").css('display', 'block')
+                    $("#recommend_number_for_community").css('display', 'block')
                 }
-                //普通管理员
                 if (data.comIs === 1) {
-                    $("#manager").css('display', 'block');
-
+                    $("#community_click").css('display', 'block');
                 }
+
             });
             // 退出功能
             $("#isOut").click(function () {
-                $.post("isOut.do", function (data) {
-                    if (data === true) {
-                        window.location.href = 'index.html';
-                    }
-                });
+                if (confirm("确认要退出么？")) {
+                    // $.post("isOut.do", function (data) {
+                    //     if (data === true) {
+                    //         window.location.href = 'index.html';
+                    //     }
+                    // });
+                }
+
             });
         })
     </script>
@@ -198,59 +203,41 @@
                     </li>
                 </ul>
             </li>
-            <li id="analytic_statistics" style="display: none">
+            <li id="analytic_statistics">
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6ae;</i>
                     <cite>系统统计</cite>
                     <i class="iconfont nav_right">&#xe6a7;</i>
                 </a>
                 <ul class="sub-menu">
-                    <li>
+                    <li  id="hot_community" style="display: none">
                         <a _href="html/hot_community.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>热门社团</cite>
                         </a>
                     </li>
-                    <li>
+                    <li  id="hot_category" style="display: none">
                         <a _href="html/hot_category.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>竞赛热门分类</cite>
                         </a>
                     </li>
-                    <li>
+                    <li id="recommend_race" style="display: none">
                         <a _href="html/recommend_race.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>竞赛个数占比</cite>
                         </a>
                     </li>
-                    <li>
-                        <a _href="html/community_click.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>用户活跃度</cite>
-                        </a>
-                    </li>
-                    <li>
+                    <li id="recommend_number_for_community" style="display: none">
                         <a _href="html/recommend_number_for_community.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>社团活跃度</cite>
                         </a>
                     </li>
-                    <li>
-                        <a _href="html/echarts6.html">
+                    <li id="community_click" style="display: none">
+                        <a _href="html/community_click.html">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>k线图</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="html/echarts7.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>热力图</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="html/echarts8.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>仪表图</cite>
+                            <cite>周点击量</cite>
                         </a>
                     </li>
                 </ul>
@@ -268,8 +255,8 @@
                             <cite>个人登录日志</cite>
                         </a>
                     </li>
-                    <li id="allAdmin_log">
-                        <a _href="html/allAdmin_log.html" style="display: none">
+                    <li id="allAdmin_log"  style="display: none">
+                        <a _href="html/allAdmin_log.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>管理员登录日志</cite>
                         </a>

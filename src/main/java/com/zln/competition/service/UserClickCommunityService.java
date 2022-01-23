@@ -2,8 +2,13 @@ package com.zln.competition.service;
 
 import com.zln.competition.bean.UserClickCommunity;
 
+import java.util.List;
+
 public interface UserClickCommunityService {
     int deleteByPrimaryKey(Integer id);
+
+    List<UserClickCommunity> community_click(Integer communityId);
+
 
     int insert(UserClickCommunity record);
 

@@ -29,7 +29,6 @@
 
   $(function () {
     alert("加载成功！")
-    var datas = new Array();
     var result = new Array();
     $.post("../community_click", function (data) {
       if (data) {
@@ -39,8 +38,7 @@
           let res = JSON.stringify(data[i]);
           var testJson = eval("(" + res + ")");
           // alert("eval(res) = " +  eval("(" + res + ")"));
-          datas.push(testJson.comName);
-          result.push(testJson.click_number);
+          result.push(testJson.number);
         }
         // 指定图表的配置项和数据
         option = {
@@ -53,48 +51,11 @@
           },
           series: [
             {
-              name: 'Step Start',
-              type: 'line',
-              step: 'start',
-              data: [120, 132, 101, 134, 90, 230, 210]
-            },
-            {
-              name: 'Step Middle',
-              type: 'line',
-              step: 'middle',
-              data: [220, 282, 201, 234, 290, 430, 410]
-            },
-            {
-              name: 'Step End',
-              type: 'line',
-              step: 'end',
-              data: [450, 432, 401, 454, 590, 530, 510]
+              data: result,
+              type: 'line'
             }
           ]
         };
-/*        option = {
-          xAxis: {
-            data: datas
-          },
-
-          yAxis: {},
-          series: [
-            {
-              type: 'bar',
-              data: result,
-              barWidth: '30%',
-              itemStyle: {
-                barBorderRadius: 5,
-                borderWidth: 1,
-                borderType: 'solid',
-                borderColor: '#73c0de',
-                shadowColor: '#5470c6',
-                shadowBlur: 3,
-                color:'#91cc75'
-              }
-            }
-          ]
-        };*/
         myChart.setOption(option);
       } else {
         alert("查询失败！")

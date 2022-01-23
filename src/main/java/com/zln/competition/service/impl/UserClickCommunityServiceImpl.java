@@ -6,6 +6,7 @@ import com.zln.competition.service.UserClickCommunityService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class UserClickCommunityServiceImpl implements UserClickCommunityService {
@@ -15,6 +16,11 @@ public class UserClickCommunityServiceImpl implements UserClickCommunityService 
     @Override
     public int deleteByPrimaryKey(Integer id) {
         return userClickCommunityMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public List<UserClickCommunity> community_click(Integer communityId) {
+        return userClickCommunityMapper.community_click(communityId);
     }
 
     @Override

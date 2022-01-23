@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zln.competition.mapper.UserClickCommunityMapper" >
-  <resultMap id="BaseResultMap" type="com.zln.competition.bean.UserClickCommunity" >
-    <constructor >
-      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="openid" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="date" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="community_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="number" jdbcType="INTEGER" javaType="java.lang.Integer" />
-    </constructor>
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.zln.competition.bean.UserClickCommunity" >
+        <id column="id"  property="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <result column="openid" property="openid" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="date"  property="date" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="community_id" property="communityId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <result column="number"  property="number" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </resultMap>
+
   <sql id="Base_Column_List" >
     id, openid, date, community_id, number
   </sql>
@@ -21,7 +20,22 @@
     where openid = #{userOpenid,jdbcType=VARCHAR}
   </select>
 
-<!--  UserClickCommunity selectByOpenIdAndComId(String userOpenid, Integer communityId);-->
+<!--  List<UserClickCommunity> community_click();-->
+  <select id="community_click" resultMap="BaseResultMap">
+    SELECT 0 as id, a.click_date as date,b.community_id as community_id,
+           CASE b.number WHEN b.number > 0 THEN b.number ELSE 0 END AS number
+    FROM (
+           SELECT u.date AS click_date FROM user_click_community AS u WHERE YEARWEEK(u.date,1) = YEARWEEK(NOW(),1)-1
+         ) a LEFT JOIN (
+      SELECT u.date,u.community_id,SUM(u.number) AS number FROM user_click_community AS u
+      WHERE u.community_id = #{communityId,jdbcType=INTEGER}
+    GROUP BY u.date, u.community_id
+    ) b ON a.click_date = b.date
+    ORDER BY date
+  </select>
+
+
+  <!--  UserClickCommunity selectByOpenIdAndComId(String userOpenid, Integer communityId);-->
   <select id="selectByOpenIdAndComId" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -31,7 +45,7 @@
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from user_click_community
     where id = #{id,jdbcType=INTEGER}
@@ -41,9 +55,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zln.competition.bean.UserClickCommunity" >
-    insert into user_click_community (id, openid, date, 
+    insert into user_click_community (id, openid, date,
       community_id)
-    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{date,jdbcType=DATE}, 
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{date,jdbcType=DATE},
       #{communityId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zln.competition.bean.UserClickCommunity" >
