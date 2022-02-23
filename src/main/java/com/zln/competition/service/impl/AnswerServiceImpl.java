@@ -30,4 +30,14 @@ public class AnswerServiceImpl implements AnswerService {
         int i = answerMapper.insertAnswer(answer);
         return i;
     }
+
+    @Override
+    public int updateAnswerByAnsId(Answer answer) {
+        return answerMapper.updateAnswerByAnsId(answer);
+    }
+
+    @Override
+    public int deleteAnswerByAnsId(Integer ansId) {
+        return answerMapper.deleteAnswerByAnsId(ansId);
+    }
 }

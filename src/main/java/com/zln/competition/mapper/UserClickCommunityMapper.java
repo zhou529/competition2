@@ -23,6 +23,6 @@ public interface UserClickCommunityMapper {
 
     UserClickCommunity selectByOpenId(String userOpenid);
 
-    UserClickCommunity selectByOpenIdAndComId(String userOpenid, Integer communityId);
+    UserClickCommunity selectByOpenIdAndComId(String userOpenid, Integer communityId,String date);
 
 }

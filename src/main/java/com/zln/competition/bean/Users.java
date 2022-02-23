@@ -7,6 +7,38 @@ public class Users {
 
     private Integer userPay;
 
+    private String nickName;
+
+    private String avatarUrl;
+
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public Users(Integer userId, String userOpenid, Integer userPay, String nickName, String avatarUrl) {
+        this.userId = userId;
+        this.userOpenid = userOpenid;
+        this.userPay = userPay;
+        this.nickName = nickName;
+        this.avatarUrl = avatarUrl;
+    }
+
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+
+
     public Users(Integer userId, String userOpenid, Integer userPay) {
         this.userId = userId;
         this.userOpenid = userOpenid;
@@ -42,11 +74,13 @@ public class Users {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
+    public String  toString() {
+        return "Users{" +
                 "userId=" + userId +
                 ", userOpenid='" + userOpenid + '\'' +
                 ", userPay=" + userPay +
+                ", nickName='" + nickName + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
                 '}';
     }
 }

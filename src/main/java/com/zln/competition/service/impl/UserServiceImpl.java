@@ -23,6 +23,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int updateNickNameAndAvatarUrl(String nickName, String avatarUrl, String userOpenid) {
+        return userMapper.updateNickNameAndAvatarUrl(nickName,avatarUrl, userOpenid);
+    }
+
+    @Override
     public int deleteByUserIdFromUser(Integer userId){
         return userMapper.deleteByUserIdFromUser(userId);
     }

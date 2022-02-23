@@ -11,4 +11,8 @@ public interface AnswerMapper {
     public List<Answer> selectByUserId(Integer userId);
 
     public int insertAnswer(Answer answer);
+
+    int updateAnswerByAnsId(Answer answer);
+
+    int deleteAnswerByAnsId(Integer ansId);
 }

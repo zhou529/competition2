@@ -3,32 +3,72 @@
 <mapper namespace="com.zln.competition.mapper.Ans_userMapper" >
   <resultMap id="BaseResultMap" type="com.zln.competition.bean.Ans_user" >
     <constructor >
-      <idArg column="Ans_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <idArg column="User_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <idArg column="reply_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="Ans_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="User_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="Reply_information" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="Reply_img1" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="Reply_img2" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="Reply_img3" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="Reply_is" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="publishTime" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    Ans_id, User_id, Reply_information, Reply_img1, Reply_img2, Reply_img3, Reply_is
+    reply_id, Ans_id, User_id, Reply_information, Reply_img1, Reply_img2, Reply_img3, Reply_is, publishTime
   </sql>
+
+<!--  List<Ans_user> selectByUserId(Integer userId);-->
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    SELECT
+        <include refid="Base_Column_List" />
+    FROM ans_user
+    WHERE User_id = #{userId,jdbcType=INTEGER}
+  </select>
+<!--  int updateByUserId(Ans_user ans_user);-->
+  <update id="updateByUserId" parameterType="com.zln.competition.bean.Ans_user">
+    update ans_user
+    <set>
+      <if test="replyInformation != null">
+        Reply_information = #{replyInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null">
+        publishTime = #{publishTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where reply_id = #{replyId,jdbcType=INTEGER}
+
+
+  </update>
+<!--  int deleteByUserId(Integer userId);-->
+  <delete id="deleteByUserId" parameterType="java.lang.Integer">
+    delete from ans_user
+    where reply_id = #{replyId,jdbcType=INTEGER}
+  </delete>
 
 <!--  List<Ans_user> selectByAnsId(Integer ansId);-->
   <select id="selectByAnsId" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from ans_user
-    where Ans_id = #{ansId,jdbcType=INTEGER}
+    SELECT
+      Ans_id, ans_user.User_id, Reply_information, nickName AS Reply_img1, avatarUrl AS Reply_img2, Reply_img3, Reply_is, publishTime
+    FROM ans_user
+    JOIN users ON ans_user.User_id = users.User_id
+    WHERE Ans_id = #{ansId,jdbcType=INTEGER}
   </select>
+<!--  <select id="selectByAnsId" resultMap="BaseResultMap">-->
+<!--    select-->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from ans_user-->
+<!--    where Ans_id = #{ansId,jdbcType=INTEGER}-->
+<!--  </select>-->
 
 
 <!--  int insertAnsInformation(Ans_user ans_user);-->
   <insert id="insertAnsInformation" parameterType="com.zln.competition.bean.Ans_user" >
     insert into ans_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="replyId != null" >
+        reply_id,
+      </if>
       <if test="ansId != null" >
         Ans_id,
       </if>
@@ -50,8 +90,14 @@
       <if test="replyIs != null" >
         Reply_is,
       </if>
+      <if test="publishTime != null" >
+        publishTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="replyId != null" >
+        #{replyId,jdbcType=INTEGER},
+      </if>
       <if test="ansId != null" >
         #{ansId,jdbcType=INTEGER},
       </if>
@@ -72,6 +118,9 @@
       </if>
       <if test="replyIs != null" >
         #{replyIs,jdbcType=INTEGER},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

@@ -16,23 +16,30 @@
     <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
     <script src="../js/echars.js"></script>
-    <!--    <script src="https://cdn.bootcss.com/echarts/3.7.0/echarts.min.js"></script>-->
+
+    <!--        <script src="https://cdn.bootcss.com/echarts/3.7.0/echarts.min.js"></script>-->
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 </head>
 <body>
 <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
-<div id="main" style="width: 800px;height:400px;"></div>
+<div  style="width: 200px;height:100px;margin-left: 1050px;margin-top:5%;font-size: x-large">
+    <span class="x-red">* 此分析仅供参考
+        <br>您可以和活跃度高<br>的社团多多建立合作关系</span>
+</div>
+<div style="width: 1000px;height:500px;margin-left: 6%;margin-top: 2%">
+    <div id="main" style="width: 1000px;height:500px;"></div>
+</div>
+
+
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
 
     $(function () {
-        alert("加载好了")
         var name = new Array();
         var result = new Array();
         $.post("../recommend_number_for_community", function (data) {
-            alert("ajax加载完成")
             if (data) {
                 var length = data.length;
                 // 1 5
@@ -42,8 +49,6 @@
                     // alert("eval(res) = " +  eval("(" + res + ")"));
                     name.push(testJson.recName)
                     result.push(testJson.recBrowse)
-                    alert("recName = " + testJson.recName)
-                    alert("recBrowse = " + testJson.recBrowse)
                 }
                 // 指定图表的配置项和数据
                 option = {
@@ -61,10 +66,20 @@
                                 barBorderRadius: 5,
                                 borderWidth: 1,
                                 borderType: 'solid',
-                                // borderColor: '#73c0de',
-                                // shadowColor: '#5470c6',
                                 shadowBlur: 3,
-                                color: '#91cc75'
+                                color: '#blue',
+                                normal: {
+                                    label: {
+                                        color:"#blue",
+                                        formatter: '{c}%',
+                                        show: true, //开启显示
+                                        position: 'top', //在上方显示
+                                        textStyle: { //数值样式
+                                            color: 'black',
+                                            fontSize: 14
+                                        }
+                                    }
+                                }
                             }
                         }
                     ]

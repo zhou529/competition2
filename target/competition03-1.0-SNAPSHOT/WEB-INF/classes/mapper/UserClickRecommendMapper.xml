@@ -28,6 +28,7 @@
     from user_click_recommend
     where openid = #{userOpenid,jdbcType=VARCHAR}
     and rec_id = #{recId,jdbcType=INTEGER}
+    and date = #{date,jdbcType=VARCHAR}
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

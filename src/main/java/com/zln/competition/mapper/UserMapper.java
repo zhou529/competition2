@@ -14,4 +14,6 @@ public interface UserMapper {
     int updateByOpenid(Users record);
 
     Users individualRank(Integer userId);
+
+    int updateNickNameAndAvatarUrl(String nickName, String avatarUrl, String userOpenid);
 }

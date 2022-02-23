@@ -22,4 +22,19 @@ public class Ans_userServiceImpl implements Ans_userService {
     public int insertAnsInformation(Ans_user ans_user) {
         return ans_userMapper.insertAnsInformation(ans_user);
     }
+
+    @Override
+    public List<Ans_user> selectByUserId(Integer userId) {
+        return ans_userMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public int updateByUserId(Ans_user ans_user) {
+        return ans_userMapper.updateByUserId(ans_user);
+    }
+
+    @Override
+    public int deleteByUserId(Integer userId) {
+        return ans_userMapper.deleteByUserId(userId);
+    }
 }

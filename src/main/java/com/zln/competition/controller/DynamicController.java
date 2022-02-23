@@ -49,7 +49,7 @@ public class DynamicController {
         System.out.println("替换之后的语句：" + replaceDynamicInfo);
         //向数据库里面插入数据
         Dynamic dynamic = new Dynamic();
-        dynamic.setDynInformation(dynamicInfo);
+        dynamic.setDynInformation(replaceDynamicInfo);
         dynamic.setDynTitle(dynTitle);
         int i = dynamicService.addDynamic(dynamic);
         return i;

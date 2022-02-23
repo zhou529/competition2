@@ -24,26 +24,69 @@ public class TeamController {
     UserService userService;
 
 
-
     @RequestMapping(value = "/selectTeamByLikeCompetitionName", method = RequestMethod.POST)
     public List<Team> selectTeamByLikeCompetitionName(@RequestParam("competitionName") String competitionName) throws UnsupportedEncodingException {
         System.out.println("TeamController的dselectTeamByLikeCompetitionName方法执行啦");
         System.out.println("competitionName = " + competitionName);
         String decode = URLDecoder.decode(competitionName, "utf-8");
         System.out.println("decode = " + decode);
-        decode = "%"+decode+"%";
+        decode = "%" + decode + "%";
         List<Team> teams = teamService.selectTeamByLikeCompetitionName(decode);
         return teams;
     }
 
 
+    @RequestMapping(value = "/wexinDeleteByTeamId")
+    public int updateTeamByTeamId(@RequestParam("teamId") String teamId) {
+        System.out.println("接收到的值 teamId" + teamId);
+
+        int i = teamService.deleteByTeamId(Integer.valueOf(teamId));
+        return i;
+    }
+
+
+    @RequestMapping(value = "/updateTeamByTeamId")
+    public int updateTeamByTeamId(
+            @RequestParam("teamId") String teamId,
+            @RequestParam("competitionName") String competitionName,
+            @RequestParam("teamQq") String teamQq,
+            @RequestParam("teamInformation") String teamInformation) {
+        System.out.println("接收到的值 teamId" + teamId + ",competitionName = " + competitionName + ", teamQq = " + teamQq + ", teamInformation = " + teamInformation);
+        Team exp_team = new Team();
+        exp_team.setTeamId(Integer.valueOf(teamId));
+        exp_team.setCompetitionName(competitionName);
+
+        exp_team.setTeamQq(teamQq);
+
+        exp_team.setTeamInformation(teamInformation);
+
+
+     /*   if(!competitionName.equals("undefined")){
+            exp_team.setCompetitionName(competitionName);
+        }else {
+            exp_team.setCompetitionName(team.getCompetitionName());
+        }
+        if(!teamQq.equals("undefined")){
+            exp_team.setTeamQq(teamQq);
+        }else {
+            exp_team.setTeamQq(team.getTeamQq());
+        }
+        if(!teamInformation.equals("undefined")){
+            exp_team.setTeamInformation(teamInformation);
+        }else {
+            exp_team.setTeamInformation(team.getTeamInformation());
+        }*/
+        int i = teamService.updateTeamByTeamId(exp_team);
+        return i;
+    }
+
 
     @RequestMapping(value = "/insertTeamInfoByUser")
     public int insertTeamInfoByUser(
-                              @RequestParam("recName") String recName,
-                              @RequestParam("teamQq") String teamQq,
-                              @RequestParam("teamInformation") String teamInformation,
-                              HttpServletRequest request){
+            @RequestParam("recName") String recName,
+            @RequestParam("teamQq") String teamQq,
+            @RequestParam("teamInformation") String teamInformation,
+            HttpServletRequest request) {
 
         //获取comId
         ServletContext servletContext = request.getServletContext();
@@ -62,7 +105,7 @@ public class TeamController {
 
 
     @RequestMapping(value = "/selectTeamByTeamId")
-    public Team selectTeamByTeamId(@RequestParam("teamId") String teamId){
+    public Team selectTeamByTeamId(@RequestParam("teamId") String teamId) {
         System.out.println("TeamController的selectTeamByTeamId执行啦");
         Team team = teamService.selectTeamByTeamId(Integer.valueOf(teamId));
         return team;
@@ -70,12 +113,12 @@ public class TeamController {
 
 
     @RequestMapping(value = "/selectTeamDim")
-    public List<Team> selectTeamDim(@RequestParam("inputVal") String inputVal){
+    public List<Team> selectTeamDim(@RequestParam("inputVal") String inputVal) {
         System.out.println("TeamController的selectTeamDim执行啦");
         System.out.println("inputVal = " + inputVal);
         Team team = new Team();
-        team.setCompetitionName("%"+inputVal+"%");
-        team.setTeamName("%"+inputVal+"%");
+        team.setCompetitionName("%" + inputVal + "%");
+        team.setTeamName("%" + inputVal + "%");
         List<Team> teams = teamService.selectTeamDim(team);
         return teams;
     }
@@ -86,7 +129,7 @@ public class TeamController {
                                   @RequestParam("teamQq") String teamQq,
                                   @RequestParam("competitionName") String competitionName,
                                   @RequestParam("teamInformation") String teamInformation,
-                                  HttpServletRequest request){
+                                  HttpServletRequest request) {
         System.out.println("TeamController的updateTeamByTeamId执行啦");
         HttpSession session = request.getSession();
         Team teamBySession = (Team) session.getAttribute("team");
@@ -117,11 +160,11 @@ public class TeamController {
 
     @RequestMapping(value = "/putTeam", method = RequestMethod.POST)
     public void putTeam(@RequestParam("teamId") String teamId,
-                            @RequestParam("teamName") String teamName,
-                            @RequestParam("teamInformation") String teamInformation,
-                            @RequestParam("competitionName") String competitionName,
-                            @RequestParam("teamQq") String teamQq,
-                            HttpServletRequest request) {
+                        @RequestParam("teamName") String teamName,
+                        @RequestParam("teamInformation") String teamInformation,
+                        @RequestParam("competitionName") String competitionName,
+                        @RequestParam("teamQq") String teamQq,
+                        HttpServletRequest request) {
         System.out.println("TeamController的putTeam执行啦");
         Team team = new Team();
         team.setTeamId(Integer.valueOf(teamId));
@@ -141,7 +184,7 @@ public class TeamController {
                               @RequestParam("competitionName") String competitionName,
                               @RequestParam("teamQq") String teamQq,
                               @RequestParam("teamInformation") String teamInformation,
-                              HttpServletRequest request){
+                              HttpServletRequest request) {
 
         //获取comId
         HttpSession session = request.getSession();
@@ -206,6 +249,7 @@ public class TeamController {
         System.out.println("teams : " + teams);
         return teams;
     }
+
     @RequestMapping(value = "/selectAllTeamWx", method = RequestMethod.POST)
     public List<Team> selectAllTeamWx() {
         System.out.println("TeamController的selectAllTeamWx执行了");

@@ -9,4 +9,9 @@ public interface Ans_userService {
 
     int insertAnsInformation(Ans_user ans_user);
 
+    List<Ans_user> selectByUserId(Integer userId);
+
+    int updateByUserId(Ans_user ans_user);
+
+    int deleteByUserId(Integer userId);
 }

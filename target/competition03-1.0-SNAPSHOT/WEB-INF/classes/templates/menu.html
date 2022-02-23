@@ -19,7 +19,13 @@
     <!--    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>-->
 
     <script>
-        $(function () {
+        function isOut() {
+            if (confirm("确认退出么")){
+                window.location.href = 'index.html';
+            }
+    }
+
+    $(function () {
             $.ajaxSettings.async = false;
             $.post("loginOp.do", function (data) {
                 //加载社团名
@@ -48,17 +54,17 @@
 
             });
             // 退出功能
-            $("#isOut").click(function () {
-                if (confirm("确认要退出么？")) {
-                    // $.post("isOut.do", function (data) {
-                    //     if (data === true) {
-                    //         window.location.href = 'index.html';
-                    //     }
-                    // });
-                }
 
-            });
-        })
+            $("#isOut").click(function () {
+            if (confirm("确认要退出么？")) {
+                $.post("isOut.do", function (data) {
+                    if (data === true) {
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+        });
+    })
     </script>
 
 </head>
@@ -85,7 +91,8 @@
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
                 <!--                <dd><a onClick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>-->
                 <!--                <dd><a onClick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>-->
-                <dd><a href="index.html">退出</a></dd>
+<!--                <dd><a href="index.html">退出</a></dd>-->
+                <dd><a onclick="isOut()">退出</a></dd>
             </dl>
         </li>
         <!--        <li class="layui-nav-item to-index"><a href="#">前台首页</a></li>-->
@@ -219,7 +226,7 @@
                     <li  id="hot_category" style="display: none">
                         <a _href="html/hot_category.html">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>竞赛热门分类</cite>
+                            <cite>热门分类</cite>
                         </a>
                     </li>
                     <li id="recommend_race" style="display: none">

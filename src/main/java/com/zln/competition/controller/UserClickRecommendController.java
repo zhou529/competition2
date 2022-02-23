@@ -37,11 +37,12 @@ public class UserClickRecommendController {
         userClickRecommend.setNumber(1);
 
         //检查表中是否有这个openid点击过的数据
-        UserClickRecommend is_exist = userClickRecommendService.selectByOpenIdAndRecId(userOpenid, Integer.valueOf(recId));
+        UserClickRecommend is_exist = userClickRecommendService.selectByOpenIdAndRecId(userOpenid, Integer.valueOf(recId), date);
         //如果有数据
         if(is_exist != null){
             userClickRecommend.setClickId(is_exist.getClickId());
             userClickRecommend.setNumber(is_exist.getNumber()+1);
+            userClickRecommend.setDate(date);
             int i = userClickRecommendService.updateByPrimaryKeySelective(userClickRecommend);
             return i;
         }

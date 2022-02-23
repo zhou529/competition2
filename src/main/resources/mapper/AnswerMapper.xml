@@ -21,8 +21,15 @@
         Ans_id, User_id, Ans_title, Ans_information, Ans_qq, Ans_time, Ans_pay, Ans_img1,
     Ans_img2, Ans_img3, Ans_img4, Ans_img5, Ans_is, Ans_overhead
     </sql>
+<!--    int deleteAnswerByAnsId(Integer ansId);-->
+    <delete id="deleteAnswerByAnsId" parameterType="java.lang.Integer">
+        delete from answer
+        where Ans_id = #{ansId,jdbcType=INTEGER}
+    </delete>
 
-<!--    public List<Answer> selectAllAnswer();-->
+
+
+    <!--    public List<Answer> selectAllAnswer();-->
     <select id="selectAllAnswer" resultMap="BaseResultMap" >
         select
         <include refid="Base_Column_List" />
@@ -37,6 +44,18 @@
         from answer
         where User_id = #{userId,jdbcType=INTEGER}
     </select>
+
+
+<!--    int updateAnswerByAnsId(Answer answer);-->
+    <update id="updateAnswerByAnsId" parameterType="com.zln.competition.bean.Answer">
+        update answer
+        <set>
+            <if test="ansInformation != null">
+                Ans_information = #{ansInformation,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where Ans_id = #{ansId,jdbcType=INTEGER}
+    </update>
 
 
     <!--    public int insertAnswer(Answer answer);-->

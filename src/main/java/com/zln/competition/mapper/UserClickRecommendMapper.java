@@ -17,5 +17,5 @@ public interface UserClickRecommendMapper {
 
     int updateByPrimaryKey(UserClickRecommend record);
 
-    UserClickRecommend selectByOpenIdAndRecId(String userOpenid, Integer recId);
+    UserClickRecommend selectByOpenIdAndRecId(String userOpenid, Integer recId, String date);
 }

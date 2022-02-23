@@ -33,10 +33,12 @@ public class UserClickCommunityController {
             @RequestParam("date") String date,
             @RequestParam("communityId") String communityId,
             HttpServletRequest request) {
-
+        System.out.println("date = " + date);
+        System.out.println("communityId = " + communityId);
         //获取comId
         ServletContext servletContext = request.getServletContext();
         Users user = (Users) servletContext.getAttribute("user");
+        System.out.println("user = " + user);
         String userOpenid = user.getUserOpenid();
 
         UserClickCommunity userClickCommunity = new UserClickCommunity();
@@ -46,14 +48,17 @@ public class UserClickCommunityController {
         userClickCommunity.setNumber(1);
 
         //检查表中是否有这个openid点击过的数据
-        UserClickCommunity is_exist = userClickCommunityService.selectByOpenIdAndComId(userOpenid, Integer.valueOf(communityId));
+        UserClickCommunity is_exist = userClickCommunityService.selectByOpenIdAndComId(userOpenid, Integer.valueOf(communityId), date);
         //如果有数据
         if (is_exist != null) {
+            System.out.println("有数据，更改number");
             userClickCommunity.setId(is_exist.getId());
             userClickCommunity.setNumber(is_exist.getNumber() + 1);
+            userClickCommunity.setDate(date);
             int i = userClickCommunityService.updateByPrimaryKeySelective(userClickCommunity);
             return i;
         }
+        System.out.println("没有数据，插入");
         //没有时数据就插入这条数据令number= 1
         int is_insert = userClickCommunityService.insertSelective(userClickCommunity);
         return is_insert;

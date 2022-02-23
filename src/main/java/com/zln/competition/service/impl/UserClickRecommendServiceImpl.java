@@ -48,7 +48,7 @@ public class UserClickRecommendServiceImpl implements UserClickRecommendService 
     }
 
     @Override
-    public UserClickRecommend selectByOpenIdAndRecId(String userOpenid, Integer recId) {
-        return userClickRecommendMapper.selectByOpenIdAndRecId(userOpenid,recId);
+    public UserClickRecommend selectByOpenIdAndRecId(String userOpenid, Integer recId, String date) {
+        return userClickRecommendMapper.selectByOpenIdAndRecId(userOpenid,recId,date);
     }
 }

@@ -53,6 +53,31 @@ public class UserController {
         return signPay;
     }*/
 
+    @RequestMapping(value = "/queryNickNameAndAvatarUrl", method = RequestMethod.POST)
+    public Users queryNickNameAndAvatarUrl(HttpServletRequest request) {
+        ServletContext servletContext = request.getServletContext();
+        Users user = (Users) servletContext.getAttribute("user");
+        System.out.println("昵称头像的user = " + user);
+        String userOpenid = user.getUserOpenid();
+        return userService.selectByOpenId(userOpenid);
+    }
+
+
+
+
+    @RequestMapping("/updateNickNameAndAvatarUrl")
+    public int updateNickNameAndAvatarUrl(@RequestParam(name = "nickName") String nickName,
+                                          @RequestParam(name = "avatarUrl") String avatarUrl,
+                                          HttpServletRequest request) {
+        ServletContext servletContext = request.getServletContext();
+        Users user = (Users) servletContext.getAttribute("user");
+        System.out.println("昵称头像的user = " + user);
+        String userOpenid = user.getUserOpenid();
+        System.out.println("wexin's nickName = " + nickName);
+        System.out.println("wexin's avatarUrl = " + avatarUrl);
+        return userService .updateNickNameAndAvatarUrl(nickName,avatarUrl, userOpenid);
+    }
+
     @RequestMapping("/insertUserByOpenId")
     public String getUserInfo(@RequestParam(name = "code") String code, HttpServletRequest request) throws Exception {
 //        User user = new User();

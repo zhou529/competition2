@@ -54,8 +54,8 @@ public class UserClickCommunityServiceImpl implements UserClickCommunityService 
     }
 
     @Override
-    public UserClickCommunity selectByOpenIdAndComId(String userOpenid, Integer communityId) {
-        return userClickCommunityMapper.selectByOpenIdAndComId(userOpenid,communityId);
+    public UserClickCommunity selectByOpenIdAndComId(String userOpenid, Integer communityId, String date) {
+        return userClickCommunityMapper.selectByOpenIdAndComId(userOpenid,communityId, date);
     }
 
 }

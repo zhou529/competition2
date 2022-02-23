@@ -68,26 +68,33 @@ public class RecommendController {
     @RequestMapping(value = "/selectByTag")
     public List<Recommend> selectByTag(HttpServletRequest request){
         ServletContext servletContext = request.getServletContext();
-        Users user = (Users) servletContext.getAttribute("user");
-        String userOpenid = user.getUserOpenid();
-        System.out.println("拉拉拉拉拉拉啊啦啦user = " + user);
-        System.out.println("拉拉拉拉拉拉啊啦啦user = " + userOpenid);
-        System.out.println("selectByTag");
-
-        // 判断是否实名认证过
-        UserInfo userInfo = userInfoService.selectByOpenId(userOpenid);
-        System.out.println("userInfoService.selectByOpenId(userOpenid); = " + userInfo);
-        System.out.println("userInfo.getUserMajor() = " + userInfo.getUserMajor());
-
         List<Recommend> recommends;
-        if(userInfo.getUserMajor() == null || userInfo.getUserMajor() == ""){
+        Users user = (Users) servletContext.getAttribute("user");
+        if(user == null){
             recommends = recommendService.selectAllRecommend();
             System.out.println("recommends : " + recommends);
             return recommends;
         }else {
-            recommends = recommendService.selectByTag(userOpenid);
-            System.out.println("controller的selectByTag方法的返回值 ：" + recommends);
+            String userOpenid = user.getUserOpenid();
+            System.out.println("拉拉拉拉拉拉啊啦啦user = " + user);
+            System.out.println("拉拉拉拉拉拉啊啦啦user = " + userOpenid);
+            System.out.println("selectByTag");
+
+            // 判断是否实名认证过
+            UserInfo userInfo = userInfoService.selectByOpenId(userOpenid);
+            System.out.println("userInfoService.selectByOpenId(userOpenid); = " + userInfo);
+            System.out.println("userInfo.getUserMajor() = " + userInfo.getUserMajor());
+
+            if(userInfo.getUserMajor() == null || userInfo.getUserMajor() == ""){
+                recommends = recommendService.selectAllRecommend();
+                System.out.println("recommends : " + recommends);
+                return recommends;
+            }else {
+                recommends = recommendService.selectByTag(userOpenid);
+                System.out.println("controller的selectByTag方法的返回值 ：" + recommends);
+            }
         }
+
         return recommends;
     }
 

@@ -1,6 +1,8 @@
 package com.zln.competition.bean;
 
 public class Ans_user{
+    private Integer replyId;
+
     private Integer ansId;
 
     private Integer userId;
@@ -15,10 +17,28 @@ public class Ans_user{
 
     private Integer replyIs;
 
+    private String publishTime;
+
+    @Override
+    public String toString() {
+        return "Ans_user{" +
+                "replyId=" + replyId +
+                ", ansId=" + ansId +
+                ", userId=" + userId +
+                ", replyInformation='" + replyInformation + '\'' +
+                ", replyImg1='" + replyImg1 + '\'' +
+                ", replyImg2='" + replyImg2 + '\'' +
+                ", replyImg3='" + replyImg3 + '\'' +
+                ", replyIs=" + replyIs +
+                ", publishTime='" + publishTime + '\'' +
+                '}';
+    }
+
     public Ans_user() {
     }
 
-    public Ans_user(Integer ansId, Integer userId, String replyInformation, String replyImg1, String replyImg2, String replyImg3, Integer replyIs) {
+    public Ans_user(Integer replyId, Integer ansId, Integer userId, String replyInformation, String replyImg1, String replyImg2, String replyImg3, Integer replyIs, String publishTime) {
+        this.replyId = replyId;
         this.ansId = ansId;
         this.userId = userId;
         this.replyInformation = replyInformation;
@@ -26,19 +46,15 @@ public class Ans_user{
         this.replyImg2 = replyImg2;
         this.replyImg3 = replyImg3;
         this.replyIs = replyIs;
+        this.publishTime = publishTime;
     }
 
-    @Override
-    public String toString() {
-        return "Ans_user{" +
-                "ansId=" + ansId +
-                ", userId=" + userId +
-                ", replyInformation='" + replyInformation + '\'' +
-                ", replyImg1='" + replyImg1 + '\'' +
-                ", replyImg2='" + replyImg2 + '\'' +
-                ", replyImg3='" + replyImg3 + '\'' +
-                ", replyIs=" + replyIs +
-                '}';
+    public Integer getReplyId() {
+        return replyId;
+    }
+
+    public void setReplyId(Integer replyId) {
+        this.replyId = replyId;
     }
 
     public Integer getAnsId() {
@@ -95,5 +111,13 @@ public class Ans_user{
 
     public void setReplyIs(Integer replyIs) {
         this.replyIs = replyIs;
+    }
+
+    public String getPublishTime() {
+        return publishTime;
+    }
+
+    public void setPublishTime(String publishTime) {
+        this.publishTime = publishTime;
     }
 }

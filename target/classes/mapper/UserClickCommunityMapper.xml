@@ -23,7 +23,7 @@
 <!--  List<UserClickCommunity> community_click();-->
   <select id="community_click" resultMap="BaseResultMap">
     SELECT 0 as id, a.click_date as date,b.community_id as community_id,
-           CASE b.number WHEN b.number > 0 THEN b.number ELSE 0 END AS number
+           b.number AS number
     FROM (
            SELECT u.date AS click_date FROM user_click_community AS u WHERE YEARWEEK(u.date,1) = YEARWEEK(NOW(),1)-1
          ) a LEFT JOIN (
@@ -42,6 +42,7 @@
     from user_click_community
     where openid = #{userOpenid,jdbcType=VARCHAR}
     and community_id = #{communityId,jdbcType=INTEGER}
+    and date = #{date,jdbcType=VARCHAR}
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

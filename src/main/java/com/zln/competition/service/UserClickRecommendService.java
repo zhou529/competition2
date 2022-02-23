@@ -17,5 +17,5 @@ public interface UserClickRecommendService {
 
     UserClickRecommend selectByOpenId(String userOpenid);
 
-    UserClickRecommend selectByOpenIdAndRecId(String userOpenid, Integer recId);
+    UserClickRecommend selectByOpenIdAndRecId(String userOpenid, Integer recId, String date);
 }

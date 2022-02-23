@@ -24,6 +24,42 @@ public class AnswerController {
     UserService userService;
 
 
+    @RequestMapping(value = "/deleteAnswerByAnsId")
+    public int deleteAnswerByAnsId(@RequestParam("ansId") String ansId) {
+        System.out.println("AnswerController的deleteAnswerByAnsId执行了");
+        int i = answerService.deleteAnswerByAnsId(Integer.valueOf(ansId));
+        return i;
+    }
+
+
+
+    @RequestMapping(value = "/updateAnswerByAnsId")
+    public int updateAnswerByAnsId(@RequestParam("ansInformation") String ansInformation,
+                            @RequestParam("ansId") String ansId) {
+        System.out.println("AnswerController的updateAnswerByAnsId执行了");
+
+        //查找是否包含敏感词
+        SensitivewordFilter sensitivewordFilter = new SensitivewordFilter();
+        SensitivewordFilter filter = new SensitivewordFilter();
+        System.out.println("敏感词的数量：" + sensitivewordFilter.sensitiveWordMap.size());
+        System.out.println("待检测语句字数：" + ansInformation.length());
+        long beginTime = System.currentTimeMillis();
+        Set<String> set = filter.getSensitiveWord(ansInformation, 1);
+        long endTime = System.currentTimeMillis();
+        System.out.println("语句中包含敏感词的个数为：" + set.size() + "。包含：" + set);
+        System.out.println("总共消耗时间为：" + (endTime - beginTime));
+        //把敏感词汇替换成*
+        String replaceHelpInfo = sensitivewordFilter.replaceSensitiveWord(ansInformation, 1, "*");
+        System.out.println("替换之后的语句：" + replaceHelpInfo);
+        Answer answer = new Answer();
+        answer.setAnsId(Integer.valueOf(ansId));
+        answer.setAnsInformation(replaceHelpInfo);
+        int i = answerService.updateAnswerByAnsId(answer);
+        return i;
+    }
+
+
+
     @RequestMapping(value = "/insertAnswer")
     public int insertAnswer(@RequestParam("helpInfo") String helpInfo,
                             @RequestParam("helpPay") String helpPay,

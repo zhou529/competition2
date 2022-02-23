@@ -35,13 +35,12 @@
         //
         // }
         $(function () {
-
-
             $.post("../selectAll", function (data) {
                 for (let i = 0; i < data.length; i++) {
                     var comDel = data[i].comDel.toString();
                     //每一行要有一个初始化
                     var comAdmin = '';
+                    var status = '';
                     //第一列的多选框
                     comAdmin += " <td>\n" +
                         "                <div class=\"layui-unselect layui-form-checkbox\" lay-skin=\"primary\" " +
@@ -57,18 +56,20 @@
                     comAdmin += '<td>' + data[i].comName + '</td>';
                     //帐号状态
                     // comAdmin+='<td>' + comDel + '</td>';
-                    if (comDel == 0) {
+
+                    if (comDel === "0") {
                         comAdmin += "<td class=\"td-status\">\n" +
-                            "                <span>" +
-                            "<button class='update_to_1' style=\"background-color: #7ED321;width: 76px;height: 36px;color: #FFFFFF\">已启用</button></span>\n" +
+                            "                <div class='toOff'>" +
+                            "<button style=\"background-color: #7ED321;width: 76px;height: 36px;color: #FFFFFF\">已启用</button></div>\n" +
                             "            </td>";
-                    } else if (comDel == 1) {
+                    } else if (comDel === "1") {
                         comAdmin += "<td class=\"td-status\">\n" +
-                            "               <span>" +
-                            "<button class='update_to_0' style=\"width: 76px;height: 36px;color: red\">已停用</button></span>\n" +
-                            "            </td>";
+                                        "<div  class='toOn'>" +
+                                             "<button style=\"width: 76px;height: 36px;color: red\">已停用</button>" +
+                                        "</div>\n" +
+                                    "</td>";
                     } else {
-                        comAdmin += '<td>' + comDel + '</td>';
+                        comAdmin += '<td>' + "" + '</td>';
                     }
                     //操作  onclick="x_admin_show('编辑','admin-edit.html')"
                     comAdmin += "<td class=\"td-manage\">\n" +
@@ -126,16 +127,16 @@
                     // window.location.href = 'admin-edit.html';
                 })
             });
-            //更改权限入口
-            $('#show_tbody').on('click', '.update_to_0', function () {
-                if (confirm("确认要启用么？")) {
+            //更改权限入口 bug:只能改最后一个
+            $('#show_tbody').on('click', '.toOff', function () {
+                if (confirm("确认要停用么？")) {
                     //获取对应的行
-                    var trIndex = $('.update_to_0', '#show_tbody').index($(this));
+                    var trIndex = $('#adminInfo', '#show_tbody').index($(this));
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第二列的值
                     var com_name = tar.children('td').eq(tar.find('td').length - 4).html();
-                    alert("com_name = " + com_name)
-                    $.post("../updateComDelOn.do", {"comUsername": com_name}, function (data) {
+
+                    $.post("../updateComDelOff.do", {"comUsername": com_name}, function (data) {
                         if (data) {
                             alert("修改成功")
                             window.location.reload();
@@ -145,15 +146,15 @@
                     })
                 }
             });
-            $('#show_tbody').on('click', '#update_to_1', function () {
-                if (confirm("确认要停用么？")) {
+            $('#show_tbody').on('click', '.toOn', function () {
+                if (confirm("确认要启用么？")) {
                     //获取对应的行
-                    var trIndex = $('#update_to_1', '#show_tbody').index($(this));
+                    var trIndex = $('#adminInfo', '#show_tbody').index($(this));
                     var tar = $('#show_tbody tr').eq(trIndex);
                     //获取对应的第二列的值
                     var com_name = tar.children('td').eq(tar.find('td').length - 4).html();
-                    alert("com_name ?= " + com_name)
-                    $.post("../updateComDelOff.do", {"comUsername": com_name}, function (data) {
+
+                    $.post("../updateComDelOn.do", {"comUsername": com_name}, function (data) {
                         if (data) {
                             alert("修改成功")
                             // $(this).parents('tr').remove();
@@ -162,6 +163,19 @@
                             alert("修改失败！")
                         }
                     })
+                }
+            });
+
+
+            $("#deleteAll").click(function (){
+                alert("点击时间出发了")
+                if (confirm("确认要全部删除么？")) {
+                    // $.post("../deleteByPrimaryKey.do", {"comUsername": comUsername}, function (data) {
+                    //     if (data == 1) {
+                    //         $(this).parents('tr').remove();
+                    //         setTimeout(window.location.reload(), 100);
+                    //     }
+                    // })
                 }
             });
 
@@ -208,7 +222,7 @@
         </form>
     </div>
     <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn layui-btn-danger" id="deleteAll"><i class="layui-icon"></i>批量删除</button>
         <button class="layui-btn" onclick="x_admin_show('添加用户','./admin-add.html')"><i class="layui-icon"></i>添加
         </button>
         <span id="totalData" class="x-right" style="line-height:40px"></span>
@@ -245,9 +259,10 @@
         </div>
     </div>
 
+
 </div>
-<!--<script>
-    layui.use('laydate', function () {
+<script>
+/*    layui.use('laydate', function () {
         var laydate = layui.laydate;
 
         //执行一个laydate实例
@@ -259,10 +274,10 @@
         laydate.render({
             elem: '#end' //指定元素
         });
-    });
+    });*/
 
     /*用户-停用*/
-    function member_stop(obj, id) {
+/*    function member_stop(obj, id) {
         layer.confirm('确认要停用吗？', function (index) {
 
             if ($(obj).attr('title') == '启用') {
@@ -283,9 +298,9 @@
             }
 
         });
-    }
+    }*/
     /*用户-删除*/
-    function member_del(obj, id) {
+ /*   function member_del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
             //发异步删除数据
             $(obj).parents("tr").remove();
@@ -303,8 +318,8 @@
             layer.msg('删除成功', {icon: 1});
             $(".layui-form-checked").not('.header').parents('tr').remove();
         });
-    }
-</script>-->
+    }*/
+</script>
 </body>
 
 </html>
